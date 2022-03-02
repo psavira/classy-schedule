@@ -1,0 +1,60 @@
+<div>
+  <link href="./css/classEntry.css" rel="stylesheet" />
+  <script src="./js/classEntry.js"></script>
+  <div class="page-container">
+    <div class="page-form-container">
+      <span class="page-heading bigCard-Heading">Enter Your Classes</span>
+      <span class="dept"><select name="classes" id="classes">
+        <option value="CISC">CISC</option>
+        <option value="STAT">STAT</option>
+      </select>
+      <input
+        id = "classInfo"
+        type="text"
+        required="true"
+        placeholder="Class Number"
+        class="page-number-input"
+      />
+      </span>
+      <span class="cap">
+        Capacity: 
+        <input
+          id = "capInfo"
+          type="text"
+          required="true"
+          placeholder="Class Capacity"
+          class="class-capacity-input"
+        />
+      </span>
+      <span class="lab">
+        Lab: 
+        <input
+          id = "labInfo"
+          type="text"
+          required="true"
+          placeholder="Y/N"
+          class="lab-input"
+        />
+      </span>
+      <span class="tech">
+        Tech Needed: 
+        <input
+          id = "techInfo"
+          type="text"
+          required="true"
+          placeholder="Y/N"
+          class="tech-input"
+        />
+      </span>
+      <button
+        id="submit"
+        name="Submit"
+        type="submit"
+        class="page-cta-btn-anchor-button"
+        onclick="saveFile()"
+      >
+        ENTER CLASS
+      </button>
+    </div>
+  </div>
+</div>
