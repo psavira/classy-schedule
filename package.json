@@ -1,0 +1,19 @@
+{
+  "name": "classy-schedule",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/psavira/classy-schedule.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/psavira/classy-schedule/issues"
+  },
+  "homepage": "https://github.com/psavira/classy-schedule#readme"
+}
