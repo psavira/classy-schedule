@@ -1,1 +1,1 @@
-web: (./deploy.sh; ./run_server.sh)
+web: (bash ./deploy.sh && bash ./run_server.sh)
