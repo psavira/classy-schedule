@@ -5,4 +5,5 @@ rm -rf server/build/*
     npx next build &&
     npx next export
 ) &&
+mkdir server/build &&
 mv client/out/* server/build/
