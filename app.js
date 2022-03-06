@@ -3,6 +3,7 @@
 const express = require("express");
 const app = express();
 app.use(express.static("templates"));
+app.use("/Classy-Schedule", express.static("Classy-Schedule"));
 const PORT = process.env.PORT || 3000;
 
 app.get("/",(req, res) => {
