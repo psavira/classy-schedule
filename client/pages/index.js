@@ -1,5 +1,12 @@
 import Link from 'next/link'
+import { Callout } from 'react-foundation'
 
 export default function Index() {
-    return <Link href="/schedule">Schedule</Link>
+    return (
+        <div>
+            <Link href="/schedule">Schedule</Link>
+            <br />
+            <Link href="/courses">Courses</Link>
+        </div>
+    )
 }
