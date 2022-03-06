@@ -1,5 +1,5 @@
 #!/bin/bash
-rm -rf server/build/*
+rm -rf server/build
 (
     cd client &&
     npx next build &&
