@@ -8,8 +8,8 @@ loginButton.addEventListener("click", (e) => {
     const password = loginForm.password.value;
 
     if (username === "user" && password === "web_dev") {
-        window.location.href="/Classy-Schedule/home.html";
-        location.reload();
+        window.location.href="schedule.html";
+        //location.reload();
     } else {
         loginErrorMsg.style.opacity = 1;
     }
