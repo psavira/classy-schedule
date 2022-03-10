@@ -2,7 +2,7 @@
   "name": "heroku_trial",
   "version": "1.0.0",
   "description": "To try heroku",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
