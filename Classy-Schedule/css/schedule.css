@@ -6,3 +6,9 @@ table, th, td{
 td {
     text-align: center;
 }
+.classroomMenu{
+    padding-top: 1em;
+}
+.center {
+    text-align: center;
+  }
