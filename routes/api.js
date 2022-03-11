@@ -33,4 +33,24 @@ router.get("/departments", (req, res) => {
     })
 })
 
+Course.getAll().then(function(courses){
+    console.log(courses);
+});
+
+// to add a course. comment this out so we don't add a class everytime we do npm start
+// const new_course = {
+//     class_num: 1,
+//     dept_id: 1,
+//     class_name: "something",
+//     capacity: 10,
+//     credits: 2
+// }
+
+// Course.create(new_course)
+// .then(
+//     Course.getAll().then(function (courses) {
+//         console.log(courses)
+//     })
+// )
+
 module.exports = router
