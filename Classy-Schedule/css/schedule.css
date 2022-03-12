@@ -1,14 +1,33 @@
+
+
 table, th, td{
+    
     margin-left: auto;
     margin-right: auto;
-    border: 1px solid;
+    border: 3px solid;
 }
+
 td {
     text-align: center;
+    background-color: darkgreen;
+    color: white;
+
+}
+
+th{
+    background-color: darkgreen;
+    color: white; 
+}
+tr{ 
+    background-color: darkgreen;
+    color: white; 
 }
 .classroomMenu{
     padding-top: 1em;
-}
-.center {
     text-align: center;
-  }
+    position: center;
+}
+
+
+
+

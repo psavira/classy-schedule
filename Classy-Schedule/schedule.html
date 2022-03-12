@@ -1,8 +1,35 @@
-<html>
 
-<head>
+
+
+
+
+
+
+
+
+
+
 
     <link href="/css/schedule.css" rel="stylesheet">
+    <style>
+        th
+        {
+          background: darkorchid;
+          color: white;
+          height:30px;
+          width: 500px;
+        }
+        table,th,td
+        {
+          border:2px solid darkblue;
+        }
+        table
+        {
+          width:30%;
+          width: 600px;
+          text-align:center;
+        }
+      </style>
 
 </head>
 
@@ -12,9 +39,10 @@
 <div class="row">
     <div class="table1">
 
-        <table>
+        <table style="margin: 0px auto;">
 
             <thead>
+                
                 <tr>
                 <th width="100">TIME</th>
                 <th width="100">MON</th>
@@ -87,7 +115,7 @@
             
         </table>
 
-        <table>
+        <table style="margin:0px auto;">
 
             <thead>
                 <tr>
@@ -154,12 +182,39 @@
         </table>
     </div>
 </div>
-
-<div class="classroomMenu center">
+<style>
+    .my-menu {
+/*Sets all the content of dropdown div to center*/
+        text-align: center; 
+        margin-top: 20px;
+    }
+</style>
+<div class="classroomMenu my-menu">
     <select name="Clasroom-Selection" id="Classroom-Selection">
         <option value="starter" selected>Display Current Classroom</option>
     </select>
 </div>
-
-</body>
+<style>
+    .container {
+      height: 200px;
+      position: relative;
+    }
+    
+    .center {
+      margin: 0;
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+    }
+    </style>
+    
+    <div class="container">
+      <div class="center">
+        <button onclick="window.location.href='https://w3docs.com';">
+            View Schedule
+            <button type="submit" >Save Your Progress</button>
+      </div>
+    </div>
 </html>
