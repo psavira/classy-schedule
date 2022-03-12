@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="css/foundation.min.css" rel="stylesheet" type="text/css" />
+    <link href="css/classEntry.css" rel="stylesheet" type="text/css" />
+    <!--<script src="js/vendor/foundation.min.js"></script>-->
+    <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
+    <script src="js/classEntryBeta.js"></script>
+    <title>Class Entry</title>
+  </head>
+  <body>
+    <form id="classForm">
+      <div class="grid-container">
+        <label
+          >Class Name
+          <input type="text" name="className" placeholder="Class Name" />
+        </label>
+
+        <div class="grid-x grid-padding-x">
+          <div class="cell small-6">
+            <label
+              >Department
+              <select name="department" id="department"></select>
+            </label>
+          </div>
+          <div class="cell small-6">
+            <label
+              >Class Number
+              <input type="text" name="classNumber" placeholder="xxx" />
+            </label>
+          </div>
+        </div>
+
+        <div class="grid-x grid-padding-x">
+          <div class="cell small-6">
+            <label
+              >Capacity
+              <input
+                type="number"
+                name="capacity"
+                placeholder="xx"
+                max="100"
+                min="0"
+              />
+            </label>
+          </div>
+
+          <div class="cell small-6">
+            <label
+              >Credits
+              <input
+                type="number"
+                name="credits"
+                placeholder="x"
+                max="4"
+                min="0"
+              />
+            </label>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          class="submit success button"
+          onclick="submitForm()"
+        >
+          Submit
+        </button>
+      </div>
+    </form>
+
+    <div id="alertContainer"></div>
+  </body>
+</html>
