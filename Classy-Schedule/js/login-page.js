@@ -8,7 +8,7 @@ loginButton.addEventListener("click", (e) => {
     const password = loginForm.password.value;
 
     if (username === "user" && password === "web_dev") {
-        window.location.href="sch.html";
+        window.location.href="schedule.html";
         //location.reload();
     } else {
         loginErrorMsg.style.opacity = 1;
