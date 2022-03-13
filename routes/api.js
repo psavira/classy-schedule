@@ -1,3 +1,4 @@
+const { response } = require("express")
 const express = require("express")
 const router = express.Router()
 const Course = require('../models/course.model')
@@ -19,6 +20,28 @@ router.get("/courses", (req, res) => {
         console.log(err.message)
         res.sendStatus(500)
     })
+})
+
+router.post("/course", (req, res) => {
+    const new_course = req.body
+    const { valid, errors } = Course.isValid(new_course)
+    if (valid) {
+        Course.create(new_course)
+        .then(() => {
+            res.sendStatus(200)
+        })
+        .catch(error => {
+            console.error(error.message)
+            res.sendStatus(500)
+        })
+    } else {
+        res.statusCode = 407
+        let response_text = "Malformed Request. Errors: ";
+        errors.forEach(error => {
+            response_text += error + "\n"
+        })
+}
+
 })
 
 // departments

@@ -5,16 +5,16 @@ async function submitForm() {
     let class_form = document.forms["classForm"];
 
     let class_name = class_form["className"].value
-    let department = class_form["department"].value
-    let class_number = class_form["classNumber"].value
+    let dept_id = class_form["department"].value
+    let class_num = class_form["classNumber"].value
     let capacity = class_form["capacity"].value
     let credits = class_form["credits"].value
 
-    if (isValidForm(class_name, department, class_number, capacity, credits)) {
+    if (isValidForm(class_name, dept_id, class_num, capacity, credits)) {
         let post_data = {
             class_name: class_name,
-            department: department,
-            class_number: class_number,
+            dept_id: dept_id,
+            class_num: class_num,
             capacity: capacity,
             credits: credits
         }
@@ -47,7 +47,7 @@ async function submitForm() {
     }
 }
 
-function isValidForm(class_name, department, class_number, capacity, credits) {
+function isValidForm(class_name, dept_id, class_num, capacity, credits) {
 
     let alert_count = 0
 
@@ -58,18 +58,18 @@ function isValidForm(class_name, department, class_number, capacity, credits) {
     }
 
     // Validate department
-    if (validator.isEmpty(department)) {
+    if (validator.isEmpty(dept_id)) {
         showAlert("Please pick a department.")
         alert_count++;
     }
 
     // Validate class number
-    if (validator.isEmpty(class_number)){
+    if (validator.isEmpty(class_num)){
         showAlert("Please enter a class number.")
         alert_count++
     }
     
-    if (!validator.isInt(class_number)) {
+    if (!validator.isInt(class_num)) {
         showAlert("Class number should be an integer.")
         alert_count++
     }
@@ -136,7 +136,7 @@ async function fetchDepartments() {
     .then(departments => {
         for (let department of departments) {
             let departmentOption = document.createElement("option");
-            departmentOption.value = department.dept_name;
+            departmentOption.value = department.dept_id;
             departmentOption.textContent = department.dept_name;
             departmentSelect.appendChild(departmentOption);
         } 
