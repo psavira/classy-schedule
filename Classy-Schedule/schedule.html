@@ -1,65 +1,55 @@
-
-    <link href="/css/schedule.css" rel="stylesheet">
-    
-    <div>
-        <link href="./css/schedule.css" rel="stylesheet" />
-        <div class="schedule-container">
-          <div class="schedule-container1">
-            <div id="navbar container" class="schedule-navbar">
-              <div id="links and logo" class="schedule-left-side">
+<link href="./css/foundation.css" rel="stylesheet" />    
+    <div class="schedule-container1">
+        <div id="navbar container" class="schedule-navbar">
+            <div id="links and logo" class="schedule-left-side">
                 <div id="links" class="schedule-links-container">
-                  <a href="index.html" class="schedule-link anchor"><img
+                    <a href="index.html" class="schedule-link anchor"><img
                     alt="image"
                     width="109"
                     height="98"
                     src="/Classy-Schedule/Classy-Schedule.jpg"
                     class="schedule-image"
-                  /></a>
-                  &nbsp
-                &nbsp
-                  <a href="/about.html" class="schedule-link1 anchor">About</a>
-                  &nbsp
-            &nbsp
-                  <a href="/f-a-q.html" class="schedule-link2 anchor">FAQ</a>
-                  &nbsp
-            &nbsp
-                  <a href="schedule.html" class="schedule-link3 anchor">Schedule</a>
-                  &nbsp
-            &nbsp
+                    />
+                    </a>
+                    &nbsp
+                    &nbsp
+                    <a href="/about.html" class="schedule-link1 anchor">About</a>
+                    &nbsp
+                    &nbsp
+                    <a href="/f-a-q.html" class="schedule-link2 anchor">FAQ</a>
+                    &nbsp
+                    &nbsp
+                    <a href="schedule.html" class="schedule-link3 anchor">Schedule</a>
+                    &nbsp
+                    &nbsp
                 </div>
-              </div>
-              <div id="schedulebutton container" class="schedule-right-side">
-                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-                <a href="/schedule.html" class="schedule-cta-btn anchor button">
+            </div>
+            
+            <div id="schedulebutton container" class="row">
+                <ul class="vertical menu align-right">
+                <div class="columns large-6">
+                <li class="medium-text-right text-center">
+                    <a href="/schedule.html" class="schedule-cta-btn anchor button">
                   Schedule Now
                 </a>
-              </div>
+                </li>
+            </ul>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
+    </div>
       
     <style>
         th
         {
           background: darkorchid;
-          color: white;
+          color: black;
           height:30px;
           width: 500px;
         }
         table,th,td
         {
-          border:2px solid darkblue;
+          border:2px solid black;
         }
         table
         {
@@ -76,7 +66,7 @@
 <div class="row">
     <div class="table1">
 
-        <table style="margin: 0px auto;">
+        <table class="schedule-table" style="margin: 0px auto;">
 
             <thead>
                 
@@ -213,7 +203,10 @@
 /*Sets all the content of dropdown div to center*/
         text-align: center; 
         margin-top: 20px;
+        margin-left: auto;
+        margin-right: auto;
     }
+
 </style>
 <div class="classroomMenu my-menu">
     <select name="Clasroom-Selection" id="Classroom-Selection">
@@ -238,9 +231,9 @@
     
     <div class="container">
       <div class="center">
-        <button onclick="window.location.href='https://w3docs.com';">
+        <a href='https://w3docs.com' class="button">
             View Schedule
-            <button type="submit" >Save Your Progress</button>
-      </div>
+        </a>
+        <button class="submit success button">Save Progress</button>
     </div>
 </html>

@@ -12,23 +12,24 @@ td {
 
     text-align: center;
     background-color: dark purple;
-    color: white;
+    color: black
+    ;
 }
 
 th{
     background-color: purple;
-    color: white; 
+    color: black; 
 }
 tr{ 
-    background-color: darkblue;
-    color: white; 
+    background-color: #999;
+    color: black; 
 }
 .classroomMenu{
     padding-top: 1em;
     text-align: center;
     position: center;
+    width: 15%;
 }
-
 
 
 .schedule-container {
