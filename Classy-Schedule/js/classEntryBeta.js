@@ -146,3 +146,28 @@ async function fetchDepartments() {
         showAlert(error.message)
     })
 }
+
+async function fetchClasses() {
+    let classSelect = document.getElementById("testclasses")
+
+    fetch('/api/courses')
+    .then(async (response) => {
+        if (response.ok) {
+            return response.json()
+        }
+        const error_text = await response.text()
+        throw new Error(error_text)
+    })
+    .then(testclasses => {
+        for (let classes of testclasses) {
+            let classOption = document.createElement("option");
+            classOption.value = classes.dept_id;
+            classOption.textContent = classes.class_name;
+            classSelect.appendChild(classOption);
+        } 
+    })
+    .catch(error => {
+        clearAlerts()
+        showAlert(error.message)
+    })
+}
