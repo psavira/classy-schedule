@@ -7,7 +7,7 @@
                     alt="image"
                     width="109"
                     height="98"
-                    src="/Classy-Schedule/Classy-Schedule.jpg"
+                    src="/Classy-Schedule.jpg"
                     class="schedule-image"
                     />
                     </a>
@@ -39,13 +39,13 @@
         </div>
     </div>
       
-    <style>
+    <!--<style>
         th
         {
           background: darkorchid;
           color: black;
           height:30px;
-          width: 500px;
+          width: 50px;
         }
         table,th,td
         {
@@ -54,21 +54,94 @@
         table
         {
           width:30%;
-          width: 600px;
+          width: 60px;
           text-align:center;
         }
-      </style>
+      </style> -->
+
+      <style>
+        * {
+          box-sizing: border-box;
+        }
+        
+        .row {
+          display: flex;
+          margin-left:5px;
+          margin-right:5px;
+        }
+        
+        .column {
+          flex: 50%;
+          padding: 0px;
+          padding-top: 20px;
+        }
+
+        .column2 {
+            flex: 0%;
+            padding-left: 100px;
+            padding-right: 50px;
+            padding-top: 20px;
+
+        }
+        
+        table {
+          border-collapse: collapse;
+          border-spacing: 0;
+          width: 100%;
+          border: 1px solid #ddd;
+        }
+        
+        td {
+          text-align: center;
+          padding: 16px;
+        }
+
+        th {
+            background-color:#179941;
+          text-align: center;
+          padding: 16px;
+        }
+        
+        tr:nth-child(even) {
+          background-color: grey;
+        }
+        </style>
 
 </head>
 
 <body>
 
+
+
 <div class="row">
-    <div class="table1">
+        <div class="column2">
+          <table>
+            <tr>
+              <th>Class Name</th>
+              <th>Class Number</th>
+            </tr>
+            <tr>
+              <td>Web Development</td>
+              <td>375</td>
+            </tr>
+            <tr>
+              <td>Capstone</td>
+              <td>480</td>
+            </tr>
+            <tr>
+              <td>Computer Graphics</td>
+              <td>450</td>
+            </tr>
+          </table>
+        </div>
+        
 
-        <table class="schedule-table" style="margin: 0px auto;">
+    
+    <div class="column">
 
-            <thead>
+        <table class="column" style="margin: 0px auto;">
+
+            
                 
                 <tr>
                 <th width="100">TIME</th>
@@ -76,7 +149,7 @@
                 <th width="100">WEDNESDAY</th>
                 <th width="100">FRIDAY</th>
                     </tr>
-            </thead>
+            
 
             <tbody>
 
@@ -142,15 +215,15 @@
             
         </table>
 
-        <table style="margin:0px auto;">
+        <table class="column" style="margin:0px auto;">
 
-            <thead>
+            
                 <tr>
                 <th width="100">TIME</th>
                 <th width="100">TUESDAY</th>
                 <th width="100">THURSDAY</th>
                     </tr>
-            </thead>
+            
 
             <tbody>
 
