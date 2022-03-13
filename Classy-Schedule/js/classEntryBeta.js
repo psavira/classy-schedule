@@ -1,4 +1,4 @@
-function submitForm() {
+async function submitForm() {
     // Clear any alerts
     clearAlerts()
 
@@ -11,7 +11,39 @@ function submitForm() {
     let credits = class_form["credits"].value
 
     if (isValidForm(class_name, department, class_number, capacity, credits)) {
-        // TODO: Submit query to server
+        let post_data = {
+            class_name: class_name,
+            department: department,
+            class_number: class_number,
+            capacity: capacity,
+            credits: credits
+        }
+        fetch('/api/course', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(post_data)
+        })
+        .then(async (response) => {
+            if(response.ok) {
+                clearAlerts()
+                showAlert("Success!")
+                // Clear form
+                class_form["className"].value = ""
+                class_form["department"].value = ""
+                class_form["classNumber"].value = ""
+                class_form["capacity"].value = ""
+                class_form["credits"].value = ""
+            } else {
+                clearAlerts()
+                const text = await response.text()
+                showAlert(text)
+            }
+        })
+        .catch((error) => {
+            clearAlerts()
+            showAlert(error.message)
+        })
+        showAlert("Sending request...")
     }
 }
 
@@ -88,4 +120,29 @@ function clearAlerts() {
         console.log(child)
         alertContainer.removeChild(child)
     }
+}
+
+async function fetchDepartments() {
+    let departmentSelect = document.getElementById("department")
+
+    fetch('/api/departments')
+    .then(async (response) => {
+        if (response.ok) {
+            return response.json()
+        }
+        const error_text = await response.text()
+        throw new Error(error_text)
+    })
+    .then(departments => {
+        for (let department of departments) {
+            let departmentOption = document.createElement("option");
+            departmentOption.value = department.dept_name;
+            departmentOption.textContent = department.dept_name;
+            departmentSelect.appendChild(departmentOption);
+        } 
+    })
+    .catch(error => {
+        clearAlerts()
+        showAlert(error.message)
+    })
 }
