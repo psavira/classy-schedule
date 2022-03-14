@@ -1,5 +1,5 @@
 async function fetchClasses() {
-    let classSelect = document.getElementById("classSelection")
+    let classSelect = document.getElementById("classSelection");
 
     fetch('/api/courses')
     .then(async (response) => {
@@ -13,7 +13,12 @@ async function fetchClasses() {
         for (let classes of classSelection) {
             let classOption = document.createElement("option");
             classOption.value = classes.dept_id;
-            classOption.textContent = classes.class_name;
+            if(classes.dept_id==1){
+                classOption.text = "CISC " + classes.class_num;
+            }
+            else{
+                classOption.text = "STAT " + classes.class_num;
+            }
             classSelect.appendChild(classOption);
         } 
     })
