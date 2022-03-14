@@ -1,5 +1,5 @@
 async function fetchClasses() {
-    let classSelect = document.getElementById("classSelection");
+    let classSelect = document.getElementsByClassName("classSelection");
 
     fetch('/api/courses')
     .then(async (response) => {
@@ -19,11 +19,33 @@ async function fetchClasses() {
             else{
                 classOption.text = "STAT " + classes.class_num;
             }
-            classSelect.appendChild(classOption);
+            for(let i=0;i < classSelect.length; i++){
+                classSelect[i].appendChild(classOption.cloneNode(true));
+            }
         } 
     })
     .catch(error => {
         clearAlerts()
         showAlert(error.message)
     })
+}
+
+function showAlert(alert_text) {
+    let alertContainer = document.getElementById("alertContainer")
+
+    let alert = document.createElement("div")
+    alert.classList.add("callout", "warning")
+    alert.innerText = alert_text
+
+    alertContainer.appendChild(alert)
+}
+
+function clearAlerts() {
+    let alertContainer = document.getElementById("alertContainer")
+    
+    let children = [...alertContainer.children]
+    for(let child of children) {
+        console.log(child)
+        alertContainer.removeChild(child)
+    }
 }
