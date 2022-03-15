@@ -1,0 +1,41 @@
+.help-container {
+  width: 100%;
+  display: flex;
+  overflow: auto;
+  min-height: 100vh;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-color: #149c44;
+}
+.help-container1 {
+  flex: auto;
+  width: 100%;
+  height: 100px;
+  display: flex;
+  position: relative;
+  align-items: flex-start;
+  justify-content: center;
+  background-color: var(--dl-color-gray-700);
+}
+.help-text {
+  color: var(--dl-color-gray-black);
+  align-self: center;
+  text-align: center;
+  text-transform: uppercase;
+}
+.help-container2 {
+  width: 504px;
+  height: 898px;
+  margin-right: 40%;
+  margin-left: 46%;
+  align-self: center;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.help-text3 {
+  width: 519px;
+  height: 60px;
+  align-self: flex-start;
+}
