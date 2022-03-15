@@ -13,8 +13,7 @@ td {
 
   text-align: center;
   background-color: dark purple;
-  color: black
-  ;
+  color: black;
 }
 
 th{
@@ -138,6 +137,50 @@ background-color: #24249a;
   padding-left: var(--dl-space-space-doubleunit);
   padding-right: var(--dl-space-space-doubleunit);
 }
+}
+
+.help-container {
+  width: 100%;
+  display: flex;
+  overflow: auto;
+  min-height: 100vh;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-color: white;
+}
+.help-container1 {
+  flex: 0 0 auto;
+  width: 100%;
+  height: 100px;
+  display: flex;
+  position: relative;
+  align-items: flex-start;
+  justify-content: center;
+  background-color: var(--dl-color-gray-700);
+}
+.help-text {
+  color: var(--dl-color-gray-black);
+  width: 712px;
+  height: 60px;
+  align-self: center;
+  text-align: center;
+  text-transform: uppercase;
+}
+.help-container2 {
+  width: 50%;
+  height: 898px;
+  display: flex;
+  align-self: center;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  text-align: center;
+}
+.help-text3 {
+  width: 100%;
+  height: 60px;
+  align-self: flex-start;
 }
 
 #Class-Selection {
