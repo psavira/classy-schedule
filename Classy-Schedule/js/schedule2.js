@@ -72,6 +72,8 @@ function makeTable() {
             let row = document.createElement("tr");
             row.innerHTML = "<td> " + classSelection[i].class_name + "</td>";
             row.innerHTML += "<td> " + classSelection[i].class_num + "</td>";
+            row.innerHTML += "<td> " + classSelection[i].capacity + "</td>";
+            row.innerHTML += "<td> " + classSelection[i].credits + "</td>";
             table.appendChild(row);
 
         }
