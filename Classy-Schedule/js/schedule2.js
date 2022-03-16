@@ -49,3 +49,39 @@ function clearAlerts() {
         alertContainer.removeChild(child)
     }
 }
+
+function makeTable() {
+
+
+    fetch('/api/courses')
+    .then(async (response) => {
+        if (response.ok) {
+            return response.json()
+        }
+        const error_text = await response.text()
+        throw new Error(error_text)
+    })
+    .then(classSelection => {
+
+        let table = document.getElementById("classtable");
+
+
+        console.log("makeTable()");
+        for (let i = 0; i < classSelection.length; i++) {
+
+            let row = document.createElement("tr");
+            row.innerHTML = "<td> " + classSelection[i].class_name + "</td>";
+            row.innerHTML += "<td> " + classSelection[i].class_num + "</td>";
+            table.appendChild(row);
+
+        }
+
+        
+    })
+    .catch(error => {
+        clearAlerts()
+        showAlert(error.message)
+    })
+}
+
+makeTable();
