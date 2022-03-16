@@ -41,10 +41,10 @@ async function fetchRooms() {
         const error_text = await response.text()
         throw new Error(error_text)
     })
-    .then(roomSelect => {
-        for (let room of roomSelect) {
+    .then(roomSelection => {
+        for (let room of roomSelection) {
             let roomOption = document.createElement("option");
-            roomOption.value = room.room_num;
+            roomOption.value = room.room_id;
             roomOption.text = "ROOM " + room.room_num;
             roomSelect.appendChild(roomOption);
         } 
