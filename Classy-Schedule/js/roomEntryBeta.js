@@ -77,6 +77,31 @@ function isValidForm(room_num, capacity) {
 
 }
 
+async function fetchRooms() {
+    let roomSelect = document.getElementById("roomSelect");
+
+    fetch('/api/room')
+    .then(async (response) => {
+        if (response.ok) {
+            return response.json()
+        }
+        const error_text = await response.text()
+        throw new Error(error_text)
+    })
+    .then(roomSelection => {
+        for (let room of roomSelection) {
+            let roomOption = document.createElement("option");
+            roomOption.value = room.room_id;
+            roomOption.text = "ROOM " + room.room_num;
+            roomSelect.appendChild(roomOption);
+        } 
+    })
+    .catch(error => {
+        clearAlerts()
+        showAlert(error.message)
+    })
+}
+
 function showAlert(alert_text) {
     let alertContainer = document.getElementById("alertContainer")
 
