@@ -70,8 +70,15 @@ function makeTable() {
         for (let i = 0; i < classSelection.length; i++) {
 
             let row = document.createElement("tr");
-            row.innerHTML = "<td> " + classSelection[i].class_name + "</td>";
+
+            if (classSelection[i].dept_id == 1) {
+                row.innerHTML += "<td> " + "CISC" + "</td>";
+            } else {
+                row.innerHTML += "<td> " + "STAT" + "</td>";
+            }
+
             row.innerHTML += "<td> " + classSelection[i].class_num + "</td>";
+            row.innerHTML += "<td> " + classSelection[i].class_name + "</td>";
             row.innerHTML += "<td> " + classSelection[i].capacity + "</td>";
             row.innerHTML += "<td> " + classSelection[i].credits + "</td>";
             table.appendChild(row);
