@@ -3,6 +3,7 @@ const express = require("express")
 const router = express.Router()
 const Course = require('../models/course.model')
 const Department = require('../models/department.model')
+const Room = require('../models/room.model')
 
 router.use((req, res, next) => {
     console.log("API route accessed")
@@ -27,6 +28,41 @@ router.post("/course", (req, res) => {
     const { valid, errors } = Course.isValid(new_course)
     if (valid) {
         Course.create(new_course)
+        .then(() => {
+            res.sendStatus(200)
+        })
+        .catch(error => {
+            console.error(error.message)
+            res.sendStatus(500)
+        })
+    } else {
+        res.statusCode = 407
+        let response_text = "Malformed Request. Errors: ";
+        errors.forEach(error => {
+            response_text += error + "\n"
+        })
+}
+
+})
+
+// rooms
+
+router.get("/room", (req, res) => {
+    console.log("getting courses...")
+    Room.getAll().then(room => {
+        res.send(JSON.stringify(room))
+    })
+    .catch((err) => {
+        console.log(err.message)
+        res.sendStatus(500)
+    })
+})
+
+router.post("/room", (req, res) => {
+    const new_course = req.body
+    const { valid, errors } = Room.isValid(new_course)
+    if (valid) {
+        Room.create(new_room)
         .then(() => {
             res.sendStatus(200)
         })
