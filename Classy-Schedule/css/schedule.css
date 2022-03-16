@@ -104,18 +104,3 @@
     padding-right: var(--dl-space-space-doubleunit);
   }
   }
-
-  .classroomMenu{
-    padding-top: 1em;
-    text-align: center;
-    position: center;
-    width: 15%;
-  }
-  
-  .classSelection{
-    text-align: center;
-  }
-  
-  #Class-Selection {
-  width: 100%;
-  }

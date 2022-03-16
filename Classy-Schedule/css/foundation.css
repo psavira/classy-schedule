@@ -24,6 +24,22 @@ tr{
   color: black; 
 }
 
+.classroomMenu{
+  padding-top: 1em;
+  text-align: center;
+  position: center;
+  width: 15%;
+}
+
+.classSelection{
+  text-align: center;
+}
+
+#Class-Selection {
+  text-align: center;
+  width: 100%;
+}
+
 /* START OF FOUNDATION CSS */
 
 @charset "UTF-8";
