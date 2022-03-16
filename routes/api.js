@@ -59,8 +59,8 @@ router.get("/room", (req, res) => {
 })
 
 router.post("/room", (req, res) => {
-    const new_course = req.body
-    const { valid, errors } = Room.isValid(new_course)
+    const new_room = req.body
+    const { valid, errors } = Room.isValid(new_room)
     if (valid) {
         Room.create(new_room)
         .then(() => {
