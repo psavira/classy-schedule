@@ -12,9 +12,10 @@
                 src="Classy-Schedule.jpg"
                 class="schedule-image"
             /></a></li>
-        <li class="menu-text"><a href="help.html">Help</a></li>
-        <li class="menu-text"><a href="classEntryBeta.html">Class Entry</a></li>
-        <li class="menu-text"><a href="schedule.html">Schedule</a></li>
+            <li class="menu-text"><a href="help.html">Help</a></li>
+            <li class="menu-text"><a href="classEntryBeta.html">Class Entry</a></li>
+            <li class="menu-text"><a href="roomEntryBeta.html">Room Entry</a></li>
+            <li class="menu-text"><a href="schedule.html">Schedule</a></li>
       </ul>
     </div>
     <div class="top-bar-right">
@@ -261,7 +262,7 @@
 
 </style>
 <div class="classroomMenu my-menu">
-    <select name="roomSelect" id="Classroom-Selection">
+    <select name="roomSelect" id="roomSelect">
         <option value="starter" selected>Display Current Classroom</option>
     </select>
 </div>
@@ -290,5 +291,6 @@
     </div>
     <script>
         fetchClasses()
+        fetchRooms()
     </script>
 </html>
