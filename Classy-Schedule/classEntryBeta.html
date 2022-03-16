@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <link href="./css/foundation.min.css" rel="stylesheet" />    
-<script src="js/roomEntryBeta.js"></script>
+<script src="js/classEntryBeta.js"></script>
 <div class="top-bar">
     <div class="top-bar-left">
       <ul class="dropdown menu" data-dropdown-menu>
@@ -36,18 +36,39 @@
     <!--<script src="js/vendor/foundation.min.js"></script>-->
     <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
     <script src="js/classEntryBeta.js"></script>
-    <title>Room Entry</title>
+    <title>Class Entry</title>
   </head>
   <body>
     <form id="classForm">
       <div class="grid-container">
         <label
-          >Room Number
-          <input type="text" name="className" placeholder="Room Number" />
+          >Class Name
+          <input type="text" name="className" placeholder="Class Name" />
         </label>
 
         <div class="grid-x grid-padding-x">
+          <div class="cell small-6">
+            <label
+              >Department
+              <select name="department" id="department"></select>
+            </label>
+          </div>
           <div class="cell large-12">
+            <label
+              >Classes
+              <select name="testclasses" id="testclasses"></select>
+            </label>
+          </div>
+          
+          <div class="cell small-6">
+            <label
+              >Class Number
+              <input type="text" name="classNumber" placeholder="xxx" />
+            </label>
+          </div>
+        </div>
+
+        <div class="grid-x grid-padding-x">
           <div class="cell small-6">
             <label
               >Capacity
@@ -60,6 +81,20 @@
               />
             </label>
           </div>
+
+          <div class="cell small-6">
+            <label
+              >Credits
+              <input
+                type="number"
+                name="credits"
+                placeholder="x"
+                max="4"
+                min="0"
+              />
+            </label>
+          </div>
+        </div>
 
         <button
           type="button"
@@ -74,7 +109,7 @@
     <div id="alertContainer"></div>
 
     <script>
-      fetchDepartment()
+      fetchDepartments()
       fetchClasses()
     </script>
   </body>
