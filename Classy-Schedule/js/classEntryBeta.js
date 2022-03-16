@@ -122,10 +122,10 @@ function clearAlerts() {
     }
 }
 
-async function fetchRooms() {
-    let departmentSelect = document.getElementById("room")
+async function fetchDepartments() {
+    let departmentSelect = document.getElementById("department")
 
-    fetch('/api/room')
+    fetch('/api/departments')
     .then(async (response) => {
         if (response.ok) {
             return response.json()
@@ -133,8 +133,8 @@ async function fetchRooms() {
         const error_text = await response.text()
         throw new Error(error_text)
     })
-    .then(room => {
-        for (let ro of room) {
+    .then(departments => {
+        for (let department of departments) {
             let departmentOption = document.createElement("option");
             departmentOption.value = department.dept_id;
             departmentOption.textContent = department.dept_name;
