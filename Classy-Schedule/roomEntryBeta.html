@@ -35,15 +35,15 @@
     <link href="css/classEntry.css" rel="stylesheet" type="text/css" />
     <!--<script src="js/vendor/foundation.min.js"></script>-->
     <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
-    <script src="js/classEntryBeta.js"></script>
+    <script src="js/roomEntryBeta.js"></script>
     <title>Room Entry</title>
   </head>
   <body>
-    <form id="classForm">
+    <form id="roomForm">
       <div class="grid-container">
         <label
           >Room Number
-          <input type="text" name="className" placeholder="Room Number" />
+          <input type="text" name="roomNum" placeholder="Room Number" />
         </label>
 
         <div class="grid-x grid-padding-x">
@@ -74,8 +74,8 @@
     <div id="alertContainer"></div>
 
     <script>
-      fetchDepartment()
-      fetchClasses()
+      fetchRoom()
+      //fetchClasses()
     </script>
   </body>
 </html>

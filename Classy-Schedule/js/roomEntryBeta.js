@@ -2,23 +2,17 @@ async function submitForm() {
     // Clear any alerts
     clearAlerts()
 
-    let class_form = document.forms["classForm"];
+    let room_form = document.forms["roomForm"];
 
-    let class_name = class_form["className"].value
-    let dept_id = class_form["department"].value
-    let class_num = class_form["classNumber"].value
-    let capacity = class_form["capacity"].value
-    let credits = class_form["credits"].value
+    let room_num = room_form["roomNum"].value
+    let capacity = room_form["capacity"].value
 
-    if (isValidForm(class_name, dept_id, class_num, capacity, credits)) {
+    if (isValidForm(room_num, capacity)) {
         let post_data = {
-            class_name: class_name,
-            dept_id: dept_id,
-            class_num: class_num,
-            capacity: capacity,
-            credits: credits
+            room_num: room_num,
+            capacity: capacity
         }
-        fetch('/api/course', {
+        fetch('/api/room', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(post_data)
@@ -28,11 +22,8 @@ async function submitForm() {
                 clearAlerts()
                 showAlert("Success!")
                 // Clear form
-                class_form["className"].value = ""
-                class_form["department"].value = ""
-                class_form["classNumber"].value = ""
-                class_form["capacity"].value = ""
-                class_form["credits"].value = ""
+                room_form["roomNum"].value = ""
+                room_form["capacity"].value = ""
             } else {
                 clearAlerts()
                 const text = await response.text()
@@ -47,29 +38,23 @@ async function submitForm() {
     }
 }
 
-function isValidForm(class_name, dept_id, class_num, capacity, credits) {
+function isValidForm(room_num, capacity) {
 
     let alert_count = 0
 
     // Validate class name
-    if (validator.isEmpty(class_name)) {
+    if (validator.isEmpty(room_num)) {
         showAlert("Please enter a class name.");
         alert_count++;
     }
 
     // Validate department
-    if (validator.isEmpty(dept_id)) {
+    if (validator.isEmpty(capacity)) {
         showAlert("Please pick a department.")
         alert_count++;
     }
 
-    // Validate class number
-    if (validator.isEmpty(class_num)){
-        showAlert("Please enter a class number.")
-        alert_count++
-    }
-    
-    if (!validator.isInt(class_num)) {
+    if (!validator.isInt(room_num)) {
         showAlert("Class number should be an integer.")
         alert_count++
     }
@@ -85,16 +70,6 @@ function isValidForm(class_name, dept_id, class_num, capacity, credits) {
         alert_count++
     } 
     
-    // Validate credits
-    if (validator.isEmpty(credits)) {
-        showAlert("Please enter class credits.")
-        alert_count++
-    }
-
-    if (!validator.isInt(credits)) {
-        showAlert("Class credits should be an integer.")
-        alert_count++
-    } 
 
     // Fail if any alerts
     if (alert_count > 0) return false;
@@ -122,8 +97,8 @@ function clearAlerts() {
     }
 }
 
-async function fetchRooms() {
-    let departmentSelect = document.getElementById("room")
+async function fetchRoom() {
+    let roomSelect = document.getElementById("room")
 
     fetch('/api/room')
     .then(async (response) => {
@@ -133,12 +108,12 @@ async function fetchRooms() {
         const error_text = await response.text()
         throw new Error(error_text)
     })
-    .then(room => {
-        for (let ro of room) {
-            let departmentOption = document.createElement("option");
-            departmentOption.value = department.dept_id;
-            departmentOption.textContent = department.dept_name;
-            departmentSelect.appendChild(departmentOption);
+    .then(rooms => {
+        for (let room of rooms) {
+            let roomOption = document.createElement("option");
+            roomOption.value = room.room_num;
+            roomOption.textContent = room.room_cap;
+            roomSelect.appendChild(roomOption);
         } 
     })
     .catch(error => {
@@ -146,7 +121,7 @@ async function fetchRooms() {
         showAlert(error.message)
     })
 }
-
+/*
 async function fetchClasses() {
     let classSelect = document.getElementById("testclasses")
 
@@ -170,4 +145,4 @@ async function fetchClasses() {
         clearAlerts()
         showAlert(error.message)
     })
-}
+    */
