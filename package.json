@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.0.0",
+    "eslint-config-airbnb": "^19.0.4",
     "express": "^4.17.2",
     "mysql": "^2.18.1",
     "promise-mysql": "^5.1.0",
