@@ -13,7 +13,7 @@ Room.create = function(room) {
             return new Promise((resolve, reject) => {
                 conn.query(
                     "insert into room set ?",
-                    course,
+                    room,
                     function (err, results) {
                         if (err) {
                             reject(err)
