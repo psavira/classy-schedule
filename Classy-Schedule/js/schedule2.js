@@ -119,4 +119,10 @@ function makeTable() {
     })
 }
 
-makeTable();
+/*function to remove table with class entries
+function removeData() {
+    let table = document.getElementById("classtable");
+    console.log("rTable()");
+    table.remove();
+}
+*/
