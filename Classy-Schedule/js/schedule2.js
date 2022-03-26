@@ -126,3 +126,12 @@ function removeData() {
     table.remove();
 }
 */
+
+/** Sets the table to an empty configuration */
+function clearTable() {
+    let tableSelects = document.querySelectorAll("#table select")
+
+    tableSelects.forEach((tableSelect) => {
+        tableSelect.value = ""
+    })
+}
