@@ -1,135 +1,183 @@
+/* eslint-disable no-useless-concat */
+/* eslint-disable eqeqeq */
+/* eslint-disable no-undef */
+/* eslint-disable no-plusplus */
 /** Gets classes from the database and populates page elements with available class options */
+// eslint-disable-next-line no-unused-vars
 async function fetchClasses() {
-    let classSelect = document.getElementsByClassName("classSelection");
-
-    fetch('/api/courses')
+  // gets class of classes
+  const classSelect = document.getElementsByClassName('classSelection');
+  // fetch the courses
+  fetch('/api/courses')
+  // if it works correctly
     .then(async (response) => {
-        if (response.ok) {
-            return response.json()
+      if (response.ok) {
+        return response.json();
+      }
+      // throw an error if response is not okay
+      const errorText = await response.text();
+      throw new Error(errorText);
+    })
+    // loop through the classes
+    .then((classSelection) => {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const classes of classSelection) {
+        // create an element for options
+        const classOption = document.createElement('option');
+        // set the options to department id 1 for cisc otherwise stat
+        classOption.value = classes.dept_id;
+        if (classes.dept_id == 1) {
+          classOption.text = `CISC ${classes.class_num}`;
+        } else {
+          classOption.text = `STAT ${classes.class_num}`;
         }
-        const error_text = await response.text()
-        throw new Error(error_text)
+        // loop through the classes and append them to get all class options
+        for (let i = 0; i < classSelect.length; i++) {
+          classSelect[i].appendChild(classOption.cloneNode(true));
+        }
+      }
     })
-    .then(classSelection => {
-        for (let classes of classSelection) {
-            let classOption = document.createElement("option");
-            classOption.value = classes.dept_id;
-            if(classes.dept_id==1){
-                classOption.text = "CISC " + classes.class_num;
-            }
-            else{
-                classOption.text = "STAT " + classes.class_num;
-            }
-            for(let i=0;i < classSelect.length; i++){
-                classSelect[i].appendChild(classOption.cloneNode(true));
-            }
-        } 
-    })
-    .catch(error => {
-        clearAlerts()
-        showAlert(error.message)
-    })
+    // showing errors
+    .catch((error) => {
+      // eslint-disable-next-line no-use-before-define
+      clearAlerts();
+      // eslint-disable-next-line no-use-before-define
+      showAlert(error.message);
+    });
 }
 
 /** Gets room information from the database and populates page room options */
+// eslint-disable-next-line no-unused-vars
 async function fetchRooms() {
-    let roomSelect = document.getElementById("roomSelect");
-
-    fetch('/api/room')
+  // create an element to hold rooms
+  const roomSelect = document.getElementById('roomSelect');
+  // fetch rooms
+  fetch('/api/room')
+    // check for errors if okay
     .then(async (response) => {
-        if (response.ok) {
-            return response.json()
-        }
-        const error_text = await response.text()
-        throw new Error(error_text)
+      // if the response is good
+      if (response.ok) {
+        return response.json();
+      }
+      // if error - throw it
+      const errorText = await response.text();
+      throw new Error(errorText);
     })
-    .then(roomSelection => {
-        for (let room of roomSelection) {
-            let roomOption = document.createElement("option");
-            roomOption.value = room.room_id;
-            roomOption.text = "ROOM " + room.room_num;
-            roomSelect.appendChild(roomOption);
-        } 
+    // go through the rooms
+    .then((roomSelection) => {
+      // loop through the rooms
+      // eslint-disable-next-line no-restricted-syntax
+      for (const room of roomSelection) {
+        // create an element to hold room options
+        const roomOption = document.createElement('option');
+        // set value to room id
+        roomOption.value = room.room_id;
+        // roomOption hold room number
+        roomOption.text = `ROOM ${room.room_num}`;
+        // append child to get all room options
+        roomSelect.appendChild(roomOption);
+      }
     })
-    .catch(error => {
-        clearAlerts()
-        showAlert(error.message)
-    })
+    // show errors or success
+    .catch((error) => {
+      // eslint-disable-next-line no-use-before-define
+      clearAlerts();
+      // eslint-disable-next-line no-use-before-define
+      showAlert(error.message);
+    });
 }
 
-/** 
+/**
  * Displays an alert box to the user
- * @param alert_text Text that appears in the alert box
+ * @param alertText Text that appears in the alert box
  */
-function showAlert(alert_text) {
-    let alertContainer = document.getElementById("alertContainer")
-
-    let alert = document.createElement("div")
-    alert.classList.add("callout", "warning")
-    alert.innerText = alert_text
-
-    alertContainer.appendChild(alert)
+function showAlert(alertText) {
+  // get alert container to hold alerts
+  const alertContainer = document.getElementById('alertContainer');
+  // make alert container to hold alerts
+  const alert = document.createElement('div');
+  // add callouts and warnings to alert
+  alert.classList.add('callout', 'warning');
+  alert.innerText = alertText;
+  // add alert to container
+  alertContainer.appendChild(alert);
 }
 
 /** Clears all current alerts */
 function clearAlerts() {
-    let alertContainer = document.getElementById("alertContainer")
-    
-    let children = [...alertContainer.children]
-    for(let child of children) {
-        console.log(child)
-        alertContainer.removeChild(child)
-    }
+  // get alert container to hold alerts
+  const alertContainer = document.getElementById('alertContainer');
+  // assing children of alert
+  const children = [...alertContainer.children];
+  // loop through alerts
+  // eslint-disable-next-line no-restricted-syntax
+  for (const child of children) {
+    // print out alerts
+    console.log(child);
+    // remove alert that got printed
+    alertContainer.removeChild(child);
+  }
 }
 
+/* funtion that makes a table holding all the classes entered. This will allow user
+to see what has been entered and what options they have for schedule */
+// eslint-disable-next-line no-unused-vars
 function makeTable() {
-
-
-    fetch('/api/courses')
+  // get the courses
+  fetch('/api/courses')
+    // if response is good, move on
     .then(async (response) => {
-        if (response.ok) {
-            return response.json()
+      if (response.ok) {
+        return response.json();
+      }
+      // otherwise throw some errors
+      const errorText = await response.text();
+      throw new Error(errorText);
+    })
+    .then((classSelection) => {
+      // get the table from id
+      // eslint-disable-next-line no-undef
+      const table = document.getElementById('classtable');
+      // print makeTable
+      console.log('makeTable()');
+      // loop through the classes
+      for (let i = 0; i < classSelection.length; i++) {
+        // make a row for each class
+        const row = document.createElement('tr');
+        // if dept_id for class is 1 = cisc
+        // these will be the  data in each row
+        if (classSelection[i].dept_id == 1) {
+          row.innerHTML += '<td> ' + 'CISC' + '</td>';
+        // else its STAT
+        } else {
+          row.innerHTML += '<td> ' + 'STAT' + '</td>';
         }
-        const error_text = await response.text()
-        throw new Error(error_text)
+        // in each row along with dept we add class number
+        // classname, capacity, and credits
+        row.innerHTML += `<td> ${classSelection[i].class_num}</td>`;
+        row.innerHTML += `<td> ${classSelection[i].class_name}</td>`;
+        row.innerHTML += `<td> ${classSelection[i].capacity}</td>`;
+        row.innerHTML += `<td> ${classSelection[i].credits}</td>`;
+        // add row to table
+        table.appendChild(row);
+      }
     })
-    .then(classSelection => {
-
-        let table = document.getElementById("classtable");
-
-
-        console.log("makeTable()");
-        for (let i = 0; i < classSelection.length; i++) {
-
-            let row = document.createElement("tr");
-
-            if (classSelection[i].dept_id == 1) {
-                row.innerHTML += "<td> " + "CISC" + "</td>";
-            } else {
-                row.innerHTML += "<td> " + "STAT" + "</td>";
-            }
-
-            row.innerHTML += "<td> " + classSelection[i].class_num + "</td>";
-            row.innerHTML += "<td> " + classSelection[i].class_name + "</td>";
-            row.innerHTML += "<td> " + classSelection[i].capacity + "</td>";
-            row.innerHTML += "<td> " + classSelection[i].credits + "</td>";
-            table.appendChild(row);
-
-        }
-
-        
-    })
-    .catch(error => {
-        clearAlerts()
-        showAlert(error.message)
-    })
+    // show errors or success
+    .catch((error) => {
+      clearAlerts();
+      showAlert(error.message);
+    });
 }
 
 /** Sets the table to an empty configuration */
+// eslint-disable-next-line no-unused-vars
 function clearTable() {
-    let tableSelects = document.querySelectorAll("#table select")
-
-    tableSelects.forEach((tableSelect) => {
-        tableSelect.value = ""
-    })
+  // get the table
+  // eslint-disable-next-line no-undef
+  const tableSelects = document.querySelectorAll('#table select');
+  // for each row in table - clear it
+  tableSelects.forEach((tableSelect) => {
+    // eslint-disable-next-line no-param-reassign
+    tableSelect.value = '';
+  });
 }
