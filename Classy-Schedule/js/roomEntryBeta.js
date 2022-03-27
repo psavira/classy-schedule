@@ -44,29 +44,23 @@ function isValidForm(room_num, capacity) {
 
     // Validate class name
     if (validator.isEmpty(room_num)) {
-        showAlert("Please enter a class name.");
+        showAlert("Please enter a room number.");
         alert_count++;
     }
 
     // Validate department
     if (validator.isEmpty(capacity)) {
-        showAlert("Please pick a department.")
+        showAlert("Please enter a room capacity.")
         alert_count++;
     }
 
     if (!validator.isInt(room_num)) {
-        showAlert("Class number should be an integer.")
-        alert_count++
-    }
-
-    // Validate capacity
-    if (validator.isEmpty(capacity)) {
-        showAlert("Please enter class capacity.")
+        showAlert("Room number should be an integer.")
         alert_count++
     }
 
     if (!validator.isInt(capacity)) {
-        showAlert("Class capacity should be an integer.")
+        showAlert("Room capacity should be an integer.")
         alert_count++
     } 
     
@@ -104,11 +98,9 @@ async function fetchRooms() {
 
 function showAlert(alert_text) {
     let alertContainer = document.getElementById("alertContainer")
-
     let alert = document.createElement("div")
     alert.classList.add("callout", "warning")
     alert.innerText = alert_text
-
     alertContainer.appendChild(alert)
 }
 

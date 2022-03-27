@@ -1,3 +1,4 @@
+/** Gets classes from the database and populates page elements with available class options */
 async function fetchClasses() {
     let classSelect = document.getElementsByClassName("classSelection");
 
@@ -30,6 +31,7 @@ async function fetchClasses() {
     })
 }
 
+/** Gets room information from the database and populates page room options */
 async function fetchRooms() {
     let roomSelect = document.getElementById("roomSelect");
 
@@ -55,7 +57,10 @@ async function fetchRooms() {
     })
 }
 
-
+/** 
+ * Displays an alert box to the user
+ * @param alert_text Text that appears in the alert box
+ */
 function showAlert(alert_text) {
     let alertContainer = document.getElementById("alertContainer")
 
@@ -66,6 +71,7 @@ function showAlert(alert_text) {
     alertContainer.appendChild(alert)
 }
 
+/** Clears all current alerts */
 function clearAlerts() {
     let alertContainer = document.getElementById("alertContainer")
     
@@ -119,4 +125,11 @@ function makeTable() {
     })
 }
 
-makeTable();
+/** Sets the table to an empty configuration */
+function clearTable() {
+    let tableSelects = document.querySelectorAll("#table select")
+
+    tableSelects.forEach((tableSelect) => {
+        tableSelect.value = ""
+    })
+}
