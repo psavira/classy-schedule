@@ -73,10 +73,29 @@
       </div>
     </form>
 
+    <div class="grid-container">
+      <div class="grid-x grid-padding-x">
+        <div class="cell large-12">
+          <div class="cell small-6">
+            <label>
+              Room to Delete
+              <select name="roomDelSelect" id="roomSelect"></select>
+            </label>
+          </div>
+          <button
+            type="button"
+            class="alert button"
+            onclick="deleteRoom()"
+          >
+            DELETE
+          </button>
+        </div>
+      </div>
+    </div>
     <div id="alertContainer"></div>
 
     <script>
-      fetchRoom()
+      fetchRooms()
       //fetchClasses()
     </script>
   </body>
