@@ -35,7 +35,7 @@ async function submitForm() {
             showAlert(error.message)
         })
         showAlert("Sending request...")
-    }
+    }  
 }
 
 function isValidForm(room_num, capacity) {
