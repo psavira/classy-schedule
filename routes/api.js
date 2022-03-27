@@ -1,115 +1,115 @@
-const { response } = require("express")
-const express = require("express")
-const router = express.Router()
-const Course = require('../models/course.model')
-const Department = require('../models/department.model')
-const Room = require('../models/room.model')
+const express = require('express');
+
+const router = express.Router();
+const Course = require('../models/course.model');
+const Department = require('../models/department.model');
+const Room = require('../models/room.model');
 
 router.use((req, res, next) => {
-    console.log("API route accessed")
-    next()
-})
-
-// courses
-
-router.get("/courses", (req, res) => {
-    console.log("getting courses...")
-    Course.getAll().then(courses => {
-        res.send(JSON.stringify(courses))
-    })
-    .catch((err) => {
-        console.log(err.message)
-        res.sendStatus(500)
-    })
-})
-
-router.post("/course", (req, res) => {
-    const new_course = req.body
-    const { valid, errors } = Course.isValid(new_course)
-    if (valid) {
-        Course.create(new_course)
-        .then(() => {
-            res.sendStatus(200)
-        })
-        .catch(error => {
-            console.error(error.message)
-            res.sendStatus(500)
-        })
-    } else {
-        res.statusCode = 407
-        let response_text = "Malformed Request. Errors: ";
-        errors.forEach(error => {
-            response_text += error + "\n"
-        })
-}
-
-})
-
-// rooms
-
-router.get("/room", (req, res) => {
-    console.log("getting courses...")
-    Room.getAll().then(room => {
-        res.send(JSON.stringify(room))
-    })
-    .catch((err) => {
-        console.log(err.message)
-        res.sendStatus(500)
-    })
-})
-
-router.post("/room", (req, res) => {
-    const new_room = req.body
-    const { valid, errors } = Room.isValid(new_room)
-    if (valid) {
-        Room.create(new_room)
-        .then(() => {
-            res.sendStatus(200)
-        })
-        .catch(error => {
-            console.error(error.message)
-            res.sendStatus(500)
-        })
-    } else {
-        res.statusCode = 407
-        let response_text = "Malformed Request. Errors: ";
-        errors.forEach(error => {
-            response_text += error + "\n"
-        })
-}
-
-})
-
-// departments
-
-router.get("/departments", (req, res) => {
-    Department.getAll().then(departments => {
-        res.send(JSON.stringify(departments))
-    })
-    .catch((err) => {
-        console.error(err.message)
-        res.sendStatus(500)
-    })
-})
-
-Course.getAll().then(function(courses){
-    console.log(courses);
+  // Custom middleware implementation
+  next();
 });
 
-// to add a course. comment this out so we don't add a class everytime we do npm start
-// const new_course = {
-//     class_num: 1,
-//     dept_id: 1,
-//     class_name: "something",
-//     capacity: 10,
-//     credits: 2
-// }
+/* -------------------------------------------------------------------------- */
+/*                              Course API Routes                             */
+/* -------------------------------------------------------------------------- */
 
-// Course.create(new_course)
-// .then(
-//     Course.getAll().then(function (courses) {
-//         console.log(courses)
-//     })
-// )
+router.get('/courses', (req, res) => {
+  // Get all courses from database and return JSON string
+  Course.getAll()
+    .then((courses) => {
+      res.send(JSON.stringify(courses));
+    })
+    .catch((error) => {
+      console.log(error.message);
+      res.sendStatus(500);
+    });
+});
 
-module.exports = router
+router.post('/course', (req, res) => {
+  const newCourse = req.body;
+
+  // Check if the request body is valid for a course
+  const { valid, errors } = Course.isValid(newCourse);
+
+  if (valid) {
+    // Attempt to insert course into database
+    Course.create(newCourse)
+      .then(() => {
+        res.sendStatus(200);
+      })
+      .catch((error) => {
+        console.error(error.message);
+        res.sendStatus(500);
+      });
+  } else {
+    // Form error response text and send to client
+    res.statusCode = 407;
+    let responseText = 'Malformed Request. Errors: ';
+    errors.forEach((error) => {
+      responseText += `${error}\n`;
+    });
+    res.send(responseText);
+  }
+});
+
+/* -------------------------------------------------------------------------- */
+/*                               Room API Routes                              */
+/* -------------------------------------------------------------------------- */
+
+router.get('/room', (req, res) => {
+  // Get all rooms from database and send to client
+  Room.getAll()
+    .then((room) => {
+      res.send(JSON.stringify(room));
+    })
+    .catch((err) => {
+      console.log(err.message);
+      res.sendStatus(500);
+    });
+});
+
+router.post('/room', (req, res) => {
+  const newRoom = req.body;
+
+  // Check if room form data is valid
+  const { valid, errors } = Room.isValid(newRoom);
+
+  if (valid) {
+    // Attempt to insert a new room in the database
+    Room.create(newRoom)
+      .then(() => {
+        res.sendStatus(200);
+      })
+      .catch((error) => {
+        console.error(error.message);
+        res.sendStatus(500);
+      });
+  } else {
+    // Form error response text and send to client
+    res.statusCode = 407;
+    let responseText = 'Malformed Request. Errors: ';
+    errors.forEach((error) => {
+      responseText += `${error}\n`;
+    });
+    res.send(responseText);
+  }
+});
+
+/* -------------------------------------------------------------------------- */
+/*                            Department API Routes                           */
+/* -------------------------------------------------------------------------- */
+
+router.get('/departments', (req, res) => {
+  // Get a list of all departments from the database and send to client
+  Department.getAll()
+    .then((departments) => {
+      res.send(JSON.stringify(departments));
+    })
+    .catch((error) => {
+      console.error(error.message);
+      res.sendStatus(500);
+    });
+});
+
+module.exports = router;
