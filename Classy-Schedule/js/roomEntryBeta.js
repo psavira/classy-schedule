@@ -1,115 +1,158 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable no-undef */
+/* eslint-disable no-use-before-define */
+/** function to send entry to db */
+// eslint-disable-next-line no-unused-vars
 async function submitForm() {
-    // Clear any alerts
-    clearAlerts()
+  // Clear any alerts
+  clearAlerts();
+  // create form to hold room entry
+  // eslint-disable-next-line camelcase
+  const room_form = document.forms.roomForm;
+  // get room num
+  // eslint-disable-next-line camelcase
+  const room_num = room_form.roomNum.value;
+  // get capacity
+  // eslint-disable-next-line camelcase
+  const capacity = room_form.capacity.value;
 
-    let room_form = document.forms["roomForm"];
-
-    let room_num = room_form["roomNum"].value
-    let capacity = room_form["capacity"].value
-
-    if (isValidForm(room_num, capacity)) {
-        let post_data = {
-            room_num: room_num,
-            capacity: capacity
-        }
-        fetch('/api/room', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(post_data)
-        })
-        .then(async (response) => {
-            if(response.ok) {
-                clearAlerts()
-                showAlert("Success!")
-                // Clear form
-                room_form["roomNum"].value = ""
-                room_form["capacity"].value = ""
-            } else {
-                clearAlerts()
-                const text = await response.text()
-                showAlert(text)
-            }
-        })
-        .catch((error) => {
-            clearAlerts()
-            showAlert(error.message)
-        })
-        showAlert("Sending request...")
-    }  
-}
-
-function isValidForm(room_num, capacity) {
-
-    let alert_count = 0
-
-    // Validate class name
-    if (validator.isEmpty(room_num)) {
-        showAlert("Please enter a room number.");
-        alert_count++;
-    }
-
-    // Validate department
-    if (validator.isEmpty(capacity)) {
-        showAlert("Please enter a room capacity.")
-        alert_count++;
-    }
-
-    if (!validator.isInt(room_num)) {
-        showAlert("Room number should be an integer.")
-        alert_count++
-    }
-
-    if (!validator.isInt(capacity)) {
-        showAlert("Room capacity should be an integer.")
-        alert_count++
-    } 
-    
-
-    // Fail if any alerts
-    if (alert_count > 0) return false;
-    return true;
-
-}
-
-async function fetchRooms() {
-    let roomSelect = document.getElementById("roomSelect");
-
-    fetch('/api/room')
-    .then(async (response) => {
+  // if the entry is valid
+  if (isValidForm(room_num, capacity)) {
+    // hold info in post data
+    const postData = {
+      room_num: roomNum,
+      // eslint-disable-next-line object-shorthand
+      capacity: capacity,
+    };
+    // fetch the rooms from database
+    fetch('/api/room', {
+      // send to db
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(postData),
+    })
+    // if response is good
+      .then(async (response) => {
         if (response.ok) {
-            return response.json()
+          clearAlerts();
+          showAlert('Success!');
+
+          // Clear form
+          // eslint-disable-next-line camelcase
+          room_form.roomNum.value = '';
+          // eslint-disable-next-line camelcase
+          room_form.capacity.value = '';
+        } else {
+          // show alerts
+          clearAlerts();
+          const text = await response.text();
+          showAlert(text);
         }
-        const error_text = await response.text()
-        throw new Error(error_text)
-    })
-    .then(roomSelection => {
-        for (let room of roomSelection) {
-            let roomOption = document.createElement("option");
-            roomOption.value = room.room_id;
-            roomOption.text = "ROOM " + room.room_num;
-            roomSelect.appendChild(roomOption);
-        } 
-    })
-    .catch(error => {
-        clearAlerts()
-        showAlert(error.message)
-    })
+      })
+    // catch errors and show messages
+      .catch((error) => {
+        clearAlerts();
+        showAlert(error.message);
+      });
+    showAlert('Sending request...');
+  }
 }
 
-function showAlert(alert_text) {
-    let alertContainer = document.getElementById("alertContainer")
-    let alert = document.createElement("div")
-    alert.classList.add("callout", "warning")
-    alert.innerText = alert_text
-    alertContainer.appendChild(alert)
+/* function to check if class entry is valid */
+// eslint-disable-next-line camelcase
+function isValidForm(room_num, capacity) {
+  // counter for alerts
+  let alertContainer = 0;
+
+  // Validate class name if empty
+  if (validator.isEmpty(room_num)) {
+    showAlert('Please enter a room number.');
+    alertContainer++;
+  }
+
+  // Validate department if empty
+  if (validator.isEmpty(capacity)) {
+    showAlert('Please enter a room capacity.');
+    alertContainer++;
+  }
+  // validate room number if not integer
+  if (!validator.isInt(room_num)) {
+    showAlert('Room number should be an integer.');
+    alertContainer++;
+  }
+  // validate capacity if not integer
+  if (!validator.isInt(capacity)) {
+    showAlert('Room capacity should be an integer.');
+    alertContainer++;
+  }
+
+  // Fail if any alerts
+  if (alertContainer > 0) return false;
+  return true;
 }
 
+/** function to fetch rooms from database */
+// eslint-disable-next-line no-unused-vars
+async function fetchRooms() {
+  // get room select by id
+  const roomSelect = document.getElementById('roomSelect');
+  // fetch rooms from db
+  fetch('/api/room')
+    // if response is good return it
+    .then(async (response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      // else error
+      const errorText = await response.text();
+      throw new Error(errorText);
+    })
+    // loop through the rooms
+    .then((roomSelection) => {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const room of roomSelection) {
+        // create a option for every room
+        const roomOption = document.createElement('option');
+        // set value to room id
+        roomOption.value = room.room_id;
+        // set text to room and number
+        roomOption.text = `ROOM ${room.room_num}`;
+        // add each room
+        roomSelect.appendChild(roomOption);
+      }
+    })
+    // catch errors and show messages
+    .catch((error) => {
+      clearAlerts();
+      showAlert(error.message);
+    });
+}
+
+/** function to show error messages */
+function showAlert(alertText) {
+  // create container to hold alerts
+  const alertContainer = document.getElementById('alertContainer');
+  // create alert div
+  const alert = document.createElement('div');
+  // add callout and warnings
+  alert.classList.add('callout', 'warning');
+  alert.innerText = alertText;
+  // add alert to container
+  alertContainer.appendChild(alert);
+}
+
+/** function to clear the alerts */
 function clearAlerts() {
-    let alertContainer = document.getElementById("alertContainer")
-    
-    let children = [...alertContainer.children]
-    for(let child of children) {
-        console.log(child)
-        alertContainer.removeChild(child)
-    }
+  // make alert container to hold alerts
+  const alertContainer = document.getElementById('alertContainer');
+  // array to hold all alerts
+  const children = [...alertContainer.children];
+  // loop through the alerts
+  // eslint-disable-next-line no-restricted-syntax
+  for (const child of children) {
+    // print error
+    console.log(child);
+    // remove the error
+    alertContainer.removeChild(child);
+  }
 }

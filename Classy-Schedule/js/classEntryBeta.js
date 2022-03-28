@@ -1,173 +1,226 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-plusplus */
+/* eslint-disable no-undef */
+/* eslint-disable no-use-before-define */
+/** function to send form to db */
 async function submitForm() {
-    // Clear any alerts
-    clearAlerts()
+  // Clear any alerts
+  // eslint-disable-next-line no-use-before-define
+  clearAlerts();
 
-    let class_form = document.forms["classForm"];
-
-    let class_name = class_form["className"].value
-    let dept_id = class_form["department"].value
-    let class_num = class_form["classNumber"].value
-    let capacity = class_form["capacity"].value
-    let credits = class_form["credits"].value
-
-    if (isValidForm(class_name, dept_id, class_num, capacity, credits)) {
-        let post_data = {
-            class_name: class_name,
-            dept_id: dept_id,
-            class_num: class_num,
-            capacity: capacity,
-            credits: credits
+  // eslint-disable-next-line no-undef
+  // make a form
+  // eslint-disable-next-line no-undef
+  const { classForm } = document.forms;
+  // get class name
+  const className = classForm.className.value;
+  // get dept id
+  const deptID = classForm.department.value;
+  // get class number
+  const classNum = classForm.classNumber.value;
+  // get capacity
+  const capacity = classForm.capacity.value;
+  // get credits
+  const credits = classForm.credits.value;
+  // if all info works
+  if (isValidForm(className, deptID, classNum, capacity, credits)) {
+    // make a var to hold info
+    const postData = {
+      className,
+      deptID,
+      classNum,
+      capacity,
+      credits,
+    };
+    // get the courses from database
+    fetch('/api/course', {
+      // send to db
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(postData),
+    })
+      // if response okay
+      .then(async (response) => {
+        // say success
+        if (response.ok) {
+          clearAlerts();
+          showAlert('Success!');
+          // Clear form
+          classForm.className.value = '';
+          classForm.department.value = '';
+          classForm.classNumber.value = '';
+          classForm.capacity.value = '';
+          classForm.credits.value = '';
+          // otherwise don't send and show alerts
+        } else {
+          clearAlerts();
+          const text = await response.text();
+          showAlert(text);
         }
-        fetch('/api/course', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(post_data)
-        })
-        .then(async (response) => {
-            if(response.ok) {
-                clearAlerts()
-                showAlert("Success!")
-                // Clear form
-                class_form["className"].value = ""
-                class_form["department"].value = ""
-                class_form["classNumber"].value = ""
-                class_form["capacity"].value = ""
-                class_form["credits"].value = ""
-            } else {
-                clearAlerts()
-                const text = await response.text()
-                showAlert(text)
-            }
-        })
-        .catch((error) => {
-            clearAlerts()
-            showAlert(error.message)
-        })
-        showAlert("Sending request...")
-    }
+      })
+      // catch the error and show error message
+      .catch((error) => {
+        clearAlerts();
+        showAlert(error.message);
+      });
+    showAlert('Sending request...');
+  }
 }
 
-function isValidForm(class_name, dept_id, class_num, capacity, credits) {
+/* function to see if class entry form is valid */
+function isValidForm(className, deptID, classNum, capacity, credits) {
+  // variable to hold # of alerts
+  let alertCount = 0;
 
-    let alert_count = 0
+  // Validate class name if empty
+  if (validator.isEmpty(className)) {
+    showAlert('Please enter a class name.');
+    alertCount++;
+  }
 
-    // Validate class name
-    if (validator.isEmpty(class_name)) {
-        showAlert("Please enter a class name.");
-        alert_count++;
-    }
+  // Validate department if empty
+  if (validator.isEmpty(deptID)) {
+    showAlert('Please pick a department.');
+    alertCount++;
+  }
 
-    // Validate department
-    if (validator.isEmpty(dept_id)) {
-        showAlert("Please pick a department.")
-        alert_count++;
-    }
+  // Validate class number if empty
+  if (validator.isEmpty(classNum)) {
+    showAlert('Please enter a class number.');
+    alertCount++;
+  }
+  // if class number isn't an int show alert
+  if (!validator.isInt(classNum)) {
+    showAlert('Class number should be an integer.');
+    alertCount++;
+  }
 
-    // Validate class number
-    if (validator.isEmpty(class_num)){
-        showAlert("Please enter a class number.")
-        alert_count++
-    }
-    
-    if (!validator.isInt(class_num)) {
-        showAlert("Class number should be an integer.")
-        alert_count++
-    }
+  // Validate capacity if empry
+  if (validator.isEmpty(capacity)) {
+    showAlert('Please enter class capacity.');
+    alertCount++;
+  }
+  // validate capacity if not integer
+  if (!validator.isInt(capacity)) {
+    showAlert('Class capacity should be an integer.');
+    alertCount++;
+  }
 
-    // Validate capacity
-    if (validator.isEmpty(capacity)) {
-        showAlert("Please enter class capacity.")
-        alert_count++
-    }
+  // Validate credits if empty
+  if (validator.isEmpty(credits)) {
+    showAlert('Please enter class credits.');
+    alertCount++;
+  }
+  // validate credits if not integer
+  if (!validator.isInt(credits)) {
+    showAlert('Class credits should be an integer.');
+    alertCount++;
+  }
 
-    if (!validator.isInt(capacity)) {
-        showAlert("Class capacity should be an integer.")
-        alert_count++
-    } 
-    
-    // Validate credits
-    if (validator.isEmpty(credits)) {
-        showAlert("Please enter class credits.")
-        alert_count++
-    }
-
-    if (!validator.isInt(credits)) {
-        showAlert("Class credits should be an integer.")
-        alert_count++
-    } 
-
-    // Fail if any alerts
-    if (alert_count > 0) return false;
-    return true;
-
+  // Fail if any alerts
+  if (alertCount > 0) return false;
+  return true;
 }
 
-function showAlert(alert_text) {
-    let alertContainer = document.getElementById("alertContainer")
-
-    let alert = document.createElement("div")
-    alert.classList.add("callout", "warning")
-    alert.innerText = alert_text
-
-    alertContainer.appendChild(alert)
+/* method to show the alerts that pop when filling class entry form */
+function showAlert(alertText) {
+  // container to hold alerts
+  const alertContainer = document.getElementById('alertContainer');
+  // make alert a div element
+  const alert = document.createElement('div');
+  // add callout and warning to alert
+  alert.classList.add('callout', 'warning');
+  alert.innerText = alertText;
+  // add alert to alert container
+  alertContainer.appendChild(alert);
 }
 
+/* function to remove alerts */
 function clearAlerts() {
-    let alertContainer = document.getElementById("alertContainer")
-    
-    let children = [...alertContainer.children]
-    for(let child of children) {
-        console.log(child)
-        alertContainer.removeChild(child)
-    }
+  // make a container to hold alerts
+  const alertContainer = document.getElementById('alertContainer');
+  // array of alerts
+  const children = [...alertContainer.children];
+  // eslint-disable-next-line no-restricted-syntax
+  // loop through the alerts
+  // eslint-disable-next-line no-restricted-syntax
+  for (const child of children) {
+    // print out alert
+    console.log(child);
+    // remove the alerts
+    alertContainer.removeChild(child);
+  }
 }
 
+/* fetch the departments from database */
 async function fetchDepartments() {
-    let departmentSelect = document.getElementById("department")
-
-    fetch('/api/departments')
+  // get department by element id
+  const departmentSelect = document.getElementById('department');
+  // fetch departments from database
+  fetch('/api/departments')
+  // if response okay
     .then(async (response) => {
-        if (response.ok) {
-            return response.json()
-        }
-        const error_text = await response.text()
-        throw new Error(error_text)
+      if (response.ok) {
+        // return response
+        return response.json();
+      }
+      // otherwise error
+      const errorText = await response.text();
+      throw new Error(errorText);
     })
-    .then(departments => {
-        for (let department of departments) {
-            let departmentOption = document.createElement("option");
-            departmentOption.value = department.dept_id;
-            departmentOption.textContent = department.dept_name;
-            departmentSelect.appendChild(departmentOption);
-        } 
+    // loop through the departments
+    .then((departments) => {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const department of departments) {
+        // create an element for each department
+        const departmentOption = document.createElement('option');
+        // set the value to department ID
+        departmentOption.value = department.deptID;
+        // set text to department name
+        departmentOption.textContent = department.dept_name;
+        // add department to departmentSelect
+        departmentSelect.appendChild(departmentOption);
+      }
     })
-    .catch(error => {
-        clearAlerts()
-        showAlert(error.message)
-    })
+    // show alert message
+    .catch((error) => {
+      clearAlerts();
+      showAlert(error.message);
+    });
 }
 
+/* function to get classes from database */
 async function fetchClasses() {
-    let classSelect = document.getElementById("testclasses")
-
-    fetch('/api/courses')
+  // make classSelect by id
+  const classSelect = document.getElementById('testclasses');
+  // fetch courses from database
+  fetch('/api/courses')
+  // if response okay return response
     .then(async (response) => {
-        if (response.ok) {
-            return response.json()
-        }
-        const error_text = await response.text()
-        throw new Error(error_text)
+      if (response.ok) {
+        return response.json();
+      }
+      // otherwise error
+      const errorText = await response.text();
+      throw new Error(errorText);
     })
-    .then(testclasses => {
-        for (let classes of testclasses) {
-            let classOption = document.createElement("option");
-            classOption.value = classes.dept_id;
-            classOption.textContent = classes.class_name;
-            classSelect.appendChild(classOption);
-        } 
+    // loop through courses
+    .then((testclasses) => {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const classes of testclasses) {
+        // create element for each course
+        const classOption = document.createElement('option');
+        // set value to dept id
+        classOption.value = classes.deptID;
+        // set text to class Name
+        classOption.textContent = classes.className;
+        // add each course
+        classSelect.appendChild(classOption);
+      }
     })
-    .catch(error => {
-        clearAlerts()
-        showAlert(error.message)
-    })
+    // catch errors and show message
+    .catch((error) => {
+      clearAlerts();
+      showAlert(error.message);
+    });
 }
