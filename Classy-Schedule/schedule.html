@@ -138,7 +138,18 @@
                 <tr>
 
                     <td>8:15 - 9:20am</td>
-                    <td><select class="classSelection" name="classSelection" id="classSelection0"><option value="" selected hidden>Choose Class</option></select></td>
+
+
+                    <td><select class="classSelection" name="classSelection" id="classSelection0" onChange="changecat(this.value);">
+                      <option value="" selected hidden>Choose HERE</option>
+                    </select>
+                  </td>
+                    <select name="classSelection" id="classSelection1">
+                      <option value="" disabled selected>Select</option>
+                    </select>
+
+
+                    <!--<td><select class="classSelection" name="classSelection" id="classSelection0"><option value="" selected hidden>Choose Class</option></select></td>-->
                     <td><select class="classSelection" name="classSelection" id="classSelection1"><option value="" selected hidden>Choose Class</option></select></td>
                     <td><select class="classSelection" name="classSelection" id="classSelection2"><option value="" selected hidden>Choose Class</option></select></td>
                 </tr>
