@@ -6,10 +6,10 @@
 async function submitForm() {
   // Clear any alerts
   clearAlerts();
-  // create form to hold room entry
+  // create form to hold prof entry
   // eslint-disable-next-line camelcase
   const prof_form = document.forms.profForm;
-
+  // vars from form
   const professor_id = prof_form.profNum.value;
   const first_name = prof_form.firstName.value;
   const last_name = prof_form.lastName.value;
@@ -25,7 +25,7 @@ async function submitForm() {
       last_name: last_name,
       teach_load: teach_load,
     };
-    // fetch the rooms from database
+    // fetch the profs from database
     fetch('/api/professor', {
       // send to db
       method: 'POST',
@@ -61,29 +61,29 @@ async function submitForm() {
   }
 }
 
-/* function to check if class entry is valid */
+/* function to check if prof entry is valid */
 // eslint-disable-next-line camelcase
 function isValidForm(professor_id, first_name, last_name, teach_load ) {
   // counter for alerts
   let alertContainer = 0;
 
-  // Validate class name if empty
+  // Validate id name if empty
   if (validator.isEmpty(professor_id)) {
     showAlert('empty profID.');
     alertContainer++;
   }
 
-  // Validate department if empty
+  // Validate first name if empty
   if (validator.isEmpty(first_name)) {
     showAlert('empty firstName.');
     alertContainer++;
   }
-
+  // last name empty
   if (validator.isEmpty(last_name)) {
     showAlert('Empty lastName.');
     alertContainer++;
   }
-
+  // teach load empty
   if (validator.isEmpty(teach_load)) {
     showAlert('Empty teachLoad');
     alertContainer++;
@@ -93,18 +93,18 @@ function isValidForm(professor_id, first_name, last_name, teach_load ) {
     showAlert('teachLoad should be an integer.');
     alertContainer++;
   }
-
+  // if id isnt int
   if (!validator.isInt(professor_id)) {
     showAlert('profID should be an integer.');
     alertContainer++;
   }
 
-  // validate capacity if not integer
+  // validate last name if integer
   if (validator.isInt(last_name)) {
     showAlert('lastName should nto have ints.');
     alertContainer++;
   }
-
+  // check if first name int
   if (validator.isInt(first_name)) {
     showAlert('firstName should nto have ints.');
     alertContainer++;
@@ -115,12 +115,12 @@ function isValidForm(professor_id, first_name, last_name, teach_load ) {
   return true;
 }
 
-/** function to fetch rooms from database */
+/** function to fetch profs from database */
 // eslint-disable-next-line no-unused-vars
 async function fetchProfessors() {
-  // get room select by id
+  // get prof select by id
   const profSelect = document.getElementById('profSelect');
-  // fetch rooms from db
+  // fetch prof from db
   fetch('/api/professor')
     // if response is good return it
     .then(async (response) => {
@@ -131,17 +131,17 @@ async function fetchProfessors() {
       const errorText = await response.text();
       throw new Error(errorText);
     })
-    // loop through the rooms
+    // loop through the profs
     .then((profSelection) => {
       // eslint-disable-next-line no-restricted-syntax
       for (const professor of profSelection) {
-        // create a option for every room
+        // create a option for every prof
         const profOption = document.createElement('option');
-        // set value to room id
+        // set value to prof id
         profOption.value = professor.professor_id;
-        // set text to room and number
+        // set text to last name
         profOption.text = `Professor ${professor.last_name}`;
-        // add each room
+        // add each prof
         profSelect.appendChild(profOption);
       }
     })
