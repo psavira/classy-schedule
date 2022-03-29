@@ -181,5 +181,3 @@ function clearTable() {
     tableSelect.value = '';
   });
 }
-
-

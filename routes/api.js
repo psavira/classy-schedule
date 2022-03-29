@@ -4,6 +4,7 @@ const router = express.Router();
 const Course = require('../models/course.model');
 const Department = require('../models/department.model');
 const Room = require('../models/room.model');
+const Professor = require('../models/professor.model');
 
 router.use((req, res, next) => {
   // Custom middleware implementation
@@ -111,5 +112,49 @@ router.get('/departments', (req, res) => {
       res.sendStatus(500);
     });
 });
+
+/* -------------------------------------------------------------------------- */
+/*                               Professor API Routes                              */
+/* -------------------------------------------------------------------------- */
+
+router.get('/professor', (req, res) => {
+  // Get all rooms from database and send to client
+  Professor.getAll()
+    .then((professor) => {
+      res.send(JSON.stringify(professor));
+    })
+    .catch((err) => {
+      console.log(err.message);
+      res.sendStatus(500);
+    });
+});
+
+router.post('/professor', (req, res) => {
+  const newProf = req.body;
+
+  // Check if room form data is valid
+  const { valid, errors } = Professor.isValid(newProf);
+
+  if (valid) {
+    // Attempt to insert a new room in the database
+    Professor.create(newProf)
+      .then(() => {
+        res.sendStatus(200);
+      })
+      .catch((error) => {
+        console.error(error.message);
+        res.sendStatus(500);
+      });
+  } else {
+    // Form error response text and send to client
+    res.statusCode = 407;
+    let responseText = 'Malformed Request. Errors: ';
+    errors.forEach((error) => {
+      responseText += `${error}\n`;
+    });
+    res.send(responseText);
+  }
+});
+
 
 module.exports = router;

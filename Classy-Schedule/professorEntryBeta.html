@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <link href="./css/foundation.min.css" rel="stylesheet" />    
-<script src="js/roomEntryBeta.js"></script>
+<script src="js/professorEntryBeta.js"></script>
 <div class="top-bar">
   <div class="top-bar-left">
     <ul class="dropdown menu" data-dropdown-menu>
@@ -38,25 +38,35 @@
     <link href="css/classEntry.css" rel="stylesheet" type="text/css" />
     <!--<script src="js/vendor/foundation.min.js"></script>-->
     <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
-    <script src="js/roomEntryBeta.js"></script>
-    <title>Room Entry</title>
+    <script src="js/professorEntryBeta.js"></script>
+    <title>Professor Entry</title>
   </head>
   <body>
-    <form id="roomForm">
+    <form id="profForm">
       <div class="grid-container">
         <label
-          >Room Number
-          <input type="text" name="roomNum" placeholder="Room Number" />
+          >Professor ID
+          <input type="number" name="profNum" placeholder="Professor ID" />
+        </label>
+
+        <label
+          >First Name
+          <input type="text" name="firstName" placeholder="First Name" />
+        </label>
+
+        <label
+          >Last Name
+          <input type="text" name="lastName" placeholder="Last Name" />
         </label>
 
         <div class="grid-x grid-padding-x">
           <div class="cell large-12">
           <div class="cell small-6">
             <label
-              >Capacity
+              >Teach Load
               <input
                 type="number"
-                name="capacity"
+                name="teachLoad"
                 placeholder="xx"
                 max="100"
                 min="0"
@@ -79,14 +89,14 @@
         <div class="cell large-12">
           <div class="cell small-6">
             <label>
-              Room to Delete
-              <select name="roomDelSelect" id="roomSelect"></select>
+              Professor to Delete
+              <select name="profDelSelect" id="profSelect"></select>
             </label>
           </div>
           <button
             type="button"
             class="alert button"
-            onclick="deleteRoom()"
+            onclick="deleteProf()"
           >
             DELETE
           </button>
@@ -96,8 +106,9 @@
     <div id="alertContainer"></div>
 
     <script>
-      fetchRooms()
+      //fetchRooms()
       //fetchClasses()
+      fetchProfessors()
     </script>
   </body>
 </html>
