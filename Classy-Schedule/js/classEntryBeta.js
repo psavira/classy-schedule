@@ -1,30 +1,28 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-plusplus */
-/* eslint-disable no-undef */
-/* eslint-disable no-use-before-define */
 /** function to send form to db */
 async function submitForm() {
   // Clear any alerts
-  // eslint-disable-next-line no-use-before-define
   clearAlerts();
 
-  // eslint-disable-next-line no-undef
-  // make a form
-  // eslint-disable-next-line no-undef
+  // Get the form from the document
   const { classForm } = document.forms;
-  // get class name
+
+  // Clear form error highlighting
+  classForm.className.classList.remove('error');
+  classForm.department.classList.remove('error');
+  classForm.classNumber.classList.remove('error');
+  classForm.capacity.classList.remove('error');
+  classForm.credits.classList.remove('error');
+
+  // Get form values
   const className = classForm.className.value;
-  // get dept id
   const deptID = classForm.department.value;
-  // get class number
   const classNum = classForm.classNumber.value;
-  // get capacity
   const capacity = classForm.capacity.value;
-  // get credits
   const credits = classForm.credits.value;
-  // if all info works
+
+  // If info is all valid
   if (isValidForm(className, deptID, classNum, capacity, credits)) {
-    // make a var to hold info
+    // Create an object to POST as JSON
     const postData = {
       className,
       deptID,
@@ -32,38 +30,36 @@ async function submitForm() {
       capacity,
       credits,
     };
-    // get the courses from database
+
+    // POST the data to upload the course
     fetch('/api/course', {
-      // send to db
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(postData),
     })
-      // if response okay
       .then(async (response) => {
-        // say success
+        // Check that response code is 200
         if (response.ok) {
           clearAlerts();
-          showAlert('Success!');
+          showAlert('Success!', 'success');
           // Clear form
           classForm.className.value = '';
           classForm.department.value = '';
           classForm.classNumber.value = '';
           classForm.capacity.value = '';
           classForm.credits.value = '';
-          // otherwise don't send and show alerts
         } else {
           clearAlerts();
           const text = await response.text();
           showAlert(text);
         }
       })
-      // catch the error and show error message
+      // catch any errors and show error message
       .catch((error) => {
         clearAlerts();
         showAlert(error.message);
       });
-    showAlert('Sending request...');
+    showAlert('Sending request...', 'warning');
   }
 }
 
@@ -75,46 +71,54 @@ function isValidForm(className, deptID, classNum, capacity, credits) {
   // Validate class name if empty
   if (validator.isEmpty(className)) {
     showAlert('Please enter a class name.');
-    alertCount++;
+    document.forms.classForm.className.classList.add('error');
+    alertCount += 1;
   }
 
   // Validate department if empty
   if (validator.isEmpty(deptID)) {
     showAlert('Please pick a department.');
-    alertCount++;
+    document.forms.classForm.department.classList.add('error');
+    alertCount += 1;
   }
 
   // Validate class number if empty
   if (validator.isEmpty(classNum)) {
     showAlert('Please enter a class number.');
-    alertCount++;
+    document.forms.classForm.classNumber.classList.add('error');
+    alertCount += 1;
   }
   // if class number isn't an int show alert
   if (!validator.isInt(classNum)) {
     showAlert('Class number should be an integer.');
-    alertCount++;
+    document.forms.classForm.classNumber.classList.add('error');
+    alertCount += 1;
   }
 
   // Validate capacity if empry
   if (validator.isEmpty(capacity)) {
     showAlert('Please enter class capacity.');
-    alertCount++;
+    document.forms.classForm.capacity.classList.add('error');
+    alertCount += 1;
   }
   // validate capacity if not integer
   if (!validator.isInt(capacity)) {
     showAlert('Class capacity should be an integer.');
-    alertCount++;
+    document.forms.classForm.capacity.classList.add('error');
+    alertCount += 1;
   }
 
   // Validate credits if empty
   if (validator.isEmpty(credits)) {
     showAlert('Please enter class credits.');
-    alertCount++;
+    document.forms.classForm.credits.classList.add('error');
+    alertCount += 1;
   }
   // validate credits if not integer
   if (!validator.isInt(credits)) {
     showAlert('Class credits should be an integer.');
-    alertCount++;
+    document.forms.classForm.credits.classList.add('error');
+    alertCount += 1;
   }
 
   // Fail if any alerts
@@ -123,13 +127,15 @@ function isValidForm(className, deptID, classNum, capacity, credits) {
 }
 
 /* method to show the alerts that pop when filling class entry form */
-function showAlert(alertText) {
+function showAlert(alertText, alertClass) {
+  // if defined, use parameter alert class. Otherwise, use 'alert'
+  alertClass = alertClass || 'alert';
   // container to hold alerts
   const alertContainer = document.getElementById('alertContainer');
   // make alert a div element
   const alert = document.createElement('div');
-  // add callout and warning to alert
-  alert.classList.add('callout', 'warning');
+  // add callout and alert class to alert
+  alert.classList.add('callout', alertClass);
   alert.innerText = alertText;
   // add alert to alert container
   alertContainer.appendChild(alert);
@@ -143,13 +149,12 @@ function clearAlerts() {
   const children = [...alertContainer.children];
   // eslint-disable-next-line no-restricted-syntax
   // loop through the alerts
-  // eslint-disable-next-line no-restricted-syntax
-  for (const child of children) {
+  children.forEach((child) => {
     // print out alert
     console.log(child);
     // remove the alerts
     alertContainer.removeChild(child);
-  }
+  });
 }
 
 /* fetch the departments from database */
@@ -170,8 +175,7 @@ async function fetchDepartments() {
     })
     // loop through the departments
     .then((departments) => {
-      // eslint-disable-next-line no-restricted-syntax
-      for (const department of departments) {
+      departments.forEach((department) => {
         // create an element for each department
         const departmentOption = document.createElement('option');
         // set the value to department ID
@@ -180,7 +184,7 @@ async function fetchDepartments() {
         departmentOption.textContent = department.dept_name;
         // add department to departmentSelect
         departmentSelect.appendChild(departmentOption);
-      }
+      });
     })
     // show alert message
     .catch((error) => {
@@ -206,8 +210,7 @@ async function fetchClasses() {
     })
     // loop through courses
     .then((testclasses) => {
-      // eslint-disable-next-line no-restricted-syntax
-      for (const classes of testclasses) {
+      testclasses.forEach((classes) => {
         // create element for each course
         const classOption = document.createElement('option');
         // set value to dept id
@@ -216,7 +219,7 @@ async function fetchClasses() {
         classOption.textContent = classes.className;
         // add each course
         classSelect.appendChild(classOption);
-      }
+      });
     })
     // catch errors and show message
     .catch((error) => {

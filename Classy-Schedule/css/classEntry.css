@@ -107,3 +107,7 @@
     text-align: center;
   }
 }
+
+input.error {
+  outline: 2px solid red;
+}

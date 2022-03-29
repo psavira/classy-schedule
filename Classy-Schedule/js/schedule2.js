@@ -1,92 +1,3 @@
-/* eslint-disable no-useless-concat */
-/* eslint-disable eqeqeq */
-/* eslint-disable no-undef */
-/* eslint-disable no-plusplus */
-/** Gets classes from the database and populates page elements with available class options */
-// eslint-disable-next-line no-unused-vars
-async function fetchClasses() {
-  // gets class of classes
-  const classSelect = document.getElementsByClassName('classSelection');
-  // fetch the courses
-  fetch('/api/courses')
-  // if it works correctly
-    .then(async (response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      // throw an error if response is not okay
-      const errorText = await response.text();
-      throw new Error(errorText);
-    })
-    // loop through the classes
-    .then((classSelection) => {
-      // eslint-disable-next-line no-restricted-syntax
-      for (const classes of classSelection) {
-        // create an element for options
-        const classOption = document.createElement('option');
-        // set the options to department id 1 for cisc otherwise stat
-        classOption.value = classes.dept_id;
-        if (classes.dept_id == 1) {
-          classOption.text = `CISC ${classes.class_num}`;
-        } else {
-          classOption.text = `STAT ${classes.class_num}`;
-        }
-        // loop through the classes and append them to get all class options
-        for (let i = 0; i < classSelect.length; i++) {
-          classSelect[i].appendChild(classOption.cloneNode(true));
-        }
-      }
-    })
-    // showing errors
-    .catch((error) => {
-      // eslint-disable-next-line no-use-before-define
-      clearAlerts();
-      // eslint-disable-next-line no-use-before-define
-      showAlert(error.message);
-    });
-}
-
-/** Gets room information from the database and populates page room options */
-// eslint-disable-next-line no-unused-vars
-async function fetchRooms() {
-  // create an element to hold rooms
-  const roomSelect = document.getElementById('roomSelect');
-  // fetch rooms
-  fetch('/api/room')
-    // check for errors if okay
-    .then(async (response) => {
-      // if the response is good
-      if (response.ok) {
-        return response.json();
-      }
-      // if error - throw it
-      const errorText = await response.text();
-      throw new Error(errorText);
-    })
-    // go through the rooms
-    .then((roomSelection) => {
-      // loop through the rooms
-      // eslint-disable-next-line no-restricted-syntax
-      for (const room of roomSelection) {
-        // create an element to hold room options
-        const roomOption = document.createElement('option');
-        // set value to room id
-        roomOption.value = room.room_id;
-        // roomOption hold room number
-        roomOption.text = `ROOM ${room.room_num}`;
-        // append child to get all room options
-        roomSelect.appendChild(roomOption);
-      }
-    })
-    // show errors or success
-    .catch((error) => {
-      // eslint-disable-next-line no-use-before-define
-      clearAlerts();
-      // eslint-disable-next-line no-use-before-define
-      showAlert(error.message);
-    });
-}
-
 /**
  * Displays an alert box to the user
  * @param alertText Text that appears in the alert box
@@ -110,18 +21,93 @@ function clearAlerts() {
   // assing children of alert
   const children = [...alertContainer.children];
   // loop through alerts
-  // eslint-disable-next-line no-restricted-syntax
-  for (const child of children) {
+  children.forEach((child) => {
     // print out alerts
     console.log(child);
     // remove alert that got printed
     alertContainer.removeChild(child);
-  }
+  });
+}
+
+/** Gets classes from the database and populates page elements with available class options */
+async function fetchClasses() {
+  // gets class of classes
+  const classSelect = document.getElementsByClassName('classSelection');
+  // fetch the courses
+  fetch('/api/courses')
+  // if it works correctly
+    .then(async (response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      // throw an error if response is not okay
+      const errorText = await response.text();
+      throw new Error(errorText);
+    })
+    // loop through the classes
+    .then((classSelection) => {
+      classSelection.forEach((classes) => {
+        // create an element for options
+        const classOption = document.createElement('option');
+        // set the options to department id 1 for cisc otherwise stat
+        classOption.value = classes.dept_id;
+        if (classes.dept_id === 1) {
+          classOption.text = `CISC ${classes.class_num}`;
+        } else {
+          classOption.text = `STAT ${classes.class_num}`;
+        }
+        // loop through the classes and append them to get all class options
+        for (let i = 0; i < classSelect.length; i += 1) {
+          classSelect[i].appendChild(classOption.cloneNode(true));
+        }
+      });
+    })
+    // showing errors
+    .catch((error) => {
+      clearAlerts();
+      showAlert(error.message);
+    });
+}
+
+/** Gets room information from the database and populates page room options */
+async function fetchRooms() {
+  // create an element to hold rooms
+  const roomSelect = document.getElementById('roomSelect');
+  // fetch rooms
+  fetch('/api/room')
+    // check for errors if okay
+    .then(async (response) => {
+      // if the response is good
+      if (response.ok) {
+        return response.json();
+      }
+      // if error - throw it
+      const errorText = await response.text();
+      throw new Error(errorText);
+    })
+    // go through the rooms
+    .then((roomSelection) => {
+      // loop through the rooms
+      roomSelection.forEach((room) => {
+        // create an element to hold room options
+        const roomOption = document.createElement('option');
+        // set value to room id
+        roomOption.value = room.room_id;
+        // roomOption hold room number
+        roomOption.text = `ROOM ${room.room_num}`;
+        // append child to get all room options
+        roomSelect.appendChild(roomOption);
+      });
+    })
+    // show errors or success
+    .catch((error) => {
+      clearAlerts();
+      showAlert(error.message);
+    });
 }
 
 /* funtion that makes a table holding all the classes entered. This will allow user
 to see what has been entered and what options they have for schedule */
-// eslint-disable-next-line no-unused-vars
 function makeTable() {
   // get the courses
   fetch('/api/courses')
@@ -136,21 +122,20 @@ function makeTable() {
     })
     .then((classSelection) => {
       // get the table from id
-      // eslint-disable-next-line no-undef
       const table = document.getElementById('classtable');
       // print makeTable
       console.log('makeTable()');
       // loop through the classes
-      for (let i = 0; i < classSelection.length; i++) {
+      for (let i = 0; i < classSelection.length; i += 1) {
         // make a row for each class
         const row = document.createElement('tr');
         // if dept_id for class is 1 = cisc
         // these will be the  data in each row
-        if (classSelection[i].dept_id == 1) {
-          row.innerHTML += '<td> ' + 'CISC' + '</td>';
+        if (classSelection[i].dept_id === 1) {
+          row.innerHTML += '<td>CISC</td>';
         // else its STAT
         } else {
-          row.innerHTML += '<td> ' + 'STAT' + '</td>';
+          row.innerHTML += '<td>STAT</td>';
         }
         // in each row along with dept we add class number
         // classname, capacity, and credits
@@ -170,14 +155,11 @@ function makeTable() {
 }
 
 /** Sets the table to an empty configuration */
-// eslint-disable-next-line no-unused-vars
 function clearTable() {
   // get the table
-  // eslint-disable-next-line no-undef
   const tableSelects = document.querySelectorAll('#table select');
   // for each row in table - clear it
   tableSelects.forEach((tableSelect) => {
-    // eslint-disable-next-line no-param-reassign
     tableSelect.value = '';
   });
 }
