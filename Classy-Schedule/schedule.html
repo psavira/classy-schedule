@@ -27,22 +27,6 @@
     </div>
   </div>
       
-          color: black;
-          height:30px;
-          width: 50px;
-        }
-        table,th,td
-        {
-          border:2px solid black;
-        }
-        table
-        {
-          width:30%;
-          width: 60px;
-          text-align:center;
-        }
-      </style> -->
-
       <style>
         * {
           box-sizing: border-box;
@@ -96,8 +80,6 @@
 <body>
 
 
-<!-- <button type="button" class="button" onclick="makeTable()"> CLICK ME </button> -->
-
 <div id="alertContainer"></div>
 
 <div class="grid-x grid-margin-x">
@@ -136,17 +118,8 @@
 
                     <td>8:15 - 9:20am</td>
 
-
-                    <td><select class="classSelection" name="classSelection" id="classSelection0" onChange="changecat(this.value);">
-                      <option value="" selected hidden>Choose HERE</option>
-                    </select>
-                  </td>
-                    <select name="classSelection" id="classSelection1">
-                      <option value="" disabled selected>Select</option>
-                    </select>
-
-
-                    <!--<td><select class="classSelection" name="classSelection" id="classSelection0"><option value="" selected hidden>Choose Class</option></select></td>-->
+                    
+                    <td><select class="classSelection" name="classSelection" id="classSelection0"><option value="" selected hidden>Choose Class</option></select></td>
                     <td><select class="classSelection" name="classSelection" id="classSelection1"><option value="" selected hidden>Choose Class</option></select></td>
                     <td><select class="classSelection" name="classSelection" id="classSelection2"><option value="" selected hidden>Choose Class</option></select></td>
                 </tr>
@@ -303,5 +276,6 @@
         fetchClasses()
         fetchRooms()
         makeTable()
-    </script>
+        </script>
+
 </html>
