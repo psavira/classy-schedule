@@ -1,33 +1,5 @@
 <!DOCTYPE html>
 
-<link href="./css/foundation.min.css" rel="stylesheet" />    
-<script src="js/classEntryBeta.js"></script>
-<div class="top-bar">
-    <div class="top-bar-left">
-      <ul class="dropdown menu" data-dropdown-menu>
-        <li class="menu-text"><a href="indexAfterlogin.html" class="schedule-link anchor">
-            <img
-                alt="image"
-                width="109"
-                height="98"
-                src="Classy-Schedule.jpg"
-                class="schedule-image"
-            /></a></li>
-            <li class="menu-text"><a href="help.html">Help</a></li>
-            <li class="menu-text"><a href="classEntryBeta.html">Class Entry</a></li>
-            <li class="menu-text"><a href="roomEntryBeta.html">Room Entry</a></li>
-            <li class="menu-text"><a href="schedule.html">Schedule</a></li>
-            <li class="menu-text"><a href="about.html">About</a></li>
-      </ul>
-    </div>
-    <div class="top-bar-right">
-      <ul class="menu">
-        <li><a href="index.html"><button type="button" class="button">Logout</button></a></li>
-      </ul>
-    </div>
-  </div>
-
-  
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -41,6 +13,42 @@
     <title>Class Entry</title>
   </head>
   <body>
+    <!-- NAVBAR START -->
+    <div class="top-bar">
+      <div class="top-bar-left">
+        <ul class="dropdown menu" data-dropdown-menu>
+          <li class="menu-text">
+            <a href="indexAfterlogin.html" class="schedule-link anchor">
+              <img
+                alt="image"
+                width="109"
+                height="98"
+                src="Classy-Schedule.jpg"
+                class="schedule-image"
+            /></a>
+          </li>
+          <li class="menu-text"><a href="help.html">Help</a></li>
+          <li class="menu-text">
+            <a href="classEntryBeta.html">Class Entry</a>
+          </li>
+          <li class="menu-text"><a href="roomEntryBeta.html">Room Entry</a></li>
+          <li class="menu-text"><a href="schedule.html">Schedule</a></li>
+          <li class="menu-text"><a href="about.html">About</a></li>
+        </ul>
+      </div>
+      <div class="top-bar-right">
+        <ul class="menu">
+          <li>
+            <a href="index.html"
+              ><button type="button" class="button">Logout</button></a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- NAVBAR END -->
+
+    <!-- FORM START -->
     <form id="classForm">
       <div class="grid-container">
         <label
@@ -55,13 +63,7 @@
               <select name="department" id="department"></select>
             </label>
           </div>
-          <div class="cell large-12">
-            <label
-              >Classes
-              <select name="testclasses" id="testclasses"></select>
-            </label>
-          </div>
-          
+
           <div class="cell small-6">
             <label
               >Class Number
@@ -107,12 +109,13 @@
         </button>
       </div>
     </form>
+    <!-- FORM END -->
 
     <div id="alertContainer"></div>
 
+    <!-- Run scripts on page load -->
     <script>
-      fetchDepartments()
-      fetchClasses()
+      fetchDepartments();
     </script>
   </body>
 </html>
