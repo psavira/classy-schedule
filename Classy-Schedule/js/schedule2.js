@@ -50,7 +50,7 @@ async function fetchClasses() {
         // create an element for options
         const classOption = document.createElement('option');
         // set the options to department id 1 for cisc otherwise stat
-        classOption.value = classes.class_num;
+        classOption.value = classes.dept_id + '-' + classes.class_num;
         if (classes.dept_id === 1) {
           classOption.text = `CISC ${classes.class_num}`;
         } else {
