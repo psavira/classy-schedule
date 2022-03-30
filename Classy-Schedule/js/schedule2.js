@@ -50,7 +50,7 @@ async function fetchClasses() {
         // create an element for options
         const classOption = document.createElement('option');
         // set the options to department id 1 for cisc otherwise stat
-        classOption.value = classes.dept_id;
+        classOption.value = classes.class_num;
         if (classes.dept_id === 1) {
           classOption.text = `CISC ${classes.class_num}`;
         } else {
@@ -199,4 +199,12 @@ function saveTable() {
 
   // call the link download
   newLink.click();
+}
+
+function autoFill(num) {
+  if(document.getElementById(`classSelection${num}`).value != 'Choose Class'){
+    document.getElementById(`classSelection${num+1}`).value = document.getElementById(`classSelection${num}`).value;
+    document.getElementById(`classSelection${num+2}`).value = document.getElementById(`classSelection${num}`).value;
+    console.log(document.getElementById(`classSelection${num}`).value);
+  }
 }
