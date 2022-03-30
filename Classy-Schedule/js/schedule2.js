@@ -163,3 +163,40 @@ function clearTable() {
     tableSelect.value = '';
   });
 }
+
+function saveTable() {
+  // test to make sure button is working when being clicked
+  console.log('button clicked');
+  // array to save dropdown values into
+  const data = [];
+
+  // loop through all dropdown menus (hard coded since we know exact # of them)
+  for (let i = 0; i < 36; i += 1) {
+    // temp string to access each menu
+    let tempstr = 'classSelection';
+    // classSelection + 0 = classSelection0
+    tempstr += i;
+    // get the dropdown
+    const dropdownMenu = document.getElementById(tempstr);
+    // push its value to data[]
+    data.push(dropdownMenu.options[dropdownMenu.selectedIndex].text);
+  }
+  // make a blob from data[], set file to plaintext
+  const textToBLOB = new Blob([data], { type: 'text/plain' });
+  // The file to save the data.
+  const sFileName = 'formData.txt';
+  // make invisible download link
+  const newLink = document.createElement('a');
+  // set links download to our file
+  newLink.download = sFileName;
+  if (window.webkitURL != null) {
+    newLink.href = window.webkitURL.createObjectURL(textToBLOB);
+  } else {
+    newLink.href = window.URL.createObjectURL(textToBLOB);
+    newLink.style.display = 'none';
+    document.body.appendChild(newLink);
+  }
+
+  // call the link download
+  newLink.click();
+}
