@@ -6,6 +6,10 @@
 async function submitForm() {
   // Clear any alerts
   clearAlerts();
+
+  roomForm.roomNum.classList.remove('error');
+  roomForm.capacity.classList.remove('error');
+
   // create form to hold room entry
   // eslint-disable-next-line camelcase
   const room_form = document.forms.roomForm;
@@ -67,22 +71,26 @@ function isValidForm(room_num, capacity) {
   // Validate class name if empty
   if (validator.isEmpty(room_num)) {
     showAlert('Please enter a room number.');
+    document.forms.roomForm.roomNum.classList.add('error');
     alertContainer++;
   }
 
   // Validate department if empty
   if (validator.isEmpty(capacity)) {
     showAlert('Please enter a room capacity.');
+    document.forms.roomForm.capacity.classList.add('error');
     alertContainer++;
   }
   // validate room number if not integer
   if (!validator.isInt(room_num)) {
     showAlert('Room number should be an integer.');
+    document.forms.roomForm.roomNum.classList.add('error');
     alertContainer++;
   }
   // validate capacity if not integer
   if (!validator.isInt(capacity)) {
     showAlert('Room capacity should be an integer.');
+    document.forms.roomForm.capacity.classList.add('error');
     alertContainer++;
   }
 
@@ -128,31 +136,33 @@ async function fetchRooms() {
     });
 }
 
-/** function to show error messages */
-function showAlert(alertText) {
-  // create container to hold alerts
+/* method to show the alerts that pop when filling room entry form */
+function showAlert(alertText, alertClass) {
+  // if defined, use parameter alert class. Otherwise, use 'alert'
+  alertClass = alertClass || 'alert';
+  // container to hold alerts
   const alertContainer = document.getElementById('alertContainer');
-  // create alert div
+  // make alert a div element
   const alert = document.createElement('div');
-  // add callout and warnings
-  alert.classList.add('callout', 'warning');
+  // add callout and alert class to alert
+  alert.classList.add('callout', alertClass);
   alert.innerText = alertText;
-  // add alert to container
+  // add alert to alert container
   alertContainer.appendChild(alert);
 }
 
-/** function to clear the alerts */
+/* function to remove alerts */
 function clearAlerts() {
-  // make alert container to hold alerts
+  // make a container to hold alerts
   const alertContainer = document.getElementById('alertContainer');
-  // array to hold all alerts
+  // array of alerts
   const children = [...alertContainer.children];
-  // loop through the alerts
   // eslint-disable-next-line no-restricted-syntax
-  for (const child of children) {
-    // print error
+  // loop through the alerts
+  children.forEach((child) => {
+    // print out alert
     console.log(child);
-    // remove the error
+    // remove the alerts
     alertContainer.removeChild(child);
-  }
+  });
 }

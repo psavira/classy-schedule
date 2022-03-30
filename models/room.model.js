@@ -33,7 +33,11 @@ Room.isValid = function(room) {
 
     
     if (!validator.isInt(room.room_num)) {
-        invalid_fields.push("Class number not integer")
+        invalid_fields.push("Room number must be ints")
+    }
+
+    if (validator.isEmpty(room.room_num)) {
+        invalid_fields.push("Room number empty")
     }
 
     // Validate capacity
