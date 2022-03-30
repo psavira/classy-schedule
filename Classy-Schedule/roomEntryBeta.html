@@ -2,6 +2,8 @@
 
 <link href="./css/foundation.min.css" rel="stylesheet" />    
 <script src="js/roomEntryBeta.js"></script>
+
+<!-- Nav Bar Start -->
 <div class="top-bar">
   <div class="top-bar-left">
     <ul class="dropdown menu" data-dropdown-menu>
@@ -27,7 +29,7 @@
     </ul>
   </div>
 </div>
-
+<!-- Nav Bar End -->
   
 <html lang="en">
   <head>
@@ -42,6 +44,7 @@
     <title>Room Entry</title>
   </head>
   <body>
+    <!-- Form Start for Room Entry -->
     <form id="roomForm">
       <div class="grid-container">
         <label
@@ -63,7 +66,7 @@
               />
             </label>
           </div>
-
+        <!-- Submit Button -->
         <button
           type="button"
           class="submit success button"
@@ -73,7 +76,9 @@
         </button>
       </div>
     </form>
+    <!-- Form End for Room Entry -->
 
+    <!-- Room Delete Option Start-->
     <div class="grid-container">
       <div class="grid-x grid-padding-x">
         <div class="cell large-12">
@@ -83,6 +88,7 @@
               <select name="roomDelSelect" id="roomSelect"></select>
             </label>
           </div>
+          <!-- Delete Button -->
           <button
             type="button"
             class="alert button"
@@ -93,6 +99,9 @@
         </div>
       </div>
     </div>
+    <!-- Room Delete Option End -->
+
+    <!-- Alert Container -->
     <div id="alertContainer"></div>
 
     <script>
