@@ -24,11 +24,11 @@ async function submitForm() {
   if (isValidForm(className, deptID, classNum, capacity, credits)) {
     // Create an object to POST as JSON
     const postData = {
-      className,
-      deptID,
-      classNum,
-      capacity,
-      credits,
+      class_name: className,
+      dept_id: deptID,
+      class_num: classNum,
+      capacity: capacity,
+      credits: credits,
     };
 
     // POST the data to upload the course
@@ -179,7 +179,7 @@ async function fetchDepartments() {
         // create an element for each department
         const departmentOption = document.createElement('option');
         // set the value to department ID
-        departmentOption.value = department.deptID;
+        departmentOption.value = department.dept_id;
         // set text to department name
         departmentOption.textContent = department.dept_name;
         // add department to departmentSelect
