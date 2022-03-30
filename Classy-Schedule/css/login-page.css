@@ -9,7 +9,7 @@ body {
   display: grid;
   justify-items: center;
   align-items: center;
-  background-color: #3a3a3a;
+  background-color: #255a3d;
 }
 
 #main-holder {
@@ -75,7 +75,22 @@ body {
   border-radius: 5px;
   color: white;
   font-weight: bold;
-  background-color: #3a3a3a;
+  background-color: #255a3d;
   cursor: pointer;
   outline: none;
+}
+
+input[type="text"]
+{
+    font-size:1.75rem;
+}
+
+input[type="password"]
+{
+    font-size:1.75rem;
+}
+
+input[type="submit"]
+{
+    font-size:1.1rem;
 }
