@@ -20,7 +20,7 @@ async function submitForm() {
   if (isValidForm(room_num, capacity)) {
     // hold info in post data
     const postData = {
-      room_num: roomNum,
+      room_num: room_num,
       // eslint-disable-next-line object-shorthand
       capacity: capacity,
     };

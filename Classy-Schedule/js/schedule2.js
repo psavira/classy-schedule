@@ -50,7 +50,7 @@ async function fetchClasses() {
         // create an element for options
         const classOption = document.createElement('option');
         // set the options to department id 1 for cisc otherwise stat
-        classOption.value = classes.class_num;
+        classOption.value = classes.dept_id + '-' + classes.class_num;
         if (classes.dept_id === 1) {
           classOption.text = `CISC ${classes.class_num}`;
         } else {
@@ -174,15 +174,60 @@ function saveTable() {
   for (let i = 0; i < 36; i += 1) {
     // temp string to access each menu
     let tempstr = 'classSelection';
+    let temptimestr;
+    let finalstr = '';
     // classSelection + 0 = classSelection0
     tempstr += i;
     // get the dropdown
     const dropdownMenu = document.getElementById(tempstr);
+    // add time slots based on index
+    if (i < 3) {
+      temptimestr = 'MWF 8:15-9:20am: ';
+    } else if (i >= 3 && i < 6) {
+      temptimestr = 'MWF 9:35-10:40am: ';
+    } else if (i >= 6 && i < 9) {
+      temptimestr = 'MWF 10:55am - 12:00pm: ';
+    } else if (i >= 9 && i < 12) {
+      temptimestr = 'MWF 12:15-1:20pm: ';
+    } else if (i >= 12 && i < 15) {
+      temptimestr = 'MWF 1:35-2:40pm: ';
+    } else if (i >= 15 && i < 18) {
+      temptimestr = 'MWF 3:25-5:00pm: ';
+    } else if (i >= 18 && i < 21) {
+      temptimestr = 'MWF 5:30-7:15pm: ';
+    } else if (i >= 21 && i < 24) {
+      temptimestr = 'MWF 7:30-9:00pm: ';
+    } else if (i >= 24 && i < 27) {
+      temptimestr = 'TTH 8:00-9:40am: ';
+    } else if (i >= 27 && i < 30) {
+      temptimestr = 'TTH 9:55-11:35am: ';
+    } else if (i >= 30 && i < 33) {
+      temptimestr = 'TTH 1:30-3:10pm: ';
+    } else if (i >= 33 && i < 36) {
+      temptimestr = 'TTH 3:25-5:00pm: ';
+    } else if (i >= 36 && i < 39) {
+      temptimestr = 'TTH 5:30-7:15pm: ';
+    } else if (i >= 39 && i < 42) {
+      temptimestr = 'TTH 7:30-9:15pm: ';
+    }
+    // get dropdown value
+    let dropdownValue = dropdownMenu.options[dropdownMenu.selectedIndex].text;
+
+    // if no class is selected just put 'none'
+    if (dropdownValue === 'Choose Class') {
+      temptimestr = '';
+      dropdownValue = '--';
+    }
+
+    finalstr += temptimestr + dropdownValue;
+    finalstr += '\n';
     // push its value to data[]
-    data.push(dropdownMenu.options[dropdownMenu.selectedIndex].text);
+    data.push(finalstr);
   }
+
+  data.join(' ');
   // make a blob from data[], set file to plaintext
-  const textToBLOB = new Blob([data], { type: 'text/plain' });
+  const textToBLOB = new Blob(data, { type: 'text/plain' });
   // The file to save the data.
   const sFileName = 'formData.txt';
   // make invisible download link
@@ -200,6 +245,7 @@ function saveTable() {
   // call the link download
   newLink.click();
 }
+
 
 // Auto-fills Weds and Fri slots when Monday is selected
 function autoFill(num) {
