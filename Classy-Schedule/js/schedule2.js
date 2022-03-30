@@ -201,10 +201,17 @@ function saveTable() {
   newLink.click();
 }
 
+// Auto-fills Weds and Fri slots when Monday is selected
 function autoFill(num) {
   if(document.getElementById(`classSelection${num}`).value != 'Choose Class'){
     document.getElementById(`classSelection${num+1}`).value = document.getElementById(`classSelection${num}`).value;
     document.getElementById(`classSelection${num+2}`).value = document.getElementById(`classSelection${num}`).value;
-    console.log(document.getElementById(`classSelection${num}`).value);
+  }
+}
+
+// Auto-fills Thurs when Tues is selected
+function autoFillTuesThurs(num) {
+  if(document.getElementById(`classSelection${num}`).value != 'Choose Class'){
+    document.getElementById(`classSelection${num+1}`).value = document.getElementById(`classSelection${num}`).value;
   }
 }
