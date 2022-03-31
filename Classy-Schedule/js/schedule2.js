@@ -261,8 +261,11 @@ function saveTable() {
 
 // Fires when an option is selected from drop down on schedule page
 function onSelectSchedule(num){
-  autoFill(num);
-  autoFillTuesThurs(num);
+  if(num<=23){
+    autoFill(num);
+  }else{
+    autoFillTuesThurs(num);
+  }
   tableUpdate(num);
 }
 
@@ -272,8 +275,6 @@ function autoFill(num) {
   let monValue = document.getElementById(`classSelection${num}`).value;
   let wedValue = document.getElementById(`classSelection${num+1}`).value;
   let friValue = document.getElementById(`classSelection${num+2}`).value;
-
-  console.log(monValue);
 
   if(monValue != 'Choose Class'){
     if(wedValue == 'Choose Class'){
