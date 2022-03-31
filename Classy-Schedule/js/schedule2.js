@@ -249,15 +249,30 @@ function saveTable() {
 
 // Auto-fills Weds and Fri slots when Monday is selected
 function autoFill(num) {
-  if(document.getElementById(`classSelection${num}`).value != 'Choose Class'){
-    document.getElementById(`classSelection${num+1}`).value = document.getElementById(`classSelection${num}`).value;
-    document.getElementById(`classSelection${num+2}`).value = document.getElementById(`classSelection${num}`).value;
+  let monValue = document.getElementById(`classSelection${num}`).value;
+  let wedValue = document.getElementById(`classSelection${num+1}`).value;
+  let friValue = document.getElementById(`classSelection${num+2}`).value;
+
+  console.log(monValue);
+
+  if(monValue != 'Choose Class'){
+    if(wedValue == 'Choose Class'){
+      document.getElementById(`classSelection${num+1}`).value = monValue;
+    }
+    if(friValue == 'Choose Class'){
+      document.getElementById(`classSelection${num+2}`).value = monValue;
+    }
   }
 }
 
 // Auto-fills Thurs when Tues is selected
 function autoFillTuesThurs(num) {
-  if(document.getElementById(`classSelection${num}`).value != 'Choose Class'){
-    document.getElementById(`classSelection${num+1}`).value = document.getElementById(`classSelection${num}`).value;
+  var tuesValue = document.getElementById(`classSelection${num}`).value;
+  var thursValue = document.getElementById(`classSelection${num+1}`).value;
+
+  if(tuesValue != 'Choose Class'){
+    if (thursValue == 'Choose Class'){
+      document.getElementById(`classSelection${num+1}`).value = tuesValue;
+    }
   }
 }
