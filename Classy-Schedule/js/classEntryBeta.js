@@ -226,4 +226,5 @@ async function fetchClasses() {
       clearAlerts();
       showAlert(error.message);
     });
+
 }

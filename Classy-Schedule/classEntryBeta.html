@@ -41,13 +41,14 @@
     <!-- NAVBAR END -->
 
     <!-- FORM START -->
-    <form id="classForm">
+    <form id="classForm" name="classForm" >
       <div class="grid-container">
         <label
+        
           >Class Name
-          <input type="text" name="className" placeholder="Class Name" />
+          <input type="text" name="className" placeholder="Class Name" maxlength="25"/>
         </label>
-
+ <!-- I think i got all the errors except negatives -->
         <div class="grid-x grid-padding-x">
           <div class="cell small-6">
             <label
@@ -59,7 +60,8 @@
           <div class="cell small-6">
             <label
               >Class Number
-              <input type="text" name="classNumber" placeholder="xxx" />
+              <input type="text" name="classNumber" maxlength="6"
+              min="0" placeholder="xxxxxx" />
             </label>
           </div>
         </div>
@@ -72,8 +74,12 @@
                 type="number"
                 name="capacity"
                 placeholder="xx"
-                max="100"
+                pattern="\d*"
                 min="0"
+                max="99"
+                maxlength="2"
+                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                step="1"
               />
             </label>
           </div>
@@ -85,8 +91,12 @@
                 type="number"
                 name="credits"
                 placeholder="x"
+                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                 max="4"
                 min="0"
+                step="1"
+                maxlength="1"
+                
               />
             </label>
           </div>
@@ -109,5 +119,6 @@
     <script>
       fetchDepartments();
     </script>
+    
   </body>
 </html>

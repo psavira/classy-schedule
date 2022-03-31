@@ -75,6 +75,7 @@ function isValidForm(room_num, capacity) {
     alertContainer++;
   }
 
+
   // Validate department if empty
   if (validator.isEmpty(capacity)) {
     showAlert('Please enter a room capacity.');
