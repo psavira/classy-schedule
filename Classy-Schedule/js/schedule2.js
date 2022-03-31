@@ -142,7 +142,20 @@ function makeTable() {
         row.innerHTML += `<td> ${classSelection[i].class_num}</td>`;
         row.innerHTML += `<td> ${classSelection[i].class_name}</td>`;
         row.innerHTML += `<td> ${classSelection[i].capacity}</td>`;
-        row.innerHTML += `<td> ${classSelection[i].credits}</td>`;
+        row.innerHTML += 
+          `<input
+            type="number"
+            name="capacity"
+            placeholder="1"
+            value = "1"
+            pattern="\d*"
+            min="0"
+            max="99"
+            maxlength="2"
+            onkeyup="if(this.value<0){this.value= this.value * -1}"
+            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+            step="1"
+            />`;
         // add row to table
         table.appendChild(row);
       }
@@ -246,8 +259,15 @@ function saveTable() {
   newLink.click();
 }
 
+// Fires when an option is selected from drop down on schedule page
+function onSelectSchedule(num){
+  autoFill(num);
+  autoFillTuesThurs(num);
+  tableUpdate(num);
+}
 
-// Auto-fills Weds and Fri slots when Monday is selected
+/* Auto-fills Weds and Fri slots when Monday is selected :
+   DOES NOT FILL IF CLASS HAS ALREADY BEEN SELECTED FOR WED/FRI */
 function autoFill(num) {
   let monValue = document.getElementById(`classSelection${num}`).value;
   let wedValue = document.getElementById(`classSelection${num+1}`).value;
@@ -265,7 +285,8 @@ function autoFill(num) {
   }
 }
 
-// Auto-fills Thurs when Tues is selected
+/* Auto-fills Thurs when Tues is selected
+   DOES NOT FILL IF CLASS HAS ALREADY BEEN SELECTED FOR THURS */
 function autoFillTuesThurs(num) {
   var tuesValue = document.getElementById(`classSelection${num}`).value;
   var thursValue = document.getElementById(`classSelection${num+1}`).value;
@@ -275,4 +296,10 @@ function autoFillTuesThurs(num) {
       document.getElementById(`classSelection${num+1}`).value = tuesValue;
     }
   }
+}
+
+/* Will update table when class section is scheduled :
+   When Sections=0, that class will be made unavailable to schedule */
+function tableUpdate(num){
+  
 }
