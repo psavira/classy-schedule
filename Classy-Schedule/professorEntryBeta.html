@@ -46,7 +46,8 @@
       <div class="grid-container">
         <label
           >Professor ID
-          <input type="number" name="profNum" placeholder="Professor ID" />
+          <input type="number" name="profNum" onkeyup="if(this.value<0){this.value= this.value * -1}" placeholder="Professor ID" />
+          
         </label>
 
         <label
@@ -68,6 +69,7 @@
                 type="number"
                 name="teachLoad"
                 placeholder="xx"
+                onkeyup="if(this.value<0){this.value= this.value * -1}"
                 max="100"
                 min="0"
               />
