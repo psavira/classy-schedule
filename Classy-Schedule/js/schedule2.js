@@ -129,6 +129,10 @@ function makeTable() {
       for (let i = 0; i < classSelection.length; i += 1) {
         // make a row for each class
         const row = document.createElement('tr');
+
+        // adds id to each row
+        row.id = 'classRow'+i;
+        
         // if dept_id for class is 1 = cisc
         // these will be the  data in each row
         if (classSelection[i].dept_id === 1) {
@@ -145,7 +149,8 @@ function makeTable() {
         row.innerHTML += 
           `<input
             type="number"
-            name="capacity"
+            name="section"
+            id=${classSelection[i].dept_id}-${classSelection[i].class_num}
             placeholder="1"
             value = "1"
             pattern="\d*"
@@ -261,12 +266,14 @@ function saveTable() {
 
 // Fires when an option is selected from drop down on schedule page
 function onSelectSchedule(num){
+  value = document.getElementById(`classSelection${num}`).value;
+
   if(num<=23){
     autoFill(num);
   }else{
     autoFillTuesThurs(num);
   }
-  tableUpdate(num);
+  tableUpdate(value);
 }
 
 /* Auto-fills Weds and Fri slots when Monday is selected :
@@ -301,6 +308,6 @@ function autoFillTuesThurs(num) {
 
 /* Will update table when class section is scheduled :
    When Sections=0, that class will be made unavailable to schedule */
-function tableUpdate(num){
-  
+function tableUpdate(value){
+  console.log(value);
 }
