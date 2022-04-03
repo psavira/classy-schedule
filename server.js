@@ -1,35 +1,43 @@
-// used https://stackoverflow.com/questions/38757235/express-how-to-send-html-together-with-css-using-sendfile#:~:text=var%20app%20%3D%20require%20%28%27express%27%29%20%28%29%3B%20app.get%20%28%27%2F%27%2C,I%20need%20to%20send%20another%20css%20file%20%28style.css%29.
-
-// imports
+/* ---------------------------- Environment Setup --------------------------- */
+// Engine imports
 const express = require("express");
 const hbs = require('express-hbs');
+const cookieParser = require('cookie-parser')
 
-// environment variables setup
+// Import environment variables from .env
 require('dotenv').config()
 
-// router imports
-const apiRouter = require("./routes/api")
+/* -------------------------------------------------------------------------- */
+/*                                Express Setup                               */
+/* -------------------------------------------------------------------------- */
 
-// express app setup
 const app = express();
 
-// setup express views [handlebars]
+// Set view engine to Handlebars
 app.engine('hbs', hbs.express4({
     partialsDir: __dirname + '/views/partials'
 }));
 app.set('view engine', 'hbs');
 app.set('views', __dirname + '/views');
 
-// express middleware
+// Initialize cookie and json parsing middleware
 app.use(express.json())
+const cookieSecret = process.env.COOKIE_SECRET || "dev"
+app.use(cookieParser(cookieSecret))
 
-// express static paths
+// Declare static path for web resources
 app.use(express.static("Classy-Schedule"));
-// app.use("/Classy-Schedule", express.static("Classy-Schedule"));
-const PORT = process.env.PORT || 3000;
 
-// routes
+/* -------------------------------------------------------------------------- */
+/*                               Request Routing                              */
+/* -------------------------------------------------------------------------- */
+
+// Handle all API requests in the API router file
+const apiRouter = require("./routes/api")
 app.use('/api', apiRouter)
+
+/* ------------------------------- Home Routes ------------------------------ */
+// Routes that anyone can access
 
 app.get("/", (req, res) => {
     res.render('index')
@@ -43,23 +51,56 @@ app.get('/help', (req, res) => {
     res.render('help')
 })
 
-app.get('/schedule', (req, res) => {
+/* ---------------------------------- Auth ---------------------------------- */
+// Routes related to user authentication
+
+app.get('/login', (req, res) => {
+    res.render('login')
+})
+
+app.post('/login', (req, res) => {
+    const submission = req.body;
+    const user = submission.user;
+    const pass = submission.pass;
+
+    // Check that submission is a valid pair
+    // DEV IMPLEMENTATION
+    if (user === 'user' && pass == 'web_dev') {
+        // 1000 * 60 * 60 * 24 * 7 == 7 days in milliseconds
+        res.cookie('token', 'webdevteam', { maxAge: 1000 * 60 * 60 * 24 * 7, signed: true })
+        res.sendStatus(200);
+        return;
+    }
+    res.sendStatus(400)
+})
+
+/* ---------------------------- Restricted Routes --------------------------- */
+// All routes within this category require the user to be logged in.
+// Login status is verified using the isAuthorized middleware function.
+
+const { isAuthorized } = require('./middleware/auth')
+
+app.get('/schedule', isAuthorized, (req, res) => {
     res.render('schedule')
 })
 
-app.get('/addClass', (req, res) => {
+app.get('/addClass', isAuthorized, (req, res) => {
     res.render('addClass');
 })
 
-app.get('/addProfessor', (req, res) => {
+app.get('/addProfessor', isAuthorized, (req, res) => {
     res.render('addProfessor');
 })
 
-app.get('/addRoom', (req, res) => {
+app.get('/addRoom', isAuthorized, (req, res) => {
     res.render('addRoom');
 })
 
-app.listen(PORT,() => {
+/* ------------------------------- App Launch ------------------------------- */
+// Launch the app and start listening for requests on the given port
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
     console.log('App up at port %s', PORT);
 });
 

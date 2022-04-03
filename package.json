@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.0",
     "eslint-config-airbnb": "^19.0.4",
     "express": "^4.17.2",

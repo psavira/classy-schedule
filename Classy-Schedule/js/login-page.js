@@ -15,12 +15,28 @@ loginButton.addEventListener('click', (e) => {
   const username = loginForm.username.value;
   // get the entered password
   const password = loginForm.password.value;
-  // if entered info matches correct usrname and passwrd
-  if (username === 'user' && password === 'web_dev') {
-    // go to the home page
-    window.location.href = 'indexAfterlogin.html';
-  } else {
-    // otherwise show an error message
-    loginErrorMsg.style.opacity = 1;
+
+  // setup request
+  const body = {
+    user: username,
+    pass: password
   }
+
+  // try to log in
+  fetch('/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  })
+  .then((response) => {
+    if(response.ok) {
+      // Login was successful
+      window.location.href = "/"
+    } else {
+      // otherwise show an error message
+      loginErrorMsg.style.opacity = 1;
+    }
+  })
 });
