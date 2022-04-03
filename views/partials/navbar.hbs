@@ -10,6 +10,7 @@
 
       <li><a href="/about">About</a></li>
 
+      {{#if loggedIn}}
       <li>
         <a href="#">Add</a>
         <ul class="menu">
@@ -20,13 +21,19 @@
       </li>
 
       <li><a href="/schedule">Schedule</a></li>
+      {{/if}}
 
     </ul>
   </div>
   <div class="top-bar-right">
     <ul class="menu">
-      <li><a href="/"><button type="button" class="button">Logout</button></a></li>
+      {{#if loggedIn}}
+        <li><a href="/logout"><button type="button" class="button">Logout</button></a></li>
+      {{else}}
+        <li><a href="/login"><button type="button" class="button">Log In</button></a></li>
+      {{/if}}
     </ul>
   </div>
 </div>
+<script src="/js/navbar.js"></script>
 <!-- Nav Bar End -->
