@@ -72,11 +72,11 @@
         <div class="cell small-12 medium-12 large-5">
             <table id=classtable>
                 <tr>
-                    <th>Dept</th>
-                    <th>Class Name</th>
-                    <th>Class Number</th>
-                    <th>Capacity</th>
-                    <th>Sections</th>
+                    <th> <span title="Department of the course">DEPT</th>
+                    <th> <span title="Number of the class">CLASS #</th>
+                    <th> <span title="Name of the class">CLASS NAME</th>
+                    <th> <span title="Capacity for the class">CAP</th>
+                    <th> <span title="Enter the number of sections for each class">SECTIONS</th>
                 </tr>
 
             </table>
@@ -91,10 +91,10 @@
 
                 <!-- Top of Table Labels -->
                 <tr>
-                    <th width="100">TIME</th>
-                    <th width="100">MONDAY</th>
-                    <th width="100">WEDNESDAY</th>
-                    <th width="100">FRIDAY</th>
+                    <th width="100"<span title="Available time slots for the MONDAY, WEDNESDAY, & FRIDAY">TIME</span></th>
+                    <th width="100" <span title="Use the dropdown list to select a course for Monday in each time slot">MONDAY</span></th>
+                    <th width="100" <span title="Use the dropdown list to select a course for Wednesday in each time slot">WEDNESDAY</span></th>
+                    <th width="100" <span title="Use the dropdown list to select a course for Friday in each time slot">FRIDAY</th>
                 </tr>
 
                 <!-- Beginning of Schedule Table -->
@@ -224,9 +224,9 @@
 
                 <!-- Top Labels 2nd Layer -->
                 <tr>
-                    <th width="100">TIME</th>
-                    <th width="100">TUESDAY</th>
-                    <th width="100">THURSDAY</th>
+                    <th width="100" <span title="Available time slots for TUESDAY & THURSDAY">TIME</th>
+                    <th width="100" <span title="Use the dropdown list to select a course for Tuesday in each time slot">TUESDAY</th>
+                    <th width="100"<span title="Use the dropdown list to select a course for Thursday in each time slot">THURSDAY</th>
                 </tr>
 
 
@@ -348,6 +348,7 @@
             fetchClasses()
             fetchRooms()
             makeTable()
+
         </script>
     </div>
 
