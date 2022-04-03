@@ -264,6 +264,48 @@ function saveTable() {
   newLink.click();
 }
 
+function getSchedule() {
+  let schedule = {}
+
+  // Iterate through selects in schedule
+  let selects = document.querySelectorAll("table select.classSelection");
+  selects.forEach((select) => {
+    // Get the select value
+    let selectedClass = select.value;
+    // Find the time block and the day
+    let day = select.parentNode.dataset.day;
+    let time = select.parentNode.parentNode.dataset.time;
+
+    // Check that the appropriate day exists. If not, create one
+    if(schedule[day] === undefined) {
+      schedule[day] = {};
+    }
+    schedule[day][time] = selectedClass;
+  });
+
+  return schedule;
+}
+
+function setSchedule(schedule) {
+  // Iterate through selects in schedule
+  let selects = document.querySelectorAll("table select.classSelection");
+  selects.forEach((select) => {
+    // Find the time block and the day
+    let day = select.parentNode.dataset.day;
+    let time = select.parentNode.parentNode.dataset.time;
+
+    // Check that the appropriate day exists. If not, create one
+    if(schedule[day] === undefined) {
+      throw new Error(`Couldn't find day [${day}] in parameter schedule`);
+    }
+
+    if(schedule[day][time] === undefined) {
+      throw new Error(`Couldn't find time [${time}] for day [${day}] in parameter schedule`);
+    }
+    select.value = schedule[day][time];
+  });
+}
+
 // Fires when an option is selected from drop down on schedule page
 function onSelectSchedule(num){
   value = document.getElementById(`classSelection${num}`).value;
