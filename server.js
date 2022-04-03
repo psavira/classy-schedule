@@ -47,16 +47,16 @@ app.get('/schedule', (req, res) => {
     res.render('schedule')
 })
 
-app.get('/classEntry', (req, res) => {
-    res.render('classEntry');
+app.get('/addClass', (req, res) => {
+    res.render('addClass');
 })
 
-app.get('/professorEntry', (req, res) => {
-    res.render('professorEntry');
+app.get('/addProfessor', (req, res) => {
+    res.render('addProfessor');
 })
 
-app.get('/roomEntry', (req, res) => {
-    res.render('roomEntry');
+app.get('/addRoom', (req, res) => {
+    res.render('addRoom');
 })
 
 app.listen(PORT,() => {
