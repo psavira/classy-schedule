@@ -264,6 +264,10 @@ function saveTable() {
   newLink.click();
 }
 
+/**
+ * Gets the schedule as an object
+ * @returns The current schedule as an object
+ */
 function getSchedule() {
   let schedule = {}
 
@@ -286,6 +290,10 @@ function getSchedule() {
   return schedule;
 }
 
+/**
+ * Sets the visual schedule to the values saved in the given schedule parameter
+ * @param schedule The schedule object to put into the table
+ */
 function setSchedule(schedule) {
   // Iterate through selects in schedule
   let selects = document.querySelectorAll("table select.classSelection");
