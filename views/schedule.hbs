@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <link href="/Classy-Schedule/css/schedule.css" />
+    <link href="./css/foundation.css" rel="stylesheet" />
+    <script src="js/schedule2.js"></script>
+
+    <!-- Single Page CSS Start -->
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .row {
+            display: flex;
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+        .column {
+            flex: 50%;
+            padding: 0px;
+            padding-top: 20px;
+        }
+
+        .column2 {
+            flex: 0%;
+            padding-left: 100px;
+            padding-right: 50px;
+            padding-top: 20px;
+
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            width: 100%;
+            border: 1px solid #ddd;
+        }
+
+        td {
+            text-align: center;
+            padding: 16px;
+        }
+
+        th {
+            background-color: #179941;
+            text-align: center;
+            padding: 16px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #ddd;
+        }
+    </style>
+    <!-- CSS End -->
+
+</head>
+
+<body>
+
+    <!-- Nav Bar Start -->
+    {{> navbar}}
+    <!-- Nav Bar End -->
+
+    <div id="alertContainer"></div>
+
+    <!-- Labels Start -->
+    <div class="grid-x grid-margin-x">
+        <div class="cell small-12 medium-12 large-5">
+            <table id=classtable>
+                <tr>
+                    <th>Dept</th>
+                    <th>Class Name</th>
+                    <th>Class Number</th>
+                    <th>Capacity</th>
+                    <th>Sections</th>
+                </tr>
+
+            </table>
+        </div>
+        <!-- Labels End -->
+
+
+        <div class="cell small-12 medium-12 large-7">
+
+            <table class="column" id="table" style="margin: 0px auto;">
+
+
+                <!-- Top of Table Labels -->
+                <tr>
+                    <th width="100">TIME</th>
+                    <th width="100">MONDAY</th>
+                    <th width="100">WEDNESDAY</th>
+                    <th width="100">FRIDAY</th>
+                </tr>
+
+                <!-- Beginning of Schedule Table -->
+                <tbody data-block="MWF">
+
+                    <tr data-time=0815>
+
+                        <td>8:15 - 9:20am</td>
+
+
+                        <td data-day="M"><select class="classSelection" name="classSelection" id="classSelection0"
+                                onchange="onSelectSchedule(0);">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+                        <td data-day="W"><select class="classSelection" name="classSelection" id="classSelection1">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+                        <td data-day="F"><select class="classSelection" name="classSelection" id="classSelection2">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+                    </tr>
+                    <tr data-time=0935>
+                        <td>9:35 - 10:40am</td>
+                        <td data-day="M"><select class="classSelection" name="classSelection" id="classSelection3"
+                                onchange="onSelectSchedule(3);">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+                        <td data-day="W"><select class="classSelection" name="classSelection" id="classSelection4">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+                        <td data-day="F"><select class="classSelection" name="classSelection" id="classSelection5">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+
+                    </tr>
+                    <tr data-time=1055>
+
+                        <td>10:55am - 12:00pm</td>
+                        <td data-day="M"><select class="classSelection" name="classSelection" id="classSelection6"
+                                onchange="onSelectSchedule(6);">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+                        <td data-day="W"><select class="classSelection" name="classSelection" id="classSelection7">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+                        <td data-day="F"><select class="classSelection" name="classSelection" id="classSelection8">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+                    </tr>
+                    <tr data-time=1215>
+                        <td>12:15 - 1:20pm</td>
+                        <td data-day="M"><select class="classSelection" name="classSelection" id="classSelection9"
+                                onchange="onSelectSchedule(9);">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+                        <td data-day="W"><select class="classSelection" name="classSelection" id="classSelection10">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+                        <td data-day="F"><select class="classSelection" name="classSelection" id="classSelection11">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+
+                    </tr>
+                    <tr data-time=1335>
+
+                        <td>1:35 - 2:40pm</td>
+                        <td data-day="M"><select class="classSelection" name="classSelection" id="classSelection12"
+                                onchange="onSelectSchedule(12);">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+                        <td data-day="W"><select class="classSelection" name="classSelection" id="classSelection13">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+                        <td data-day="F"><select class="classSelection" name="classSelection" id="classSelection14">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+                    </tr>
+                    <tr data-time=1525>
+                        <td>3:25 - 5:00pm</td>
+                        <td data-day="M"><select class="classSelection" name="classSelection" id="classSelection15"
+                                onchange="onSelectSchedule(15);">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+                        <td data-day="W"><select class="classSelection" name="classSelection" id="classSelection16">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+                        <td data-day="F"><select class="classSelection" name="classSelection" id="classSelection17">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+
+                    </tr>
+                    <tr data-time=1730>
+
+                        <td>5:30 - 7:15pm</td>
+                        <td data-day="M"><select class="classSelection" name="classSelection" id="classSelection18"
+                                onchange="onSelectSchedule(18);">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+                        <td data-day="W"><select class="classSelection" name="classSelection" id="classSelection19">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+                        <td data-day="F"><select class="classSelection" name="classSelection" id="classSelection20">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+                    </tr>
+                    <tr data-time=1930>
+                        <td>7:30 - 9:15pm</td>
+                        <td data-day="M"><select class="classSelection" name="classSelection" id="classSelection21"
+                                onchange="onSelectSchedule(21);">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+                        <td data-day="W"><select class="classSelection" name="classSelection" id="classSelection22">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+                        <td data-day="F"><select class="classSelection" name="classSelection" id="classSelection23">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+
+                    </tr>
+
+
+                </tbody>
+
+            </table>
+
+            <table class="column" style="margin:0px auto;">
+
+                <!-- Top Labels 2nd Layer -->
+                <tr>
+                    <th width="100">TIME</th>
+                    <th width="100">TUESDAY</th>
+                    <th width="100">THURSDAY</th>
+                </tr>
+
+
+                <tbody data-block="TR">
+
+                    <tr data-time=0800>
+
+                        <td>8:00 - 9:40am</td>
+                        <td data-day="T"><select class="classSelection" name="classSelection" id="classSelection24"
+                                onchange="onSelectSchedule(24);">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+                        <td data-day="R"><select class="classSelection" name="classSelection" id="classSelection25">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+                    </tr>
+                    <tr data-time=0955>
+                        <td>9:55 - 11:35am</td>
+                        <td data-day="T"><select class="classSelection" name="classSelection" id="classSelection26"
+                                onchange="onSelectSchedule(26);">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+                        <td data-day="R"><select class="classSelection" name="classSelection" id="classSelection27">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+
+                    </tr>
+                    <tr data-time=1330>
+
+                        <td>1:30 - 3:10pm</td>
+                        <td data-day="T"><select class="classSelection" name="classSelection" id="classSelection28"
+                                onchange="onSelectSchedule(28);">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+                        <td data-day="R"><select class="classSelection" name="classSelection" id="classSelection29">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+                    </tr>
+                    <tr data-time=1525>
+                        <td>3:25 - 5:00pm</td>
+                        <td data-day="T"><select class="classSelection" name="classSelection" id="classSelection30"
+                                onchange="onSelectSchedule(30);">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+                        <td data-day="R"><select class="classSelection" name="classSelection" id="classSelection31">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+
+                    </tr>
+                    <tr data-time=1730>
+
+                        <td>5:30 - 7:15pm</td>
+                        <td data-day="T"><select class="classSelection" name="classSelection" id="classSelection32"
+                                onchange="onSelectSchedule(32);">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+                        <td data-day="R"><select class="classSelection" name="classSelection" id="classSelection33">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+                    </tr>
+                    <tr data-time=1930>
+                        <td>7:30 - 9:15pm</td>
+                        <td data-day="T"><select class="classSelection" name="classSelection" id="classSelection34"
+                                onchange="onSelectSchedule(34);">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+                        <td data-day="R"><select class="classSelection" name="classSelection" id="classSelection35">
+                                <option value="Choose Class" selected hidden>Choose Class</option>
+                            </select></td>
+
+                    </tr>
+
+
+                </tbody>
+
+            </table>
+            <!-- Schedule Table End -->
+        </div>
+    </div>
+
+    <style>
+        .my-menu {
+            /*Sets all the content of dropdown div to center*/
+            text-align: center;
+            margin-top: 20px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+    <div class="classroomMenu my-menu">
+        <select name="roomSelect" id="roomSelect">
+            <option value="starter" selected>Display Current Classroom</option>
+        </select>
+    </div>
+    <style>
+        .container {
+            height: 200px;
+            position: relative;
+        }
+
+        .center {
+            margin: 0;
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+    </style>
+
+    <div class="container">
+        <div class="center">
+            <a href='https://w3docs.com' class="button">
+                View Schedule
+            </a>
+            <button id="saveButton" onclick="saveTable()" class="submit success button">Save Progress</button>
+        </div>
+        <script>
+            fetchClasses()
+            fetchRooms()
+            makeTable()
+        </script>
+    </div>
+
+    {{> footer}}
+
+</html>

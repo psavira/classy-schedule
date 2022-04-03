@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link href="./css/foundation.min.css" rel="stylesheet" />
+  <link href="./css/classEntry.css" rel="stylesheet" />
+  <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
+  <script src="js/classEntryBeta.js"></script>
+</head>
+
+<body>
+  <!-- NAVBAR START -->
+  {{> navbar}}
+  <!-- NAVBAR END -->
+
+  <!-- FORM START -->
+  <form id="classForm" name="classForm">
+    <div class="grid-container">
+      <label>Class Name
+        <input type="text" name="className" placeholder="Class Name" maxlength="25" />
+      </label>
+      <!-- I think i got all the errors except negatives -->
+      <div class="grid-x grid-padding-x">
+        <div class="cell small-6">
+          <label>Department
+            <select name="department" id="department"></select>
+          </label>
+        </div>
+
+        <div class="cell small-6">
+          <label>Class Number
+            <input type="text" name="classNumber" maxlength="6" min="0"
+              onkeyup="if(this.value<0){this.value= this.value * -1}" placeholder="xxxxxx" />
+          </label>
+        </div>
+      </div>
+
+      <div class="grid-x grid-padding-x">
+        <div class="cell small-6">
+          <label>Capacity
+            <input type="number" name="capacity" placeholder="xx" pattern="\d*" min="0" max="99" maxlength="2"
+              onkeyup="if(this.value<0){this.value= this.value * -1}"
+              oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+              step="1" />
+          </label>
+        </div>
+
+        <div class="cell small-6">
+          <label>Credits
+            <input type="number" name="credits" placeholder="x"
+              oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+              onkeyup="if(this.value<0){this.value= this.value * -1}" max="4" min="0" step="1" maxlength="1" />
+          </label>
+        </div>
+      </div>
+
+      <button type="button" class="submit success button" onclick="submitForm()">
+        Submit
+      </button>
+    </div>
+  </form>
+  <!-- FORM END -->
+
+  <div id="alertContainer"></div>
+
+  <!-- Run scripts on page load -->
+  <script>
+    fetchDepartments();
+  </script>
+
+  {{> footer}}
+</body>
+
+</html>
