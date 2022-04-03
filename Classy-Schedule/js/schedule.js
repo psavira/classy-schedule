@@ -92,7 +92,7 @@ async function fetchRooms() {
         // create an element to hold room options
         const roomOption = document.createElement('option');
         // set value to room id
-        roomOption.value = room.room_id;
+        roomOption.value = 'Room '+room.room_num;
         // roomOption hold room number
         roomOption.text = `ROOM ${room.room_num}`;
         // append child to get all room options
@@ -186,7 +186,7 @@ function saveTable() {
   // test to make sure button is working when being clicked
   console.log('button clicked');
   // array to save dropdown values into
-  const data = [];
+  const data = [document.getElementById('roomSelect').value+'\n'];
 
   // loop through all dropdown menus (hard coded since we know exact # of them)
   for (let i = 0; i < 36; i += 1) {
@@ -360,4 +360,13 @@ function autoFillTuesThurs(num) {
    When Sections=0, that class will be made unavailable to schedule */
 function tableUpdate(value){
   console.log(value);
+}
+
+// Saves current schedule for room when new room is selected
+function updateRoom(){
+  saveTable();
+
+  for (let i=0; i<=35; i++){
+    document.getElementById(`classSelection${i}`).value = 'Choose Class';
+  }
 }

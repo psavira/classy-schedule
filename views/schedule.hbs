@@ -315,10 +315,12 @@
             margin-left: auto;
             margin-right: auto;
         }
+        .classroomMenu {
+            width: 15%;
+        }
     </style>
     <div class="classroomMenu my-menu">
-        <select name="roomSelect" id="roomSelect">
-            <option value="starter" selected>Display Current Classroom</option>
+        <select name="roomSelect" id="roomSelect" onchange="updateRoom()">
         </select>
     </div>
     <style>
