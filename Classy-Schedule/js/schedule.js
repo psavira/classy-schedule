@@ -2,7 +2,7 @@
  * Displays an alert box to the user
  * @param alertText Text that appears in the alert box
  */
-function showAlert(alertText) {
+ function showAlert(alertText) {
   // get alert container to hold alerts
   const alertContainer = document.getElementById('alertContainer');
   // make alert container to hold alerts
@@ -182,11 +182,11 @@ function clearTable() {
   });
 }
 
-function saveTable() {
+function saveTable(prev) {
   // test to make sure button is working when being clicked
   console.log('button clicked');
   // array to save dropdown values into
-  const data = [document.getElementById('roomSelect').value+'\n'];
+  const data = [prev];
 
   // loop through all dropdown menus (hard coded since we know exact # of them)
   for (let i = 0; i < 36; i += 1) {
@@ -363,10 +363,8 @@ function tableUpdate(value){
 }
 
 // Saves current schedule for room when new room is selected
-function updateRoom(){
-  saveTable();
-
-  for (let i=0; i<=35; i++){
+function resetRoom(){
+  for (let i=0; i<36; i++){
     document.getElementById(`classSelection${i}`).value = 'Choose Class';
   }
 }

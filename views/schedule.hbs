@@ -320,7 +320,7 @@
         }
     </style>
     <div class="classroomMenu my-menu">
-        <select name="roomSelect" id="roomSelect" onchange="updateRoom()">
+        <select name="roomSelect" id="roomSelect">
         </select>
     </div>
     <style>
@@ -344,13 +344,25 @@
             <a href='https://w3docs.com' class="button">
                 View Schedule
             </a>
-            <button id="saveButton" onclick="saveTable()" class="submit success button">Save Progress</button>
+            <button id="saveButton" onclick="saveTable(document.getElementById('roomSelect').value+'\n')" class="submit success button">Save Progress</button>
         </div>
         <script>
-            fetchClasses()
-            fetchRooms()
-            makeTable()
+            fetchClasses();
+            fetchRooms();
+            makeTable();
 
+            //Saves current room when room is changed
+            (function () {
+                var previous;
+
+                $("select[name=roomSelect]").focus(function () {
+                    previous = this.value+'\n';
+                }).change(function() {
+                    saveTable(previous);
+                    resetRoom();        
+                    previous = this.value+'\n';
+                });
+            })();
         </script>
     </div>
 
