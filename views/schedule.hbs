@@ -106,13 +106,15 @@
 
 
                         <td data-day="M"><select class="classSelection" name="classSelection" id="classSelection0"
-                                onchange="onSelectSchedule(0);">
+                                onchange="onSelectSchedule(0); updateTable(0);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
-                        <td data-day="W"><select class="classSelection" name="classSelection" id="classSelection1">
+                        <td data-day="W"><select class="classSelection" name="classSelection" id="classSelection1"
+                                onchange="updateTable(1);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
-                        <td data-day="F"><select class="classSelection" name="classSelection" id="classSelection2">
+                        <td data-day="F"><select class="classSelection" name="classSelection" id="classSelection2"
+                                onchange="updateTable(2);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
                     </tr>

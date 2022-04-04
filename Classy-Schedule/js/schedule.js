@@ -131,7 +131,7 @@ function makeTable() {
         const row = document.createElement('tr');
 
         // adds id to each row
-        row.id = 'classRow'+i;
+        row.id = `R${classSelection[i].dept_id}-${classSelection[i].class_num}`;
         
         // if dept_id for class is 1 = cisc
         // these will be the  data in each row
@@ -150,7 +150,7 @@ function makeTable() {
           `<input
             type="number"
             name="section"
-            id=${classSelection[i].dept_id}-${classSelection[i].class_num}
+            id=S${classSelection[i].dept_id}-${classSelection[i].class_num}
             placeholder="1"
             value = "1"
             pattern="\d*"
@@ -323,7 +323,7 @@ function onSelectSchedule(num){
   }else{
     autoFillTuesThurs(num);
   }
-  tableUpdate(value);
+  updateTable(num);
 }
 
 /* Auto-fills Weds and Fri slots when Monday is selected :
@@ -358,8 +358,9 @@ function autoFillTuesThurs(num) {
 
 /* Will update table when class section is scheduled :
    When Sections=0, that class will be made unavailable to schedule */
-function tableUpdate(value){
-  console.log(value);
+function updateTable(num){
+  var sectionID = 'S'+document.getElementById(`classSelection${num}`).value;
+  document.getElementById(sectionID).value = parseInt(document.getElementById(sectionID).value,10)-1;
 }
 
 // Saves current schedule for room when new room is selected
