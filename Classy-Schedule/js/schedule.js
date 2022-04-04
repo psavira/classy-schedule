@@ -215,17 +215,17 @@ function saveTable(prev) {
       temptimestr = 'MWF 5:30-7:15pm: ';
     } else if (i >= 21 && i < 24) {
       temptimestr = 'MWF 7:30-9:00pm: ';
-    } else if (i >= 24 && i < 27) {
+    } else if (i >= 24 && i < 26) {
       temptimestr = 'TTH 8:00-9:40am: ';
-    } else if (i >= 27 && i < 30) {
+    } else if (i >= 26 && i < 28) {
       temptimestr = 'TTH 9:55-11:35am: ';
-    } else if (i >= 30 && i < 33) {
+    } else if (i >= 28 && i < 30) {
       temptimestr = 'TTH 1:30-3:10pm: ';
-    } else if (i >= 33 && i < 36) {
+    } else if (i >= 30 && i < 32) {
       temptimestr = 'TTH 3:25-5:00pm: ';
-    } else if (i >= 36 && i < 39) {
+    } else if (i >= 32 && i < 34) {
       temptimestr = 'TTH 5:30-7:15pm: ';
-    } else if (i >= 39 && i < 42) {
+    } else if (i >= 34 && i < 36) {
       temptimestr = 'TTH 7:30-9:15pm: ';
     }
     // get dropdown value
