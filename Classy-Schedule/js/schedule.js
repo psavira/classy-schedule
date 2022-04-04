@@ -193,54 +193,33 @@ function saveTable(prev) {
     // temp string to access each menu
     let tempstr = 'classSelection';
     let temptimestr;
-    let finalstr = '';
+    let finalstr = '{ ';
     // classSelection + 0 = classSelection0
     tempstr += i;
     // get the dropdown
-    const dropdownMenu = document.getElementById(tempstr);
-    // add time slots based on index
-    if (i < 3) {
-      temptimestr = 'MWF 8:15-9:20am: ';
-    } else if (i >= 3 && i < 6) {
-      temptimestr = 'MWF 9:35-10:40am: ';
-    } else if (i >= 6 && i < 9) {
-      temptimestr = 'MWF 10:55am - 12:00pm: ';
-    } else if (i >= 9 && i < 12) {
-      temptimestr = 'MWF 12:15-1:20pm: ';
-    } else if (i >= 12 && i < 15) {
-      temptimestr = 'MWF 1:35-2:40pm: ';
-    } else if (i >= 15 && i < 18) {
-      temptimestr = 'MWF 3:25-5:00pm: ';
-    } else if (i >= 18 && i < 21) {
-      temptimestr = 'MWF 5:30-7:15pm: ';
-    } else if (i >= 21 && i < 24) {
-      temptimestr = 'MWF 7:30-9:00pm: ';
-    } else if (i >= 24 && i < 26) {
-      temptimestr = 'TTH 8:00-9:40am: ';
-    } else if (i >= 26 && i < 28) {
-      temptimestr = 'TTH 9:55-11:35am: ';
-    } else if (i >= 28 && i < 30) {
-      temptimestr = 'TTH 1:30-3:10pm: ';
-    } else if (i >= 30 && i < 32) {
-      temptimestr = 'TTH 3:25-5:00pm: ';
-    } else if (i >= 32 && i < 34) {
-      temptimestr = 'TTH 5:30-7:15pm: ';
-    } else if (i >= 34 && i < 36) {
-      temptimestr = 'TTH 7:30-9:15pm: ';
-    }
+    const dropdownMenu = document.querySelector(`#${tempstr}`);
+    
     // get dropdown value
     let dropdownValue = dropdownMenu.options[dropdownMenu.selectedIndex].text;
+
+
+    let schedule = getSchedule();
+    let scheduleJSON = JSON.stringify(schedule);
+
+    /*let day = dropdownMenu.parentNode.dataset.day;
+    let time = dropdownMenu.parentNode.parentNode.dataset.time;
 
     // if no class is selected just put 'none'
     if (dropdownValue === 'Choose Class') {
       temptimestr = '';
-      dropdownValue = '--';
+      dropdownValue = '';
     }
 
-    finalstr += temptimestr + dropdownValue;
-    finalstr += '\n';
+
+    finalstr += '"day": ' + day + ', "time": ' + time + ', "class": ' + dropdownValue + ' }';
+    finalstr += '\n';*/
     // push its value to data[]
-    data.push(finalstr);
+    data.push(scheduleJSON);
   }
 
   data.join(' ');
