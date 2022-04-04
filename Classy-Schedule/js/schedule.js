@@ -359,8 +359,25 @@ function autoFillTuesThurs(num) {
 /* Will update table when class section is scheduled :
    When Sections=0, that class will be made unavailable to schedule */
 function updateTable(num){
-  var sectionID = 'S'+document.getElementById(`classSelection${num}`).value;
+  var currentClassValue = document.getElementById(`classSelection${num}`).value;
+  var sectionID = 'S'+currentClassValue;
   document.getElementById(sectionID).value = parseInt(document.getElementById(sectionID).value,10)-1;
+
+  if(document.getElementById(sectionID).value <= 0){
+    document.getElementById(sectionID).value = 0;
+    document.getElementById('R'+currentClassValue).style.background = 'red';
+    document.getElementById('S'+currentClassValue).style.color = 'red';
+    removeRoom(currentClassValue,num);
+  }
+}
+
+// Will remove room from dropdown
+function removeRoom(currentClassValue){
+  for (let i=0; i<36; i++){
+    if(document.getElementById(`classSelection${i}`).value != currentClassValue){
+      document.querySelector(`#classSelection${i} option[value=`+"'"+currentClassValue+"'"+']').remove()
+    }
+  }
 }
 
 // Saves current schedule for room when new room is selected
