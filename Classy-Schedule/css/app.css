@@ -48,3 +48,12 @@ tr{
 .navbar ul li>* {
   align-self: flex-end;
 }
+
+.navbar .schedule-image {
+  transition: transform 0.2s ease-in-out;
+  transform: scale(100%)
+}
+
+.navbar .schedule-image:hover {
+  transform: scale(95%)
+}
