@@ -159,6 +159,7 @@ function makeTable() {
             maxlength="2"
             onkeyup="if(this.value<0){this.value= this.value * -1}"
             oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+            onchange="checkSectionCount(${classSelection[i].dept_id}-${classSelection[i].class_num})"
             step="1"
             />`;
         // add row to table
@@ -367,22 +368,29 @@ function updateTable(num){
     document.getElementById(sectionID).value = 0;
     document.getElementById('R'+currentClassValue).style.background = 'red';
     document.getElementById('S'+currentClassValue).style.color = 'red';
-    removeRoom(currentClassValue,num);
+    removeClass(currentClassValue);
   }
 }
 
 // Will remove room from dropdown
-function removeRoom(currentClassValue){
+function removeClass(currentClassValue){
   for (let i=0; i<36; i++){
-    if(document.getElementById(`classSelection${i}`).value != currentClassValue){
-      document.querySelector(`#classSelection${i} option[value=`+"'"+currentClassValue+"'"+']').remove()
+    if(document.querySelector(`#classSelection${i} option[value=`+"'"+currentClassValue+"'"+']') != null && document.getElementById(`classSelection${i}`).value != currentClassValue){
+      document.querySelector(`#classSelection${i} option[value=`+"'"+currentClassValue+"'"+']').remove();
     }
   }
 }
 
-// Saves current schedule for room when new room is selected
+// Saves current schedule for room when new room is selected;
+// Removes class from dropdown if necessary
 function resetRoom(){
   for (let i=0; i<36; i++){
+    var currentClassValue = document.getElementById(`classSelection${i}`).value;
+  
+    if(document.getElementById('S'+currentClassValue) != null && document.getElementById('S'+currentClassValue).value == 0){
+      removeClass(currentClassValue);
+    }
+  
     document.getElementById(`classSelection${i}`).value = 'Choose Class';
   }
 }
