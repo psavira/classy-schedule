@@ -16,11 +16,13 @@
   justify-content: center;
 }
 .title {
+  padding-top: 5%;
+
   color: #32a852;
   text-align: justify;
   text-transform: uppercase;
-  padding-left: 27%;
-  padding-right: 20%;
+  padding-left: 25%;
+  
 }
 .help-container2 {
   flex: 0 0 auto;
