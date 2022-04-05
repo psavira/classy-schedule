@@ -16,6 +16,8 @@
   justify-content: center;
 }
 .title {
+  padding-top: 5%;
+
   color: #32a852;
   text-align: justify;
   text-transform: uppercase;
