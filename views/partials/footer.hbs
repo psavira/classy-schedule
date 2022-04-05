@@ -1,7 +1,184 @@
 <!-- FOOTER -->
 <div>
-    Footer!
+        <footer class="index-footer">
+      <div class="index-container1">
+        <img
+          alt="logo"
+          src="Classy-Schedule.jpg"
+          class="index-image"
+        />
+        <nav class="index-nav">
+          <a href="/" class="index-navlink">Home</a>
+          <a href="/about" class="index-navlink1">About</a>
+          <a href="/help" class="index-navlink2">Help</a>
+          <div class="popup" onclick="myFunction()">Contact Us
+        <span class="popuptext" id="myPopup">Email: classy.schedule@gmail.com</span>
+        </div>
+        </nav>
+      </div>
+      <div class="index-separator"></div>
+      <div class="index-container2">
+        <span class="index-text2">© 2021 teleportHQ, All Rights Reserved.</span>
+        <span class="index-text3">
+          © 2022 classySchedule, All Rights Reserved.
+        </span>
+      </div>
+    </footer>
 </div>
+
+<script>
+// When the user clicks on <div>, open the popup
+function myFunction() {
+  var popup = document.getElementById("myPopup");
+  popup.classList.toggle("show");
+}
+</script>
 
 <!-- Process foundation javascript on page -->
 <script>$(document).foundation();</script>
+
+<style>
+/* Popup container */
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  
+}
+
+/* The actual popup (appears on top) */
+.popup .popuptext {
+  visibility: hidden;
+  width: 160px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
+.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  width: 200px;
+  animation: fadeIn 1s
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+
+
+
+.index-container {
+  width: 100%;
+  display: flex;
+  overflow: auto;
+  min-height: 100vh;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  
+}
+.index-footer {
+  width: 100%;
+  display: flex;
+  max-width: 1400px;
+  align-items: center;
+  padding-top: 32px;
+  padding-left: 48px;
+  padding-right: 48px;
+  flex-direction: column;
+  padding-bottom: 32px;
+  justify-content: space-between;
+  background-color: #e6e6e6
+}
+.index-container1 {
+  display: flex;
+  max-width: 1400px;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.index-image {
+  height: 5rem;
+  margin-bottom: 32px;
+}
+.index-nav {
+  flex: 0 0 auto;
+  display: flex;
+  margin-top: 0px;
+  align-items: center;
+  flex-direction: row;
+}
+.index-navlink {
+  margin-left: 0px;
+  text-decoration: none;
+}
+.index-navlink1 {
+  margin-left: var(--dl-space-space-unit);
+  padding-left: 10px;
+  text-decoration: none;
+}
+.index-navlink2 {
+  margin-left: var(--dl-space-space-unit);
+  padding-left: 10px;
+  padding-right: 10px;
+  text-decoration: none;
+}
+.index-text1 {
+  margin-left: var(--dl-space-space-unit);
+  padding-left: 10px;
+}
+.index-separator {
+  flex: 0 0 auto;
+  width: 100%;
+  height: 0px;
+  display: flex;
+  margin-top: 32px;
+  align-items: flex-start;
+  margin-left: 0px;
+  border-color: var(--dl-color-gray-900);
+  border-style: solid;
+  border-width: 1px;
+  margin-right: 0px;
+  margin-bottom: 32px;
+  flex-direction: row;
+  border-top-width: 0px;
+  border-left-width: 0px;
+  border-right-width: 0px;
+}
+.index-container2 {
+  flex: 0 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+}
+</style>
