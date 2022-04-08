@@ -130,8 +130,10 @@ function makeTable() {
         // make a row for each class
         const row = document.createElement('tr');
 
+        var currentClassValue = `${classSelection[i].dept_id}-${classSelection[i].class_num}`;
+
         // adds id to each row
-        row.id = `R${classSelection[i].dept_id}-${classSelection[i].class_num}`;
+        row.id = 'R'+currentClassValue;
         
         // if dept_id for class is 1 = cisc
         // these will be the  data in each row
@@ -143,14 +145,16 @@ function makeTable() {
         }
         // in each row along with dept we add class number
         // classname, capacity, and credits
+
         row.innerHTML += `<td> ${classSelection[i].class_num}</td>`;
         row.innerHTML += `<td> ${classSelection[i].class_name}</td>`;
         row.innerHTML += `<td> ${classSelection[i].capacity}</td>`;
         row.innerHTML += 
           `<input
+            class="section"
             type="number"
             name="section"
-            id=S${classSelection[i].dept_id}-${classSelection[i].class_num}
+            id=SR${currentClassValue}
             placeholder="1"
             value = "1"
             pattern="\d*"
@@ -159,7 +163,7 @@ function makeTable() {
             maxlength="2"
             onkeyup="if(this.value<0){this.value= this.value * -1}"
             oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-            onchange="checkSectionCount(${classSelection[i].dept_id}-${classSelection[i].class_num})"
+            onchange=checkSectionCount(${classSelection[i].dept_id},${classSelection[i].class_num});
             step="1"
             />`;
         // add row to table
@@ -340,13 +344,13 @@ function autoFillTuesThurs(num) {
    When Sections=0, that class will be made unavailable to schedule */
 function updateTable(num){
   var currentClassValue = document.getElementById(`classSelection${num}`).value;
-  var sectionID = 'S'+currentClassValue;
+  var sectionID = 'SR'+currentClassValue;
   document.getElementById(sectionID).value = parseInt(document.getElementById(sectionID).value,10)-1;
 
   if(document.getElementById(sectionID).value <= 0){
     document.getElementById(sectionID).value = 0;
     document.getElementById('R'+currentClassValue).style.background = 'red';
-    document.getElementById('S'+currentClassValue).style.color = 'red';
+    document.getElementById('SR'+currentClassValue).style.color = 'red';
     removeClass(currentClassValue);
   }
 }
@@ -366,10 +370,20 @@ function resetRoom(){
   for (let i=0; i<36; i++){
     var currentClassValue = document.getElementById(`classSelection${i}`).value;
   
-    if(document.getElementById('S'+currentClassValue) != null && document.getElementById('S'+currentClassValue).value == 0){
+    if(document.getElementById('SR'+currentClassValue) != null && document.getElementById('S'+currentClassValue).value == 0){
       removeClass(currentClassValue);
     }
   
     document.getElementById(`classSelection${i}`).value = 'Choose Class';
   }
+}
+
+//changes background color to green-ish or red depending on section count
+function checkSectionCount(deptID,classNum){
+  var currentClassValue = deptID+"-"+classNum;  
+  console.log(currentClassValue);
+  if(document.getElementById('SR'+currentClassValue).value > 0){
+    document.getElementById('R'+currentClassValue).style.background = '#AAC705';
+  }
+  document.getElementById('SR'+currentClassValue).style.color = 'black';
 }
