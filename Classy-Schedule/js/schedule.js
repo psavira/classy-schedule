@@ -384,6 +384,10 @@ function checkSectionCount(deptID,classNum){
   console.log(currentClassValue);
   if(document.getElementById('SR'+currentClassValue).value > 0){
     document.getElementById('R'+currentClassValue).style.background = '#AAC705';
+    document.getElementById('SR'+currentClassValue).style.color = 'black';
+  }else{
+    document.getElementById('SR'+currentClassValue).value = 0;
+    document.getElementById('R'+currentClassValue).style.background = 'red';
+    document.getElementById('SR'+currentClassValue).style.color = 'red';
   }
-  document.getElementById('SR'+currentClassValue).style.color = 'black';
 }
