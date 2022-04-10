@@ -308,6 +308,7 @@ function onSelectSchedule(num){
     autoFillTuesThurs(num);
   }
   updateTable(num);
+  removeClass(value);
 }
 
 /* Auto-fills Weds and Fri slots when Monday is selected :
@@ -366,7 +367,7 @@ function removeClass(currentClassValue){
 
 // Saves current schedule for room when new room is selected;
 // Removes class from dropdown if necessary
-function resetRoom(){
+function deleteRoom(){
   for (let i=0; i<36; i++){
     var currentClassValue = document.getElementById(`classSelection${i}`).value;
   
@@ -381,13 +382,32 @@ function resetRoom(){
 //changes background color to green-ish or red depending on section count
 function checkSectionCount(deptID,classNum){
   var currentClassValue = deptID+"-"+classNum;  
-  console.log(currentClassValue);
   if(document.getElementById('SR'+currentClassValue).value > 0){
     document.getElementById('R'+currentClassValue).style.background = '#AAC705';
     document.getElementById('SR'+currentClassValue).style.color = 'black';
+    addClass(deptID,classNum);
   }else{
     document.getElementById('SR'+currentClassValue).value = 0;
     document.getElementById('R'+currentClassValue).style.background = 'red';
     document.getElementById('SR'+currentClassValue).style.color = 'red';
+    removeClass(deptID+'-'+classNum);
+  }
+}
+
+//Adds class when section is added
+function addClass(deptID,classNum){
+  var newClass = document.createElement('option');
+  var section  = document.getElementById('SR'+deptID+'-'+classNum).value;
+
+  if(deptID==1){
+    newClass.text = 'CISC '+classNum;
+  }else if(deptID==2){
+    newClass.text = 'STAT '+classNum;
+  }
+
+  newClass.value = deptID+'-'+classNum;
+
+  for (let i=0; i<36; i++){
+    document.getElementById(`classSelection${i}`).appendChild(newClass.cloneNode(deep=true));
   }
 }
