@@ -24,11 +24,13 @@ async function submitForm() {
       teach_load: teach_load,
     };
     // fetch the profs from database
-    fetch('/api/professor', {
+    dbToken.then((token) => {
+    return fetch('https://capstonedbapi.azurewebsites.net/professor-management/professor/create', {
       // send to db
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Authorization': token},
       body: JSON.stringify(postData),
+    })
     })
     // if response is good
       .then(async (response) => {

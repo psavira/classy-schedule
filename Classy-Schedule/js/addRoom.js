@@ -29,11 +29,13 @@ async function submitForm() {
       capacity: capacity,
     };
     // fetch the rooms from database
-    fetch('/api/room', {
+    dbToken.then((token) => {
+      return fetch('https://capstonedbapi.azurewebsites.net/room-management/room/create', {
       // send to db
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json','Authorization': token },
       body: JSON.stringify(postData),
+    })
     })
     // if response is good
       .then(async (response) => {
