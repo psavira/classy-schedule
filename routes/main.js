@@ -21,6 +21,10 @@ router.get('/help', authLocals, (req, res) => {
 /* ---------------------------------- Auth ---------------------------------- */
 // Routes related to user authentication
 
+router.get('/signup', authLocals, (req, res) => {
+    res.render('signup')
+})
+
 router.get('/login', authLocals, (req, res) => {
     res.render('login')
 })

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {{> globalHead }}
+
+  <script src="js/signup.js"></script>
+  <link href="css/addClass.css" rel="stylesheet" type="text/css" />
+  <!--<script src="js/vendor/foundation.min.js"></script>-->
+  <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
+  <title>Signup</title>
+</head>
+
+<body>
+
+  {{> navbar}}
+
+
+  <form id="signupForm">
+    <p></p>
+    <div class="grid-container">
+      <label>Username
+        <input type="text" name="username" placeholder="Username" />
+      </label>
+
+      <label>Password
+        <input type="password" name="password" placeholder="Password" />
+      </label>
+
+      <label>Re-enter Password
+        <input type="password" name="reenterPassword" placeholder="Re-enter Password" />
+      </label>
+
+      <button type="button" class="submit success button" onclick="submitForm()">
+          Submit
+      </button>
+    </div>
+  </form>
+
+
+  <div id="alertContainer"></div>
+
+  <script>
+    
+  </script>
+
+  {{> footer}}
+
+</body>
+
+ <style>
+    .alert {
+    margin-bottom: 15%;
+}
+  </style>
+
+</html>
