@@ -32,10 +32,12 @@ async function submitForm() {
     };
 
     // POST the data to upload the course
-    fetch('/api/course', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(postData),
+    dbToken.then((token) => {
+      return fetch('https://capstonedbapi.azurewebsites.net/class-management/class/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': token },
+        body: JSON.stringify(postData),
+      })
     })
       .then(async (response) => {
         // Check that response code is 200
@@ -162,7 +164,12 @@ async function fetchDepartments() {
   // get department by element id
   const departmentSelect = document.getElementById('department');
   // fetch departments from database
-  fetch('/api/departments')
+  dbToken.then((token) => {
+  return fetch('https://capstonedbapi.azurewebsites.net/department-management/departments', 
+    {
+      headers: {'Authorization': token}
+    })
+  })
   // if response okay
     .then(async (response) => {
       if (response.ok) {
@@ -198,7 +205,14 @@ async function fetchClasses() {
   // make classSelect by id
   const classSelect = document.getElementById('testclasses');
   // fetch courses from database
-  fetch('/api/courses')
+  dbToken.then(token => {
+    return fetch('https://capstonedbapi.azurewebsites.net/class-management/classes',
+    {
+      headers: {
+        'Authorization': token
+      }
+    })
+  })
   // if response okay return response
     .then(async (response) => {
       if (response.ok) {

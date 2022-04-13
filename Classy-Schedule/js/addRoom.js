@@ -62,6 +62,7 @@ async function submitForm() {
       });
     showAlert('Sending request...');
   }
+  addRoom('ROOM '+room_num);
 }
 
 /* function to check if class entry is valid */
@@ -168,4 +169,10 @@ function clearAlerts() {
     // remove the alerts
     alertContainer.removeChild(child);
   });
+}
+
+function addRoom(roomValue){
+  var newRoom = document.createElement('option');
+  newRoom.text = roomValue;
+  document.getElementById('roomSelect').appendChild(newRoom);
 }
