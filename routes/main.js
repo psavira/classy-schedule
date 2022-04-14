@@ -72,8 +72,4 @@ router.get('/addRoom', authLocals, isAuthorized, (req, res) => {
     res.render('addRoom');
 })
 
-router.get('/signup', authLocals, isAuthorized, (req, res) => {
-    res.render('signup');
-})
-
 module.exports = router
