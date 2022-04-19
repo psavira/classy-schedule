@@ -3,6 +3,8 @@
 const express = require("express");
 const hbs = require('express-hbs');
 const cookieParser = require('cookie-parser')
+// Process Running
+const { spawn } = require('child_process');
 
 // Import environment variables from .env
 require('dotenv').config()
@@ -46,5 +48,20 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log('App up at port %s', PORT);
 });
+
+/* ------------------------------- Test Python ------------------------------ */
+
+// Spawn a new process running the python script
+let python_script = spawn('python', ['./python/test_script.py'])
+
+// Print python output from node
+python_script.stdout.on('data', (chunk) => {
+    console.log(`${chunk}`);
+})
+
+// When the python script exists, log the exit code
+python_script.on('exit', (code, signal) => {
+    console.log(`Python script exited with code ${code}`);
+})
 
 module.exports = app;
