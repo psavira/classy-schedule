@@ -52,16 +52,38 @@ app.listen(PORT, () => {
 /* ------------------------------- Test Python ------------------------------ */
 
 // Spawn a new process running the python script
+console.log('Spawning python process...');
 let python_script = spawn('python', ['./python/test_script.py'])
 
 // Print python output from node
 python_script.stdout.on('data', (chunk) => {
-    console.log(`${chunk}`);
+    console.log(`python stdin: ${chunk}`);
+})
+
+python_script.stderr.on('data', (chunk) => {
+    console.error(`python stderr: ${chunk}`);
 })
 
 // When the python script exists, log the exit code
 python_script.on('exit', (code, signal) => {
     console.log(`Python script exited with code ${code}`);
+})
+
+console.log('Spawning python3 process...');
+let python3_script = spawn('python3', ['./python/test_script.py'])
+
+// Print python output from node
+python3_script.stdout.on('data', (chunk) => {
+    console.log(`py3 stdin: ${chunk}`);
+})
+
+python3_script.stderr.on('data', (chunk) => {
+    console.error(`py3 stderr: ${chunk}`);
+})
+
+// When the python script exists, log the exit code
+python3_script.on('exit', (code, signal) => {
+    console.log(`Python3 script exited with code ${code}`);
 })
 
 module.exports = app;
