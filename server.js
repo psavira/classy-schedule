@@ -3,8 +3,12 @@
 const express = require("express");
 const hbs = require('express-hbs');
 const cookieParser = require('cookie-parser')
+
 // Process Running
 const { spawn } = require('child_process');
+
+// Filesystem access
+const fs = require('fs')
 
 // Import environment variables from .env
 require('dotenv').config()
@@ -51,9 +55,18 @@ app.listen(PORT, () => {
 
 /* ------------------------------- Test Python ------------------------------ */
 
+// Make some fake data
+let fake_data = {
+    'name': 'bob',
+    'age': '25'
+}
+
+// write the fake data to a file
+fs.writeFileSync('./scheduler-data/testin.json', JSON.stringify(fake_data))
+
 // Spawn a new process running the python script
 console.log('Spawning python process...');
-let python_script = spawn('python', ['./python/test_script.py'])
+let python_script = spawn('python', ['./python/test_rw.py'])
 
 // Print python output from node
 python_script.stdout.on('data', (chunk) => {
@@ -67,23 +80,14 @@ python_script.stderr.on('data', (chunk) => {
 // When the python script exists, log the exit code
 python_script.on('exit', (code, signal) => {
     console.log(`Python script exited with code ${code}`);
-})
+    // output fake data if error code good
+    if (code == 0) {
+        let testout = JSON.parse(fs.readFileSync('./scheduler-data/testout.json'));
+        console.log(testout);
+    } else {
+        console.error('Python script didn\'t exit properly');
+    }
 
-console.log('Spawning python3 process...');
-let python3_script = spawn('python3', ['./python/test_script.py'])
-
-// Print python output from node
-python3_script.stdout.on('data', (chunk) => {
-    console.log(`py3 stdin: ${chunk}`);
-})
-
-python3_script.stderr.on('data', (chunk) => {
-    console.error(`py3 stderr: ${chunk}`);
-})
-
-// When the python script exists, log the exit code
-python3_script.on('exit', (code, signal) => {
-    console.log(`Python3 script exited with code ${code}`);
 })
 
 module.exports = app;
