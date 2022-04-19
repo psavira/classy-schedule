@@ -4,3 +4,4 @@ node_modules
 !.eslintrc
 *.pem
 scheduler-data/*
+!scheduler-data/readme.txt
