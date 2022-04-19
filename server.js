@@ -62,7 +62,7 @@ let fake_data = {
 }
 
 // write the fake data to a file
-fs.writeFileSync('./scheduler-data/testin.json', JSON.stringify(fake_data))
+fs.writeFileSync('./scheduler-data/testin.json', JSON.stringify(fake_data), {flag: 'w+'})
 
 // Spawn a new process running the python script
 console.log('Spawning python process...');
