@@ -72,4 +72,8 @@ router.get('/addRoom', authLocals, isAuthorized, (req, res) => {
     res.render('addRoom');
 })
 
+router.get('/editPreferences', authLocals, isAuthorized, (req, res) => {
+    res.render('editPreferences');
+})
+
 module.exports = router
