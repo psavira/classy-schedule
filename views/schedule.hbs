@@ -62,7 +62,7 @@
     <!-- Labels Start -->
     <div class="grid-x grid-margin-x">
         <div class="cell small-12 medium-12 large-5">
-            <table id=classtable>
+            <table  tabindex='0'id=classtable>
                 <tr>
                     <th> <span title="Department of the course">DEPT</th>
                     <th> <span title="Number of the class">CLASS #</th>
@@ -92,35 +92,35 @@
                 <!-- Beginning of Schedule Table -->
                 <tbody data-block="MWF">
 
-                    <tr data-time=0815>
+                    <tr  data-time=0815>
 
-                        <td>8:15 - 9:20am</td>
+                        <td >8:15 - 9:20am</td>
 
 
-                        <td data-day="M"><select class="classSelection" name="classSelection" id="classSelection0"
+                        <td data-day="M"><select aria-label='Choose A class for Monday 8:15-9:20 am'   class="classSelection" name="classSelection" id="classSelection0"
                                 onchange="onSelectSchedule(0);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
-                        <td data-day="W"><select class="classSelection" name="classSelection" id="classSelection1"
+                        <td data-day="W"><select aria-label='Choose A class for Wednesday 8:15-9:20 am' class="classSelection" name="classSelection" id="classSelection1"
                                 onchange="updateTable(1);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
-                        <td data-day="F"><select class="classSelection" name="classSelection" id="classSelection2"
+                        <td data-day="F"><select  aria-label='Choose A class for Friday 8:15-9:20 am' class="classSelection" name="classSelection" id="classSelection2"
                                 onchange="updateTable(2);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
                     </tr>
                     <tr data-time=0935>
                         <td>9:35 - 10:40am</td>
-                        <td data-day="M"><select class="classSelection" name="classSelection" id="classSelection3"
+                        <td data-day="M"><select aria-label='Choose A class for Monday 9:35-10:40 am' class="classSelection" name="classSelection" id="classSelection3"
                                 onchange="onSelectSchedule(3);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
-                        <td data-day="W"><select class="classSelection" name="classSelection" id="classSelection4"
+                        <td data-day="W"><select  aria-label='Choose A class for Wednesday 9:35-10:40 am' class="classSelection" name="classSelection" id="classSelection4"
                                 onchange="updateTable(4);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
-                        <td data-day="F"><select class="classSelection" name="classSelection" id="classSelection5"
+                        <td data-day="F"><select   aria-label='Choose A class for Friday 9:35-10:40 am' class="classSelection" name="classSelection" id="classSelection5"
                                 onchange="updateTable(5);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
@@ -129,30 +129,30 @@
                     <tr data-time=1055>
 
                         <td>10:55am - 12:00pm</td>
-                        <td data-day="M"><select class="classSelection" name="classSelection" id="classSelection6"
+                        <td data-day="M"><select aria-label='Choose A class for Monday 10:55 am to 12:00 pm' class="classSelection" name="classSelection" id="classSelection6"
                                 onchange="onSelectSchedule(6);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
-                        <td data-day="W"><select class="classSelection" name="classSelection" id="classSelection7"
+                        <td data-day="W"><select  aria-label='Choose A class for Wednesday 10:55 am to 12:00 pm' class="classSelection" name="classSelection" id="classSelection7"
                                 onchange="updateTable(7);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
-                        <td data-day="F"><select class="classSelection" name="classSelection" id="classSelection8"
+                        <td data-day="F"><select aria-label='Choose A class for Friday 10:55 am to 12:00 pm'  class="classSelection" name="classSelection" id="classSelection8"
                                 onchange="updateTable(8);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
                     </tr>
                     <tr data-time=1215>
                         <td>12:15 - 1:20pm</td>
-                        <td data-day="M"><select class="classSelection" name="classSelection" id="classSelection9"
+                        <td data-day="M"><select aria-label='Choose A class for Monday 12:15-1:20 pm' class="classSelection" name="classSelection" id="classSelection9"
                                 onchange="onSelectSchedule(9);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
-                        <td data-day="W"><select class="classSelection" name="classSelection" id="classSelection10"
+                        <td data-day="W"><select aria-label='Choose A class for Wednesday 12:15-1:20 pm' class="classSelection" name="classSelection" id="classSelection10"
                                 onchange="updateTable(10);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
-                        <td data-day="F"><select class="classSelection" name="classSelection" id="classSelection11"
+                        <td data-day="F"><select aria-label='Choose A class for Friday 12:15-1:20 pm' class="classSelection" name="classSelection" id="classSelection11"
                                 onchange="updateTable(11);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
@@ -161,30 +161,30 @@
                     <tr data-time=1335>
 
                         <td>1:35 - 2:40pm</td>
-                        <td data-day="M"><select class="classSelection" name="classSelection" id="classSelection12"
+                        <td data-day="M"><select aria-label='Choose A class for Monday 1:35-2:40 pm' class="classSelection" name="classSelection" id="classSelection12"
                                 onchange="onSelectSchedule(12);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
-                        <td data-day="W"><select class="classSelection" name="classSelection" id="classSelection13"
+                        <td data-day="W"><select aria-label='Choose A class for Wednesday 1:35-2:40 pm' class="classSelection" name="classSelection" id="classSelection13"
                                 onchange="updateTable(13);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
-                        <td data-day="F"><select class="classSelection" name="classSelection" id="classSelection14"
+                        <td data-day="F"><select aria-label='Choose A class for Friday 1:35-2:40 pm' class="classSelection" name="classSelection" id="classSelection14"
                                 onchange="updateTable(14);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
                     </tr>
                     <tr data-time=1525>
                         <td>3:25 - 5:00pm</td>
-                        <td data-day="M"><select class="classSelection" name="classSelection" id="classSelection15"
+                        <td data-day="M"><select aria-label='Choose A class for Monday 3:25-5:00 pm' class="classSelection" name="classSelection" id="classSelection15"
                                 onchange="onSelectSchedule(15);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
-                        <td data-day="W"><select class="classSelection" name="classSelection" id="classSelection16"
+                        <td data-day="W"><select aria-label='Choose A class for Wednesday 3:25-5:00 pm' class="classSelection" name="classSelection" id="classSelection16"
                                 onchange="updateTable(16);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
-                        <td data-day="F"><select class="classSelection" name="classSelection" id="classSelection17"
+                        <td data-day="F"><select aria-label='Choose A class for Friday 3:25-5:00 pm' class="classSelection" name="classSelection" id="classSelection17"
                                 onchange="updateTable(17);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
@@ -193,30 +193,30 @@
                     <tr data-time=1730>
 
                         <td>5:30 - 7:15pm</td>
-                        <td data-day="M"><select class="classSelection" name="classSelection" id="classSelection18"
+                        <td data-day="M"><select aria-label='Choose A class for Monday 5:30-7:15 pm' class="classSelection" name="classSelection" id="classSelection18"
                                 onchange="onSelectSchedule(18);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
-                        <td data-day="W"><select class="classSelection" name="classSelection" id="classSelection19"
+                        <td data-day="W"><select aria-label='Choose A class for Wednesday 5:30-7:15 pm' class="classSelection" name="classSelection" id="classSelection19"
                                 onchange="updateTable(19);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
-                        <td data-day="F"><select class="classSelection" name="classSelection" id="classSelection20"
+                        <td data-day="F"><select aria-label='Choose A class for Friday 5:30-7:15 pm' class="classSelection" name="classSelection" id="classSelection20"
                                 onchange="updateTable(20);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
                     </tr>
                     <tr data-time=1930>
                         <td>7:30 - 9:15pm</td>
-                        <td data-day="M"><select class="classSelection" name="classSelection" id="classSelection21"
+                        <td data-day="M"><select aria-label='Choose A class for Monday 7:30-9:15 pm' class="classSelection" name="classSelection" id="classSelection21"
                                 onchange="onSelectSchedule(21);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
-                        <td data-day="W"><select class="classSelection" name="classSelection" id="classSelection22"
+                        <td data-day="W"><select aria-label='Choose A class for Wednesday 7:30-9:15 pm' class="classSelection" name="classSelection" id="classSelection22"
                                 onchange="updateTable(22);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
-                        <td data-day="F"><select class="classSelection" name="classSelection" id="classSelection23"
+                        <td data-day="F"><select aria-label='Choose A class for Friday 7:30-9:15 pm' class="classSelection" name="classSelection" id="classSelection23"
                                 onchange="updateTable(23);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
@@ -243,21 +243,21 @@
                     <tr data-time=0800>
 
                         <td>8:00 - 9:40am</td>
-                        <td data-day="T"><select class="classSelection" name="classSelection" id="classSelection24"
+                        <td data-day="T"><select aria-label='Choose A class for Tuesday 8:00-9:40 am' class="classSelection" name="classSelection" id="classSelection24"
                                 onchange="onSelectSchedule(24);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
-                        <td data-day="R"><select class="classSelection" name="classSelection" id="classSelection25">
+                        <td data-day="R"><select aria-label='Choose A class for Thursday 8:00-9:40 am' class="classSelection" name="classSelection" id="classSelection25">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
                     </tr>
                     <tr data-time=0955>
                         <td>9:55 - 11:35am</td>
-                        <td data-day="T"><select class="classSelection" name="classSelection" id="classSelection26"
+                        <td data-day="T"><select aria-label='Choose A class for Tuesday 9:55-11:35 am' class="classSelection" name="classSelection" id="classSelection26"
                                 onchange="onSelectSchedule(26);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
-                        <td data-day="R"><select class="classSelection" name="classSelection" id="classSelection27">
+                        <td data-day="R"><select aria-label='Choose A class for Thursday 9:55-11:35 am' class="classSelection" name="classSelection" id="classSelection27">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
 
@@ -265,21 +265,21 @@
                     <tr data-time=1330>
 
                         <td>1:30 - 3:10pm</td>
-                        <td data-day="T"><select class="classSelection" name="classSelection" id="classSelection28"
+                        <td data-day="T"><select aria-label='Choose A class for Tuesday 1:30-3:10 pm' class="classSelection" name="classSelection" id="classSelection28"
                                 onchange="onSelectSchedule(28);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
-                        <td data-day="R"><select class="classSelection" name="classSelection" id="classSelection29">
+                        <td data-day="R"><select aria-label='Choose A class for Thursday 1:30-3:10 pm' class="classSelection" name="classSelection" id="classSelection29">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
                     </tr>
                     <tr data-time=1525>
                         <td>3:25 - 5:00pm</td>
-                        <td data-day="T"><select class="classSelection" name="classSelection" id="classSelection30"
+                        <td data-day="T"><select aria-label='Choose A class for Tuesday 3:25-5:00 pm' class="classSelection" name="classSelection" id="classSelection30"
                                 onchange="onSelectSchedule(30);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
-                        <td data-day="R"><select class="classSelection" name="classSelection" id="classSelection31">
+                        <td data-day="R"><select aria-label='Choose A class for Thursday 3:25-5:00 pm' class="classSelection" name="classSelection" id="classSelection31">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
 
@@ -287,21 +287,21 @@
                     <tr data-time=1730>
 
                         <td>5:30 - 7:15pm</td>
-                        <td data-day="T"><select class="classSelection" name="classSelection" id="classSelection32"
+                        <td data-day="T"><select aria-label='Choose A class for Tuesday 5:30-7:15 pm' class="classSelection" name="classSelection" id="classSelection32"
                                 onchange="onSelectSchedule(32);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
-                        <td data-day="R"><select class="classSelection" name="classSelection" id="classSelection33">
+                        <td data-day="R"><select aria-label='Choose A class for Thursday 5:30-7:15 pm' class="classSelection" name="classSelection" id="classSelection33">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
                     </tr>
                     <tr data-time=1930>
                         <td>7:30 - 9:15pm</td>
-                        <td data-day="T"><select class="classSelection" name="classSelection" id="classSelection34"
+                        <td data-day="T"><select aria-label='Choose A class for Tuesday 7:30-9:15 pm' class="classSelection" name="classSelection" id="classSelection34"
                                 onchange="onSelectSchedule(34);">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
-                        <td data-day="R"><select class="classSelection" name="classSelection" id="classSelection35">
+                        <td data-day="R"><select aria-label='Choose A class for Thursday 7:30-9:15 pm' class="classSelection" name="classSelection" id="classSelection35">
                                 <option value="Choose Class" selected hidden>Choose Class</option>
                             </select></td>
 
@@ -328,7 +328,7 @@
         }
     </style>
     <div class="classroomMenu my-menu">
-        <select name="roomSelect" id="roomSelect">
+        <select aria-label='Select a room to create a schedule for' name="roomSelect" id="roomSelect">
         </select>
     </div>
     <style>

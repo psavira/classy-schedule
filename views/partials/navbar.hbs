@@ -1,18 +1,18 @@
 <!-- Nav Bar Start -->
 <div class="top-bar navbar">
   <div class="top-bar-left">
-    <ul class="dropdown menu" data-dropdown-menu>
+    <ul role='navigation'class="dropdown menu" data-dropdown-menu>
 
       <li><a href="/" class="schedule-link anchor">
-          <img alt="image" width="109" height="98" src="Classy-Schedule.jpg" class="schedule-image" /></a></li>
+          <img alt="Home Page" width="109" height="98" src="Classy-Schedule.jpg" class="schedule-image" /></a></li>
 
-      <li><a href="/help">Help</a></li>
+      <li><a aria-label="Help Page" href="/help">Help</a></li>
 
-      <li><a href="/about">About</a></li>
+      <li ><a aria-label="About Page" href="/about">About</a></li>
 
       {{#if loggedIn}}
-      <li>
-        <a href="#">Add</a>
+      <li aria-label="Add Classes, Rooms, or Professors">
+        <a role="listbox" href="#">Add</a>
         <ul class="menu">
           <li><a href="/addClass">Add Class</a></li>
           <li><a href="/addRoom">Add Room</a></li>
@@ -20,19 +20,19 @@
         </ul>
       </li>
 
-      <li><a href="/schedule">Schedule</a></li>
+      <li><a aria-label="Schedule Page" href="/schedule">Schedule</a></li>
       
       {{else}}
-      <li><a href="/signup">Signup</a></li>
+      <li><a aria-label="Sign up"href="/signup">Signup</a></li>
 
       {{/if}}
 
-    </ul>
+    </ul> 
   </div>
   <div class="top-bar-right">
     <ul class="menu">
       {{#if loggedIn}}
-        <li><a href="/logout"><button type="button" class="button">Logout</button></a></li>
+        <li ><a href="/logout"><button type="button" class="button">Logout</button></a></li>
         <script src="/js/fetchAuthorization.js"></script>
       {{else}}
         <li><a href="/login"><button type="button" class="button">Log In</button></a></li>
