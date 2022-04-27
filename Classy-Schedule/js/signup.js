@@ -80,8 +80,34 @@ function isValidForm(username, pass, reenter_pass) {
     alertContainer++;
   }
 
-  if(pass!=reenter_pass) {
+  if (pass!=reenter_pass) {
     showAlert('password is different from re-enter password.');
+    alertContainer++;
+  }
+
+  if (pass.length < 6) {
+    showAlert('password is too short.');
+    alertContainer++;
+  }
+
+  if (pass.length > 50) {
+    showAlert('password is too long.');
+    alertContainer++;
+  }
+
+  if (pass.search(/\d/) == -1) {
+    showAlert('password must contain at least one number.');
+    alertContainer++;
+  }
+
+  if (pass.search(/[a-zA-Z]/) == -1) {
+    showAlert('password must contain at least one character.');
+    alertContainer++;
+  }
+  
+  // password may contain special characters like !@#$%^&*()_+
+  if (pass.search(/[^a-zA-Z0-9\!\@\#\$\%\^\&\*\(\)\_\+]/) != -1) {
+    showAlert('password must contain at least one character.');
     alertContainer++;
   }
 
