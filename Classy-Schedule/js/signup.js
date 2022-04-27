@@ -13,22 +13,48 @@ async function submitForm() {
   const username = signup_form.username.value;
   const pass = signup_form.password.value;
   const reenter_pass = signup_form.reenterPassword.value;
+
   // if the entry is valid
   if (isValidForm(username, pass, reenter_pass)) {
     // hold info in post data
     const postData = {
       // eslint-disable-next-line object-shorthand
       username: username,
-      pass: pass,
+      // pass: pass,
       reenter_pass: reenter_pass,
     };
+    // fetch the profs from database
+    dbToken.then((token) => {
+      return fetch('https://capstonedbapi.azurewebsites.net/user-management/admin/create', {
+        // send to db
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify(postData),
+      })
+      })
+    // if response is good
+      .then(async (response) => {
+        if (response.ok) {
+          clearAlerts();
+          showAlert('Success!');
 
-    console.log(postData);
-    console.log("object made!");
-
-    //let data = JSON.stringify(postData);  
-    //fs.writeFileSync('file.json', data, finished);
-
+          // Clear form
+          signup_form.username.value = '';
+          signup_form.password.value = '';
+          signup_form.reenterPassword.value = '';
+        } else {
+          // show alerts
+          clearAlerts();
+          const text = await response.text();
+          showAlert(text);
+        }
+      })
+    // catch errors and show messages
+      .catch((error) => {
+        clearAlerts();
+        showAlert(error.message);
+      });
+    showAlert('Sending request...');
   }
 }
 
