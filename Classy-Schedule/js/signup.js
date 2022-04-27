@@ -107,7 +107,7 @@ function isValidForm(username, pass, reenter_pass) {
   
   // password may contain special characters like !@#$%^&*()_+
   if (pass.search(/[^a-zA-Z0-9\!\@\#\$\%\^\&\*\(\)\_\+]/) != -1) {
-    showAlert('password must contain at least one character.');
+    showAlert('password cannot contain special characters other than !@#$%^&*()_+');
     alertContainer++;
   }
 
