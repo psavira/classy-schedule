@@ -25,7 +25,7 @@ async function submitForm() {
     };
     // fetch the profs from database
     dbToken.then((token) => {
-    return fetch('https://capstonedbapi.azurewebsites.net/professor-management/professor/create', {
+    return fetch('https://capstonedbapi.azurewebsites.net/professor-management/professors/create', {
       // send to db
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': token},

@@ -5,7 +5,7 @@ let body = {
 }
 
 function fetchAuthorization() {
-    return fetch("https://capstonedbapi.azurewebsites.net/Users/authenticate",
+    return fetch("https://capstonedbapi.azurewebsites.net/user-management/admin/authenticate",
     {
         "method": "POST",
         "headers": {

@@ -30,7 +30,7 @@ async function submitForm() {
     };
     // fetch the rooms from database
     dbToken.then((token) => {
-      return fetch('https://capstonedbapi.azurewebsites.net/room-management/room/create', {
+      return fetch('https://capstonedbapi.azurewebsites.net/room-management/rooms/create', {
       // send to db
       method: 'POST',
       headers: { 'Content-Type': 'application/json','Authorization': token },
@@ -175,4 +175,16 @@ function addRoom(roomValue){
   var newRoom = document.createElement('option');
   newRoom.text = roomValue;
   document.getElementById('roomSelect').appendChild(newRoom);
+}
+
+function deleteRoom(){
+  // fetch the rooms from database
+  dbToken.then((token) => {
+    return fetch('https://capstonedbapi.azurewebsites.net/room-management/rooms/delete', {
+    // send to db
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json','Authorization': token },
+    body: JSON.stringify(postData),
+  })
+  })
 }

@@ -33,7 +33,7 @@ async function submitForm() {
 
     // POST the data to upload the course
     dbToken.then((token) => {
-      return fetch('https://capstonedbapi.azurewebsites.net/class-management/class/create', {
+      return fetch('https://capstonedbapi.azurewebsites.net/class-management/classes/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': token },
         body: JSON.stringify(postData),
