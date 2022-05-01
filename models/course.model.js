@@ -7,6 +7,7 @@ const Course = function (course) {
   this.class_name = course.class_name;
   this.capacity = course.capacity;
   this.credits = course.credits;
+  this.is_lab = course.lab;
 };
 
 Course.create = function (course) {
@@ -37,6 +38,7 @@ Course.isValid = function (course) {
   if (validator.isEmpty(course.class_name)) {
     invalid_fields.push("Name empty")
   }
+
 
   // Validate department
   if (validator.isEmpty(course.dept_id)) {

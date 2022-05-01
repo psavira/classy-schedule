@@ -2,6 +2,7 @@
 async function submitForm() {
   // Clear any alerts
   clearAlerts();
+  
 
   // Get the form from the document
   const { classForm } = document.forms;
@@ -12,6 +13,7 @@ async function submitForm() {
   classForm.classNumber.classList.remove('error');
   classForm.capacity.classList.remove('error');
   classForm.credits.classList.remove('error');
+  classForm.isLab.classList.remove('error');
 
   // Get form values
   const className = classForm.className.value;
@@ -19,9 +21,11 @@ async function submitForm() {
   const classNum = classForm.classNumber.value;
   const capacity = classForm.capacity.value;
   const credits = classForm.credits.value;
+  const isLab = classForm.isLab.checked;
+  console.log(isLab);
 
   // If info is all valid
-  if (isValidForm(className, deptID, classNum, capacity, credits)) {
+  if (isValidForm(className, deptID, classNum, capacity, credits, isLab)) {
     // Create an object to POST as JSON
     const postData = {
       class_name: className,
@@ -29,7 +33,9 @@ async function submitForm() {
       class_num: classNum,
       capacity: capacity,
       credits: credits,
+      is_lab: isLab
     };
+
 
     // POST the data to upload the course
     dbToken.then((token) => {
@@ -50,6 +56,7 @@ async function submitForm() {
           classForm.classNumber.value = '';
           classForm.capacity.value = '';
           classForm.credits.value = '';
+          classForm.isLab.value='';
         } else {
           clearAlerts();
           const text = await response.text();
@@ -66,7 +73,7 @@ async function submitForm() {
 }
 
 /* function to see if class entry form is valid */
-function isValidForm(className, deptID, classNum, capacity, credits) {
+function isValidForm(className, deptID, classNum, capacity, credits, isLab) {
   // variable to hold # of alerts
   let alertCount = 0;
 

@@ -5,12 +5,33 @@
   {{> globalHead }}
 
   <!--<script src="js/vendor/foundation.min.js"></script>-->
+   <script src="js/addProfessor.js"></script>
+   <link href="css/addClass.css" rel="stylesheet" type="text/css" />
   <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
   <title>Edit Preferences</title>
 </head>
 
 <body>
-    
+      <div class="grid-container">
+    <div class="grid-x grid-padding-x">
+      <div class="cell large-12">
+        <div class="cell small-6">
+          <label>
+            Professor to Edit
+            <select aria-haspopup="true" aria-expanded="false"
+            name="profDelSelect" id="profSelect"></select>
+          </label>
+        </div>
+        <button type="button" class="alert button" onclick="deleteProf()">
+          DELETE
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+
+
 </body>
 
 </html>
