@@ -22,7 +22,7 @@ async function submitForm() {
   const capacity = classForm.capacity.value;
   const credits = classForm.credits.value;
   const isLab = classForm.isLab.checked;
-  console.log(isLab);
+
 
   // If info is all valid
   if (isValidForm(className, deptID, classNum, capacity, credits, isLab)) {

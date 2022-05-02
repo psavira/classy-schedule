@@ -13,15 +13,17 @@ async function submitForm() {
   const first_name = prof_form.firstName.value;
   const last_name = prof_form.lastName.value;
   const teach_load = prof_form.teachLoad.value;
+  const user_email = prof_form.userEmail.value;
 
   // if the entry is valid
-  if (isValidForm(first_name, last_name, teach_load)) {
+  if (isValidForm(first_name, last_name, teach_load, user_email)) {
     // hold info in post data
     const postData = {
       // eslint-disable-next-line object-shorthand
       first_name: first_name,
       last_name: last_name,
       teach_load: teach_load,
+      user_email: user_email
     };
     // fetch the profs from database
     dbToken.then((token) => {
@@ -42,6 +44,7 @@ async function submitForm() {
           prof_form.firstName.value = '';
           prof_form.lastName.value = '';
           prof_form.teachLoad.value = '';
+          prof_form.userEmail.value = '';
         } else {
           // show alerts
           clearAlerts();
@@ -60,7 +63,7 @@ async function submitForm() {
 
 /* function to check if prof entry is valid */
 // eslint-disable-next-line camelcase
-function isValidForm(first_name, last_name, teach_load ) {
+function isValidForm(first_name, last_name, teach_load, user_email ) {
   // counter for alerts
   let alertContainer = 0;
 
@@ -69,6 +72,12 @@ function isValidForm(first_name, last_name, teach_load ) {
     showAlert('empty firstName.');
     alertContainer++;
   }
+
+  if (validator.isEmpty(user_email)) {
+    showAlert('empty email');
+    alertContainer++;
+  }
+
   // last name empty
   if (validator.isEmpty(last_name)) {
     showAlert('Empty lastName.');
@@ -103,4 +112,74 @@ function isValidForm(first_name, last_name, teach_load ) {
 
 /** function to fetch profs from database */
 // eslint-disable-next-line no-unused-vars
+
+async function fetchProfessors() {
+  // get prof select by id
+  const profSelect = document.getElementById('profSelect');
+  // fetch prof from db
+  dbToken.then((token) => {
+  return fetch('https://capstonedbapi.azurewebsites.net/professor-management/professors', 
+    {
+      headers: {'Authorization': token}
+    })
+  })
+    // if response is good return it
+    .then(async (response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      // else error
+      const errorText = await response.text();
+      throw new Error(errorText);
+    })
+    // loop through the profs
+    .then((profSelection) => {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const professor of profSelection) {
+        // create a option for every prof
+        const profOption = document.createElement('option');
+        // set value to prof id
+        profOption.value = professor.lastName;
+        // set text to last name
+        profOption.text = `Professor ${professor.last_name}`;
+        // add each prof
+        profSelect.appendChild(profOption);
+      }
+    })
+    // catch errors and show messages
+    .catch((error) => {
+      clearAlerts();
+      showAlert(error.message);
+    });
+}
+
+/** function to show error messages */
+function showAlert(alertText) {
+  // create container to hold alerts
+  const alertContainer = document.getElementById('alertContainer');
+  // create alert div
+  const alert = document.createElement('div');
+  // add callout and warnings
+  alert.classList.add('callout', 'warning');
+  alert.innerText = alertText;
+  // add alert to container
+  alertContainer.appendChild(alert);
+}
+
+/** function to clear the alerts */
+function clearAlerts() {
+  // make alert container to hold alerts
+  const alertContainer = document.getElementById('alertContainer');
+  // array to hold all alerts
+  const children = [...alertContainer.children];
+  // loop through the alerts
+  // eslint-disable-next-line no-restricted-syntax
+  for (const child of children) {
+    // print error
+    console.log(child);
+    // remove the error
+    alertContainer.removeChild(child);
+  }
+}
+
 
