@@ -4,6 +4,7 @@ const validator = require("validator")
 const Room = function(room) {
     this.room_num = room.room_num;
     this.capacity = room.capacity;
+    this.building_name = room.building_name;
 }
 
 Room.create = function(room) {
@@ -35,6 +36,13 @@ Room.isValid = function(room) {
     if (!validator.isInt(room.room_num)) {
         invalid_fields.push("Room number must be ints")
     }
+    if(validator.isEmpty(room.building_name)){
+        invalid_fields.push("building name empty")
+    }
+    if(validator.isInt(room.building_name)){
+        invalid_fields.push("building name not integer")
+    }
+
 
     if (validator.isEmpty(room.room_num)) {
         invalid_fields.push("Room number empty")

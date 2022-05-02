@@ -9,6 +9,7 @@ async function submitForm() {
 
   roomForm.roomNum.classList.remove('error');
   roomForm.capacity.classList.remove('error');
+  roomForm.buildingName.classList.remove('error')
 
   // create form to hold room entry
   // eslint-disable-next-line camelcase
@@ -19,14 +20,17 @@ async function submitForm() {
   // get capacity
   // eslint-disable-next-line camelcase
   const capacity = room_form.capacity.value;
+  const building_name = room_form.buildingName.value;
 
   // if the entry is valid
-  if (isValidForm(room_num, capacity)) {
+  if (isValidForm(room_num, capacity, building_name)) {
     // hold info in post data
     const postData = {
       room_num: room_num,
       // eslint-disable-next-line object-shorthand
       capacity: capacity,
+      building_name: building_name
+
     };
     // fetch the rooms from database
     dbToken.then((token) => {
@@ -67,7 +71,7 @@ async function submitForm() {
 
 /* function to check if class entry is valid */
 // eslint-disable-next-line camelcase
-function isValidForm(room_num, capacity) {
+function isValidForm(room_num, capacity, building_name) {
   // counter for alerts
   let alertContainer = 0;
 
@@ -77,6 +81,17 @@ function isValidForm(room_num, capacity) {
     document.forms.roomForm.roomNum.classList.add('error');
     alertContainer++;
   }
+  if(validator.isEmpty(building_name)){
+  showAlert('Please enter a building name.');
+    document.forms.roomForm.buildingName.classList.add('error');
+    alertContainer++;
+  }
+
+  if(validator.isInt(building_name)){
+    showAlert('Building name not int.');
+      document.forms.roomForm.buildingName.classList.add('error');
+      alertContainer++;
+    }
 
 
   // Validate department if empty
