@@ -11,6 +11,9 @@
   <title>Edit Preferences</title>
 </head>
 
+<!-- Nav Bar -->
+  {{> navbar}}
+
 <body>
       <div class="grid-container">
     <div class="grid-x grid-padding-x">
@@ -22,15 +25,18 @@
             name="profDelSelect" id="profSelect"></select>
           </label>
         </div>
-        <button type="button" class="alert button" onclick="deleteProf()">
-          DELETE
+        <button type="button" class="button" onclick="editProf()">
+          EDIT
         </button>
       </div>
     </div>
   </div>
 
+<script>
+  fetchProfessors()
+</script>
 
-
+{{> footer}}
 
 </body>
 
