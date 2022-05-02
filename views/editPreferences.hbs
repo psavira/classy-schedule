@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  {{> globalHead }}
-
-  <!--<script src="js/vendor/foundation.min.js"></script>-->
-   <script src="js/addProfessor.js"></script>
-   <link href="css/addClass.css" rel="stylesheet" type="text/css" />
-  <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
+@ -11,6 +11,9 @@
   <title>Edit Preferences</title>
 </head>
 
@@ -17,14 +8,12 @@
 <body>
       <div class="grid-container">
     <div class="grid-x grid-padding-x">
-      <div class="cell large-12">
-        <div class="cell small-6">
-          <label>
-            Professor to Edit
-            <select aria-haspopup="true" aria-expanded="false"
+@ -22,15 +25,18 @@
             name="profDelSelect" id="profSelect"></select>
           </label>
         </div>
+        <button type="button" class="alert button" onclick="deleteProf()">
+          DELETE
         <button type="button" class="button" onclick="editProf()">
           EDIT
         </button>
@@ -36,8 +25,7 @@
   fetchProfessors()
 </script>
 
+
 {{> footer}}
 
 </body>
-
-</html>

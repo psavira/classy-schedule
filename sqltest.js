@@ -28,11 +28,7 @@ conn.connect(
 
 function queryDatabase(){
 
-  conn.query('SELECT * FROM class', function(err, results, fields) {
-    if(err) throw err;
-    console.log(JSON.stringify(results));
-  })
-  conn.query('DESCRIBE room', function(err, results, fields) {
+  conn.query('DESCRIBE class_preference', function(err, results, fields) {
   if(err) throw err;
       console.log(JSON.stringify(results));
   })
