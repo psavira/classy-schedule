@@ -53,7 +53,7 @@ app.listen(PORT, () => {
     console.log('App up at port %s', PORT);
 });
 
-/* ------------------------------- Test Python ------------------------------ 
+/* ------------------------------- Test Python ------------------------------ */
 
 // Make some fake data
 let fake_data = {
@@ -89,5 +89,5 @@ python_script.on('exit', (code, signal) => {
     }
 
 })
-*/
+
 module.exports = app;
