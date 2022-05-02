@@ -22,13 +22,13 @@ async function submitForm() {
       username: username,
       // pass: pass,
       reenter_pass: reenter_pass,
-    };
+    }; console.log(postData);
     // fetch the profs from database
     dbToken.then((token) => {
       return fetch('https://capstonedbapi.azurewebsites.net/user-management/admin/create', {
         // send to db
         method: 'POST',
-        headers: { 'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json', 'Authorization': token},
         body: JSON.stringify(postData),
       })
       })
