@@ -122,9 +122,12 @@ function isValidForm(room_num, capacity, building_name) {
 // eslint-disable-next-line no-unused-vars
 async function fetchRooms() {
   // get room select by id
-  const roomSelect = document.getElementById('roomSelect');
-  // fetch rooms from db
-  fetch('/api/room')
+  dbToken.then((token) => {
+    return fetch('https://capstonedbapi.azurewebsites.net/room-management/rooms', 
+      {
+        headers: {'Authorization': token}
+      })
+    })
     // if response is good return it
     .then(async (response) => {
       if (response.ok) {

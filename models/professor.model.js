@@ -6,6 +6,7 @@ const Professor = function(professor) {
     this.last_name = professor.last_name;
     this.teach_load = professor.teach_load;
     this.user_email = professor.user_email;
+    this.professor_id = professor.professor_id
 }
 
 Professor.create = function(professor) {

@@ -12,7 +12,7 @@ const class_preference = function(classpreference) {
     this.class_num = classpreference.class_num;
     this.dept_id = classpreference.dept_id;
     this.is_lab = classpreference.is_lab;
-    this.prof_id = classpreference.prof_id;
+    this.professor_id = classpreference.professor_id;
     this.can_teach = classpreference.can_teach;
     this.prefer_to_teach = classpreference.prefer_to_teach;
 }
@@ -38,7 +38,7 @@ class_preference.create = function(classpreference) {
     )
 }
 
-class_preference.isValid = function(classpreference) {
+class_preference.isValid = function(class_num, dept_id, is_lab, professor_id, can_teach, prefer_to_teach) {
     let invalid_fields = []
 
     

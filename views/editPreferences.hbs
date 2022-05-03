@@ -19,7 +19,7 @@
   <form id="classForm" name="classForm">
     <div class="grid-container">
       <label>Professor to Edit
-        <select type="text" name="profId" id="profSelect" />
+        <select type="text" name="profId" id="testCanTeach" />
       </label>
 
 
@@ -30,7 +30,12 @@ async function fetchProfessors() {
   // get prof select by id
   const profSelect = document.getElementById('profSelect');
   // fetch prof from db
-  fetch('/api/professor')
+  dbToken.then((token) => {
+  return fetch('https://capstonedbapi.azurewebsites.net/professor-management/professors', 
+    {
+      headers: {'Authorization': token}
+    })
+  })
     // if response is good return it
     .then(async (response) => {
       if (response.ok) {
@@ -49,7 +54,7 @@ async function fetchProfessors() {
         // set value to prof id
         profOption.value = professor.lastName;
         // set text to last name
-        profOption.text = `Professor ${professor.last_name}`;
+        profOption.text = `Professor ${professor.last_name} ${professor.professor_id}`;
         // add each prof
         profSelect.appendChild(profOption);
       }
@@ -91,21 +96,22 @@ function clearAlerts() {
 }
 
 
+</script>
+<script>
 
 
 
- async function fetchPreferences() {
+ async function fetchCanTeach() {
         // make classSelect by id
-        const classSelect = document.getElementById('testpreferences');
+        const classSelect = document.getElementById('testCan');
         // fetch courses from database
-        dbToken.then(token => {
-          return fetch('https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/can-teach/65',
-          {
-            headers: {
-              'Authorization': token
-            }
-          })
-        })
+        dbToken.then((token) => {
+  return fetch('https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/can-teach/1', 
+    {
+
+      headers: {'Authorization': token}
+    })
+  })
         // if response okay return response
           .then(async (response) => {
             if (response.ok) {
@@ -139,6 +145,10 @@ function clearAlerts() {
   }
 
 
+
+async function fetchPreferTeach() {
+  
+}
 
 
     </script>
@@ -205,7 +215,8 @@ function clearAlerts() {
   <!-- Run scripts on page load -->
   <script>
     fetchDepartments();
-    fetchProfessors();
+   // fetchProfessors();
+   fetchCanTeach();
   </script>
  </body>
   {{> footer}}
