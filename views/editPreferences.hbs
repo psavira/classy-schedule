@@ -25,10 +25,8 @@
 
 
       <script>
-
 /** function to fetch profs from database */
 // eslint-disable-next-line no-unused-vars
-
 async function fetchProfessors() {
   // get prof select by id
   const profSelect = document.getElementById('profSelect');
@@ -68,9 +66,6 @@ async function fetchProfessors() {
       showAlert(error.message);
     });
 }
-
-
-
 /** function to show error messages */
 function showAlert(alertText) {
   // create container to hold alerts
@@ -83,7 +78,6 @@ function showAlert(alertText) {
   // add alert to container
   alertContainer.appendChild(alert);
 }
-
 /** function to clear the alerts */
 function clearAlerts() {
   // make alert container to hold alerts
@@ -100,20 +94,22 @@ function clearAlerts() {
   }
 }
 
+function getProfID(){
+  var select = document.getElementById('profSelect');
+  var value  = select.options[select.selectedIndex].value;
+
+  return value;
+}
 
 </script>
 <script>
-
-
-
- /*async function fetchCanTeach() {
+ async function fetchCanTeach() {
         // make classSelect by id
         const classSelect = document.getElementById('testCan');
         // fetch courses from database
         dbToken.then((token) => {
-  return fetch('https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/can-teach/1', 
+  return fetch('https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/can-teach/1'+getProfID(), 
     {
-
       headers: {'Authorization': token}
     })
   })
@@ -147,15 +143,10 @@ function clearAlerts() {
             showAlert(error.message);
           });
   
-  }*/
-
-
-
+  }
 /*async function fetchPreferTeach() {
   
 }*/
-
-
     </script>
       <!-- I think i got all the errors except negatives -->
 
@@ -212,7 +203,7 @@ function clearAlerts() {
   <script>
     fetchDepartments();
     fetchProfessors();
-  // fetchCanTeach();
+   fetchCanTeach();
   </script>
  </body>
   {{> footer}}
