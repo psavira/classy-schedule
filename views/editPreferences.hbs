@@ -103,12 +103,12 @@ function getProfID(){
 
 </script>
 <script>
- /*async function fetchCanTeach() {
+ async function fetchCanTeach() {
         // make classSelect by id
         const classSelect = document.getElementById('testCan');
         // fetch courses from database
         dbToken.then((token) => {
-  return fetch('https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/can-teach/1', 
+  return fetch('https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/can-teach/1'+getProfID(), 
     {
       headers: {'Authorization': token}
     })
@@ -143,7 +143,7 @@ function getProfID(){
             showAlert(error.message);
           });
   
-  }*/
+  }
 /*async function fetchPreferTeach() {
   
 }*/
@@ -203,7 +203,7 @@ function getProfID(){
   <script>
     fetchDepartments();
     fetchProfessors();
-  // fetchCanTeach();
+   fetchCanTeach();
   </script>
  </body>
   {{> footer}}
