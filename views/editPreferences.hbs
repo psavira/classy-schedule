@@ -19,12 +19,15 @@
   <form id="classForm" name="classForm">
     <div class="grid-container">
       <label>Professor to Edit
-        <select type="text" name="profId" id="testCanTeach" />
+        <select type="text" name="profId" id="profSelect" />
       </label>
 
 
 
       <script>
+
+/** function to fetch profs from database */
+// eslint-disable-next-line no-unused-vars
 
 async function fetchProfessors() {
   // get prof select by id
@@ -52,7 +55,7 @@ async function fetchProfessors() {
         // create a option for every prof
         const profOption = document.createElement('option');
         // set value to prof id
-        profOption.value = professor.lastName;
+        profOption.value = professor.professor_id;
         // set text to last name
         profOption.text = `Professor ${professor.last_name} ${professor.professor_id}`;
         // add each prof
@@ -65,6 +68,8 @@ async function fetchProfessors() {
       showAlert(error.message);
     });
 }
+
+
 
 /** function to show error messages */
 function showAlert(alertText) {
@@ -101,7 +106,7 @@ function clearAlerts() {
 
 
 
- async function fetchCanTeach() {
+ /*async function fetchCanTeach() {
         // make classSelect by id
         const classSelect = document.getElementById('testCan');
         // fetch courses from database
@@ -142,26 +147,17 @@ function clearAlerts() {
             showAlert(error.message);
           });
   
-  }
+  }*/
 
 
 
-async function fetchPreferTeach() {
+/*async function fetchPreferTeach() {
   
-}
+}*/
 
 
     </script>
       <!-- I think i got all the errors except negatives -->
-      <div class="grid-x grid-padding-x">
-        <div class="cell small-6">
-          <label 
-          >Department
-            <select 
-            aria-haspopup="true" aria-expanded="false"
-            name="department" id="department"></select>
-          </label>
-        </div>
 
         <div class="cell small-6">
           <label>Class Number
@@ -215,8 +211,8 @@ async function fetchPreferTeach() {
   <!-- Run scripts on page load -->
   <script>
     fetchDepartments();
-   // fetchProfessors();
-   fetchCanTeach();
+    fetchProfessors();
+  // fetchCanTeach();
   </script>
  </body>
   {{> footer}}
