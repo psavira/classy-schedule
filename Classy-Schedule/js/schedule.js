@@ -149,23 +149,6 @@ function makeTable() {
         row.innerHTML += `<td> ${classSelection[i].class_num}</td>`;
         row.innerHTML += `<td> ${classSelection[i].class_name}</td>`;
         row.innerHTML += `<td> ${classSelection[i].capacity}</td>`;
-        row.innerHTML += 
-          `<input
-            class="section"
-            type="number"
-            name="section"
-            id=SR${currentClassValue}
-            placeholder="1"
-            value = "1"
-            pattern="\d*"
-            min="0"
-            max="99"
-            maxlength="2"
-            onkeyup="if(this.value<0){this.value= this.value * -1}"
-            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-            onchange=checkSectionCount(${classSelection[i].dept_id},${classSelection[i].class_num});
-            step="1"
-            />`;
         // add row to table
         table.appendChild(row);
       }
@@ -308,7 +291,6 @@ function onSelectSchedule(num){
     autoFillTuesThurs(num);
   }
   updateTable(num);
-  removeClass(value);
 }
 
 /* Auto-fills Weds and Fri slots when Monday is selected :
@@ -321,9 +303,11 @@ function autoFill(num) {
   if(monValue != 'Choose Class'){
     if(wedValue == 'Choose Class'){
       document.getElementById(`classSelection${num+1}`).value = monValue;
+      updateTable(num+1)
     }
     if(friValue == 'Choose Class'){
       document.getElementById(`classSelection${num+2}`).value = monValue;
+      updateTable(num+2)
     }
   }
 }
@@ -337,6 +321,7 @@ function autoFillTuesThurs(num) {
   if(tuesValue != 'Choose Class'){
     if (thursValue == 'Choose Class'){
       document.getElementById(`classSelection${num+1}`).value = tuesValue;
+      updateTable(num+1)
     }
   }
 }
@@ -344,16 +329,31 @@ function autoFillTuesThurs(num) {
 /* Will update table when class section is scheduled :
    When Sections=0, that class will be made unavailable to schedule */
 function updateTable(num){
-  var currentClassValue = document.getElementById(`classSelection${num}`).value;
-  var sectionID = 'SR'+currentClassValue;
-  document.getElementById(sectionID).value = parseInt(document.getElementById(sectionID).value,10)-1;
+  var currentClassElem = document.getElementById(`classSelection${num}`);
+  var currentClassValue = currentClassElem.value;
 
-  if(document.getElementById(sectionID).value <= 0){
-    document.getElementById(sectionID).value = 0;
-    document.getElementById('R'+currentClassValue).style.background = 'red';
-    document.getElementById('SR'+currentClassValue).style.color = 'red';
-    removeClass(currentClassValue);
+  // If val is not Choose Class and professor select doesn't exist, append professor select element
+  // Else, remove any professor selects
+  let professorSelect = currentClassElem.parentNode.querySelector(".professor-select")
+  if(currentClassValue != "Choose Class") {
+    if(professorSelect == null) {
+      console.log("Adding prof select")
+      professorSelect = document.createElement("select")
+      professorSelect.classList.add("professor-select");
+      let defaultOption = document.createElement("option")
+      defaultOption.value = undefined;
+      defaultOption.textContent = "Choose Prof";
+      professorSelect.appendChild(defaultOption);
+      currentClassElem.parentNode.appendChild(professorSelect);
+      
+    }
+  } else {
+    console.log("Trying to remove professor select")
+    if(professorSelect != null) {
+      currentClassElem.parentNode.removeChild(professorSelect);
+    }
   }
+
 }
 
 // Will remove room from dropdown
