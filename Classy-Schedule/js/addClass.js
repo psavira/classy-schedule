@@ -291,3 +291,79 @@ async function fetchProfessorsData() {
 }
 
 
+async function fetchRoomsData() {
+  // get room select by id
+  let rooms = [];
+  let room;
+  dbToken.then((token) => {
+    return fetch('https://capstonedbapi.azurewebsites.net/room-management/rooms', 
+      {
+        headers: {'Authorization': token}
+      })
+    })
+    // if response is good return it
+    .then(async (response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      // else error
+      const errorText = await response.text();
+      throw new Error(errorText);
+    })
+    // loop through the rooms
+    .then((roomData) => {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const room of roomData) {
+        let ro = room.room_num;
+        rooms.push(ro);
+        
+      }
+      console.log(rooms);
+    })
+    // catch errors and show messages
+    .catch((error) => {
+      clearAlerts();
+      showAlert(error.message);
+    });
+}
+
+async function fetchClassesData() {
+  // make classSelect by id
+  let classes = [];
+  // fetch courses from database
+  dbToken.then(token => {
+    return fetch('https://capstonedbapi.azurewebsites.net/class-management/classes',
+    {
+      headers: {
+        'Authorization': token
+      }
+    })
+  })
+  // if response okay return response
+    .then(async (response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      // otherwise error
+      const errorText = await response.text();
+      throw new Error(errorText);
+    })
+    // loop through courses
+    .then((classesData) => {
+      for(const classs of classesData){
+        cla = {classID: classs.classID, className: classs.class_name, Section: classs.Section};
+        classes.push(cla);
+      }
+      console.log(classes);
+    })
+    
+    // catch errors and show message
+    .catch((error) => {
+      clearAlerts();
+      showAlert(error.message);
+    });
+
+}
+
+
+

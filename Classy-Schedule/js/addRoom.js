@@ -206,3 +206,40 @@ function deleteRoom(){
   })
   })
 }
+
+
+async function fetchRoomsData() {
+  // get room select by id
+  let rooms = [];
+  let room;
+  dbToken.then((token) => {
+    return fetch('https://capstonedbapi.azurewebsites.net/room-management/rooms', 
+      {
+        headers: {'Authorization': token}
+      })
+    })
+    // if response is good return it
+    .then(async (response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      // else error
+      const errorText = await response.text();
+      throw new Error(errorText);
+    })
+    // loop through the rooms
+    .then((roomData) => {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const room of roomData) {
+        let ro = room.room_num;
+        rooms.push(ro);
+        
+      }
+      console.log(rooms);
+    })
+    // catch errors and show messages
+    .catch((error) => {
+      clearAlerts();
+      showAlert(error.message);
+    });
+}
