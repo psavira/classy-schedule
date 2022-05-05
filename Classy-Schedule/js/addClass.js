@@ -56,7 +56,7 @@ async function submitForm() {
           classForm.classNumber.value = '';
           classForm.capacity.value = '';
           classForm.credits.value = '';
-          classForm.isLab.value='';
+          classForm.isLab.value = '';
         } else {
           clearAlerts();
           const text = await response.text();

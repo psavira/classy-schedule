@@ -34,7 +34,14 @@ async function fetchClasses() {
   // gets class of classes
   const classSelect = document.getElementsByClassName('classSelection');
   // fetch the courses
-  fetch('/api/courses')
+  dbToken.then(token => {
+    return fetch('https://capstonedbapi.azurewebsites.net/class-management/classes',
+    {
+      headers: {
+        'Authorization': token
+      }
+    })
+  })
   // if it works correctly
     .then(async (response) => {
       if (response.ok) {
@@ -74,7 +81,12 @@ async function fetchRooms() {
   // create an element to hold rooms
   const roomSelect = document.getElementById('roomSelect');
   // fetch rooms
-  fetch('/api/room')
+  dbToken.then((token) => {
+    return fetch('https://capstonedbapi.azurewebsites.net/room-management/rooms', 
+      {
+        headers: {'Authorization': token}
+      })
+    })
     // check for errors if okay
     .then(async (response) => {
       // if the response is good
@@ -92,7 +104,7 @@ async function fetchRooms() {
         // create an element to hold room options
         const roomOption = document.createElement('option');
         // set value to room id
-        roomOption.value = 'Room '+room.room_num;
+        roomOption.value = 'Room ' + room.room_num;
         // roomOption hold room number
         roomOption.text = `ROOM ${room.room_num}`;
         // append child to get all room options
@@ -110,7 +122,14 @@ async function fetchRooms() {
 to see what has been entered and what options they have for schedule */
 function makeTable() {
   // get the courses
-  fetch('/api/courses')
+  dbToken.then(token => {
+    return fetch('https://capstonedbapi.azurewebsites.net/class-management/classes',
+    {
+      headers: {
+        'Authorization': token
+      }
+    })
+  })
     // if response is good, move on
     .then(async (response) => {
       if (response.ok) {
@@ -133,7 +152,7 @@ function makeTable() {
         var currentClassValue = `${classSelection[i].dept_id}-${classSelection[i].class_num}`;
 
         // adds id to each row
-        row.id = 'R'+currentClassValue;
+        row.id = 'R' + currentClassValue;
         
         // if dept_id for class is 1 = cisc
         // these will be the  data in each row
@@ -285,7 +304,7 @@ function setSchedule(schedule) {
 function onSelectSchedule(num){
   value = document.getElementById(`classSelection${num}`).value;
 
-  if(num<=23){
+  if(num <= 23){
     autoFill(num);
   }else{
     autoFillTuesThurs(num);
@@ -297,17 +316,17 @@ function onSelectSchedule(num){
    DOES NOT FILL IF CLASS HAS ALREADY BEEN SELECTED FOR WED/FRI */
 function autoFill(num) {
   let monValue = document.getElementById(`classSelection${num}`).value;
-  let wedValue = document.getElementById(`classSelection${num+1}`).value;
-  let friValue = document.getElementById(`classSelection${num+2}`).value;
+  let wedValue = document.getElementById(`classSelection${num + 1}`).value;
+  let friValue = document.getElementById(`classSelection${num + 2}`).value;
 
   if(monValue != 'Choose Class'){
     if(wedValue == 'Choose Class'){
-      document.getElementById(`classSelection${num+1}`).value = monValue;
-      updateTable(num+1)
+      document.getElementById(`classSelection${num + 1}`).value = monValue;
+      updateTable(num + 1)
     }
     if(friValue == 'Choose Class'){
-      document.getElementById(`classSelection${num+2}`).value = monValue;
-      updateTable(num+2)
+      document.getElementById(`classSelection${num + 2}`).value = monValue;
+      updateTable(num + 2)
     }
   }
 }
@@ -316,12 +335,12 @@ function autoFill(num) {
    DOES NOT FILL IF CLASS HAS ALREADY BEEN SELECTED FOR THURS */
 function autoFillTuesThurs(num) {
   var tuesValue = document.getElementById(`classSelection${num}`).value;
-  var thursValue = document.getElementById(`classSelection${num+1}`).value;
+  var thursValue = document.getElementById(`classSelection${num + 1}`).value;
 
   if(tuesValue != 'Choose Class'){
     if (thursValue == 'Choose Class'){
-      document.getElementById(`classSelection${num+1}`).value = tuesValue;
-      updateTable(num+1)
+      document.getElementById(`classSelection${num + 1}`).value = tuesValue;
+      updateTable(num + 1)
     }
   }
 }
@@ -358,7 +377,7 @@ function updateTable(num){
 
 // Will remove room from dropdown
 function removeClass(currentClassValue){
-  for (let i=0; i<36; i++){
+  for (let i = 0; i < 36; i ++){
     if(document.querySelector(`#classSelection${i} option[value=`+"'"+currentClassValue+"'"+']') != null && document.getElementById(`classSelection${i}`).value != currentClassValue){
       document.querySelector(`#classSelection${i} option[value=`+"'"+currentClassValue+"'"+']').remove();
     }
@@ -368,7 +387,7 @@ function removeClass(currentClassValue){
 // Saves current schedule for room when new room is selected;
 // Removes class from dropdown if necessary
 function deleteRoom(){
-  for (let i=0; i<36; i++){
+  for (let i = 0; i < 36; i ++){
     var currentClassValue = document.getElementById(`classSelection${i}`).value;
   
     if(document.getElementById('SR'+currentClassValue) != null && document.getElementById('S'+currentClassValue).value == 0){
@@ -381,33 +400,33 @@ function deleteRoom(){
 
 //changes background color to green-ish or red depending on section count
 function checkSectionCount(deptID,classNum){
-  var currentClassValue = deptID+"-"+classNum;  
-  if(document.getElementById('SR'+currentClassValue).value > 0){
-    document.getElementById('R'+currentClassValue).style.background = '#AAC705';
-    document.getElementById('SR'+currentClassValue).style.color = 'black';
+  var currentClassValue = deptID + "-" + classNum;  
+  if(document.getElementById('SR' + currentClassValue).value > 0){
+    document.getElementById('R' + currentClassValue).style.background = '#AAC705';
+    document.getElementById('SR'+ currentClassValue).style.color = 'black';
     addClass(deptID,classNum);
   }else{
-    document.getElementById('SR'+currentClassValue).value = 0;
-    document.getElementById('R'+currentClassValue).style.background = 'red';
-    document.getElementById('SR'+currentClassValue).style.color = 'red';
-    removeClass(deptID+'-'+classNum);
+    document.getElementById('SR' + currentClassValue).value = 0;
+    document.getElementById('R' + currentClassValue).style.background = 'red';
+    document.getElementById('SR' + currentClassValue).style.color = 'red';
+    removeClass(deptID + '-' + classNum);
   }
 }
 
 //Adds class when section is added
 function addClass(deptID,classNum){
   var newClass = document.createElement('option');
-  var section  = document.getElementById('SR'+deptID+'-'+classNum).value;
+  var section  = document.getElementById('SR' + deptID + '-' + classNum).value;
 
-  if(deptID==1){
-    newClass.text = 'CISC '+classNum;
-  }else if(deptID==2){
-    newClass.text = 'STAT '+classNum;
+  if(deptID == 1){
+    newClass.text = 'CISC ' + classNum;
+  }else if(deptID == 2){
+    newClass.text = 'STAT ' + classNum;
   }
 
-  newClass.value = deptID+'-'+classNum;
+  newClass.value = deptID + '-' + classNum;
 
-  for (let i=0; i<36; i++){
-    document.getElementById(`classSelection${i}`).appendChild(newClass.cloneNode(deep=true));
+  for (let i = 0; i < 36; i ++){
+    document.getElementById(`classSelection${i}`).appendChild(newClass.cloneNode(deep = true));
   }
 }

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang = "en">
 
 <head>
   {{> globalHead }}
 
-  <script src="js/addProfessor.js"></script>
-  <link href="css/addClass.css" rel="stylesheet" type="text/css" />
+  <script src = "js/addProfessor.js"></script>
+  <link href = "css/addClass.css" rel = "stylesheet" type = "text/css" />
   <!--<script src="js/vendor/foundation.min.js"></script>-->
-  <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
+  <script src = "https://unpkg.com/validator@latest/validator.min.js"></script>
   <title>Add Professor</title>
 </head>
 
@@ -15,31 +15,31 @@
 
   {{> navbar}}
 
-  <form id="profForm">
-    <div class="grid-container">
+  <form id = "profForm">
+    <div class = "grid-container">
 
       <label>First Name
-        <input type="text" name="firstName" placeholder="First Name" />
+        <input type = "text" name = "firstName" placeholder = "First Name" />
       </label>
 
       <label>Last Name
-        <input type="text" name="lastName" placeholder="Last Name" />
+        <input type = "text" name = "lastName" placeholder = "Last Name" />
       </label>
 
-      <div class="grid-x grid-padding-x">
-        <div class="cell large-12">
-          <div class="cell small-6">
+      <div class = "grid-x grid-padding-x">
+        <div class = "cell large-12">
+          <div class = "cell small-6">
             <label>Teach Load
-              <input type="number" name="teachLoad" placeholder="xx"
-                onkeyup="if(this.value<0){this.value= this.value * -1}" max="100" min="0" />
+              <input type = "number" name = "teachLoad" placeholder = "xx"
+                onkeyup = "if(this.value < 0){this.value = this.value * -1}" max = "100" min = "0" />
             </label>
           </div>
 
            <label>Email
-        <input type="text" name="userEmail" placeholder="Email" max="100"/>
+        <input type = "text" name = "userEmail" placeholder = "Email" max = "100"/>
       </label>
 
-          <button type="button" class="submit success button" onclick="submitForm()">
+          <button type = "button" class = "submit success button" onclick = "submitForm()">
             Submit
           </button>
         </div>
@@ -47,24 +47,24 @@
     </div>
   </form>
 
-  <div class="grid-container">
-    <div class="grid-x grid-padding-x">
-      <div class="cell large-12">
-        <div class="cell small-6">
+  <div class = "grid-container">
+    <div class = "grid-x grid-padding-x">
+      <div class = "cell large-12">
+        <div class = "cell small-6">
           <label>
             Professor to Delete
-            <select aria-haspopup="true" aria-expanded="false"
-            name="profDelSelect" id="profSelect"></select>
+            <select aria-haspopup = "true" aria-expanded = "false"
+            name = "profDelSelect" id = "profSelect"></select>
           </label>
         </div>
-        <button type="button" class="alert button" onclick="deleteProf()">
+        <button type = "button" class = "alert button" onclick = "deleteProf()">
           DELETE
         </button>
       </div>
     </div>
   </div>
 
-  <div id="alertContainer"></div>
+  <div id = "alertContainer"></div>
 
   <script>
     fetchProfessors()

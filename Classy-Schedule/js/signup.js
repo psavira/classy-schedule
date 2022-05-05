@@ -80,7 +80,7 @@ function isValidForm(username, pass, reenter_pass) {
     alertContainer++;
   }
 
-  if (pass!=reenter_pass) {
+  if (pass != reenter_pass) {
     showAlert('password is different from re-enter password.');
     alertContainer++;
   }

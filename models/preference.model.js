@@ -1,13 +1,6 @@
 const sql = require("./db")
 const validator = require("validator")
-/*
-[{"Field":"class_num","Type":"smallint","Null":"NO","Key":"PRI","Default":null,"Extra":""},
-{"Field":"dept_id","Type":"int","Null":"NO","Key":"PRI","Default":null,"Extra":""},
-{"Field":"is_lab","Type":"tinyint(1)","Null":"NO","Key":"PRI","Default":null,"Extra":""},
-{"Field":"prof_id","Type":"int","Null":"NO","Key":"PRI","Default":null,"Extra":""},
-{"Field":"can_teach","Type":"tinyint(1)","Null":"YES","Key":"","Default":null,"Extra":""},
-{"Field":"prefer_to_teach","Type":"tinyint(1)","Null":"YES","Key":"","Default":null,"Extra":""}]
-*/
+
 const class_preference = function(classpreference) {
     this.class_num = classpreference.class_num;
     this.dept_id = classpreference.dept_id;
