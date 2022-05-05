@@ -114,7 +114,7 @@ async function fetchProfessors() {
             // eslint-disable-next-line no-restricted-syntax
             for (const possibleClass of classSelection) {
                 //CLASS_ID NOT IMPLEMENTED YET IN DB
-                classes.add(possibleClass.class_id);
+                classes.push(possibleClass.class_id);
             }
 
             return classes;
