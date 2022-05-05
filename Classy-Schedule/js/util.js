@@ -31,8 +31,9 @@ async function fetchClasses() {
                 "name": classes.class_name,
                 
                 //doesn't exist yet
-                "sections": classes.sections
+                "sections": classes.sections,
             }
+            console.log(classes.sections);
 
             var classString = JSON.stringify(classSelect);
             fs.writeFile("classes.json",classString);

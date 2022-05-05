@@ -251,3 +251,43 @@ async function fetchClasses() {
 }
 
 
+
+async function fetchProfessorsData() {
+  let persons = [];
+  // fetch prof from db
+  dbToken.then((token) => {
+  return fetch('https://capstonedbapi.azurewebsites.net/professor-management/professors', 
+    {
+      headers: {'Authorization': token}
+    })
+  })
+    // if response is good return it
+    .then(async (response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      // else error
+      const errorText = await response.text();
+      throw new Error(errorText);
+    })
+    // loop through the profs
+    .then((profData) => {
+      // eslint-disable-next-line no-restricted-syntax
+      //need to add can teach eventually!!!
+      for (const professor of profData) {
+          person = {ID: professor.professor_id, Name: professor.last_name};
+          persons.push(person);
+
+      }
+    })
+    
+    // catch errors and show messages
+    .catch((error) => {
+      clearAlerts();
+      showAlert(error.message);
+    });
+    console.log(persons);
+    
+}
+
+
