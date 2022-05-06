@@ -275,7 +275,7 @@ async function fetchProfessorsData() {
       // eslint-disable-next-line no-restricted-syntax
       //need to add can teach eventually!!!
       for (const professor of profData) {
-          person = {ID: professor.professor_id, Name: professor.last_name};
+          person = {id: professor.professor_id, name: professor.last_name, classes: getProfClasses(professor.professor_id)};
           persons.push(person);
 
       }
@@ -288,6 +288,40 @@ async function fetchProfessorsData() {
     });
     console.log(persons);
     
+}
+
+function getProfClasses(profID){
+  var classes = [];
+
+  dbToken.then((token) => {
+    return fetch('https://capstonedbapi.azurewebsites.net//preference-management/class-preferences/can-teach/'+profID, 
+    {
+      headers: {'Authorization': token}
+    })
+  })
+  // if response is good return it
+  .then(async (response) => {
+    if (response.ok) {
+      return response.json();
+    }
+    // else error
+    const errorText = await response.text();
+    throw new Error(errorText);
+  })
+  // loop through the classes
+  .then((classSelection) => {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const possibleClass of classSelection) {
+      //CLASS_ID NOT IMPLEMENTED YET IN DB - NEEDS TO BE CHANGED ONE IT IS
+      classes.push(possibleClass.dept_id + '-' + possibleClass.class_num);
+    }
+  })
+  //catch errors and show messages
+  .catch((error) => {
+    clearAlerts();
+    showAlert(error.message);
+  });
+  return classes;
 }
 
 
@@ -366,4 +400,39 @@ async function fetchClassesData() {
 }
 
 
-
+async function fetchTimesData() {
+  // make classSelect by id
+  let times = [];
+  // fetch courses from database
+  dbToken.then(token => {
+    return fetch('https://capstonedbapi.azurewebsites.net/time_slot-management/time_slots',
+    {
+      headers: {
+        'Authorization': token
+      }
+    })
+  })
+  // if response okay return response
+    .then(async (response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      // otherwise error
+      const errorText = await response.text();
+      throw new Error(errorText);
+    })
+    // loop through courses
+    .then((timeData) => {
+      for(const time of timeData){
+        times.push(time.time_slot_id);
+      }
+      console.log(times);
+    })
+    
+    // catch errors and show message
+    .catch((error) => {
+      clearAlerts();
+      showAlert(error.message);
+    });
+    return times;
+}
