@@ -400,4 +400,39 @@ async function fetchClassesData() {
 }
 
 
-
+async function fetchTimesData() {
+  // make classSelect by id
+  let times = [];
+  // fetch courses from database
+  dbToken.then(token => {
+    return fetch('https://capstonedbapi.azurewebsites.net/time_slot-management/time_slots',
+    {
+      headers: {
+        'Authorization': token
+      }
+    })
+  })
+  // if response okay return response
+    .then(async (response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      // otherwise error
+      const errorText = await response.text();
+      throw new Error(errorText);
+    })
+    // loop through courses
+    .then((timeData) => {
+      for(const time of timeData){
+        times.push(time.time_slot_id);
+      }
+      console.log(times);
+    })
+    
+    // catch errors and show message
+    .catch((error) => {
+      clearAlerts();
+      showAlert(error.message);
+    });
+    return times;
+}
