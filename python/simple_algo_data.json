@@ -17,12 +17,14 @@
         {
             "id": 1,
             "name": "Mr. John",
-            "classes": [1]
+            "classes": [1],
+            "teach_load": 2
         },
         {
             "id": 2,
             "name": "Dr. Sarah",
-            "classes": [1, 2]
+            "classes": [1, 2],
+            "teach_load": 1
         }
     ]
 }

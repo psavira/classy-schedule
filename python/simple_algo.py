@@ -37,7 +37,7 @@ for ro in rooms:
         
 
 # Enforce that at least 2 sections of intro are taught
-min_sections = 2
+min_sections = 1
 max_sections = 4
 for cl in classes:
     sections = []
@@ -58,7 +58,18 @@ for ti in times:
                 if (te['id'], cl['id']) in teacher_classes:
                     current_classes.append(instances[(te['id'],cl['id'],ro,ti)])
         model.Add(sum(current_classes) <= 1)
-                
+
+# Enforce that a teacher cannot exceed teach load
+for te in teachers:
+    teach_classes = []
+    teach_load = te["teach_load"]
+    for ti in times:
+        for cl in classes:
+            for ro in rooms:
+                if (te['id'], cl['id']) in teacher_classes:
+                    teach_classes.append(instances[(te['id'], cl['id'], ro, ti)])
+    model.Add(sum(teach_classes) <= teach_load)
+    
 
 solver = cp_model.CpSolver()
 solver.parameters.linearization_level = 0
@@ -110,3 +121,5 @@ solution_limit = 5
 solution_printer = SchedulePartialSolutionPrinter(solution_limit)
 
 solver.Solve(model, solution_printer)
+
+print(solution_printer.solution_count())
