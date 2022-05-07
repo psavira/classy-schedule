@@ -275,7 +275,7 @@ async function fetchProfessorsData() {
       // eslint-disable-next-line no-restricted-syntax
       //need to add can teach eventually!!!
       for (const professor of profData) {
-          person = {id: professor.professor_id, name: professor.last_name, classes: getProfClasses(professor.professor_id)};
+          person = {id: professor.professor_id, name: professor.last_name, classes: getProfClasses(professor.professor_id), teach_load: professor.teach_load};
           persons.push(person);
 
       }
