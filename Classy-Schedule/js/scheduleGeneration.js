@@ -14,6 +14,28 @@ async function ready() {
 }
 
 function formatDataToBody(professors, classes, rooms, times) {
+    /* DEBUG */
+    let section_map = {}
+    // For each teacher
+    for(let teacher of professors) {
+        // Set teach load to 99
+        teacher.teach_load = 99
+        for(let can_teach of teacher.classes) {
+            if(!section_map[can_teach]) {
+                section_map[can_teach] = 1
+            } else {
+                section_map[can_teach] += 1
+            }
+        }
+    }
+
+    for(let course of classes) {
+        if(section_map[course.id]) {
+            course.sections = section_map[course.id]
+        }
+    }
+
+    /* END DEBUG */
     return {
         // Get an array of ints from 0-13
         "times": [...Array(14).keys()],
@@ -67,6 +89,7 @@ const ATStatusCode = {
     STARTING: 0,
     RUNNING: 1,
     FINISHED: 2,
+    ERROR: 3,
 }
 /**
  * Repeat status checking until end state reached.
@@ -107,6 +130,15 @@ function statusChecker() {
             elemScheduleNotGenerating.classList.add("no-display")
             elemScheduleGenerating.classList.add("no-display")
             elemScheduleGenerated.classList.remove("no-display")
+            fetch('/api/getAlgoSchedule', {
+                headers: {
+                    user_id: -99
+                }
+            }).then(res => {
+                return res.json()
+            }).then(json => {
+                console.log(json)
+            })
 
         } else {
             // Recheck status in 5 seconds.

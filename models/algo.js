@@ -25,6 +25,10 @@ class AlgoTrackerEntry {
     isRunning() {
         return (this.status === ATStatusCode.RUNNING || this.status === ATStatusCode.STARTING);
     }
+
+    hasError() {
+        return this.status == ATStatusCode.ERROR
+    }
 }
 
 /**
@@ -56,7 +60,7 @@ function createAlgoProcess(atEntry, input) {
 
     // Run the algorithm with the new input file
     atEntry["status"] = ATStatusCode.RUNNING
-    const proc = spawn('python', ["./python/simple_algo.py"]);
+    const proc = spawn('python', ["./python/schedule_sat.py", `${atEntry.user_id}`]);
     atEntry["process"] = proc
 
     proc.stderr.addListener("data", (chunk) => {
