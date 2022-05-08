@@ -57,3 +57,13 @@ tr{
 .navbar .schedule-image:hover {
   transform: scale(95%)
 }
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+footer {
+  margin-top: auto;
+}
