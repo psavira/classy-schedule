@@ -16,6 +16,7 @@
     "express": "^4.17.2",
     "express-hbs": "^2.4.0",
     "mysql": "^2.18.1",
+    "node-fetch": "^2.6.7",
     "promise-mysql": "^5.1.0",
     "validator": "^13.7.0"
   }

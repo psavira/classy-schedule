@@ -21,7 +21,7 @@ async function submitForm() {
       // eslint-disable-next-line object-shorthand
       username: username,
       // pass: pass,
-      reenter_pass: reenter_pass,
+      password: pass,
     }; console.log(postData);
     // fetch the profs from database
     dbToken.then((token) => {
@@ -45,14 +45,14 @@ async function submitForm() {
         } else {
           // show alerts
           clearAlerts();
-          const text = await response.text();
-          showAlert(text);
+          const json = await response.json();
+          showAlert(json.title);
         }
       })
     // catch errors and show messages
       .catch((error) => {
         clearAlerts();
-        showAlert(error.message);
+        showAlert(`error2:${error.message}`);
       });
     showAlert('Sending request...');
   }

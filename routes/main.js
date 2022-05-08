@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const fetch = require('node-fetch')
 
 const { authLocals, isAuthorized } = require('../middleware/auth')
 
@@ -29,20 +30,49 @@ router.get('/login', authLocals, (req, res) => {
     res.render('login')
 })
 
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
     const submission = req.body;
     const user = submission.user;
     const pass = submission.pass;
 
     // Check that submission is a valid pair
     // DEV IMPLEMENTATION
-    if (user === 'user' && pass == 'web_dev') {
-        // 1000 * 60 * 60 * 24 * 7 == 7 days in milliseconds
+    // if (user === 'user' && pass == 'web_dev') {
+    //     // 1000 * 60 * 60 * 24 * 7 == 7 days in milliseconds
+    //     res.cookie('token', 'webdevteam', { maxAge: 1000 * 60 * 60 * 24 * 7, signed: true })
+    //     res.sendStatus(200);
+    //     return;
+    // }
+
+    // TRUE IMPLEMENTATION
+    await fetch("https://capstonedbapi.azurewebsites.net/user-management/admin/authenticate",
+    {
+        "method": "POST",
+        "headers": {
+        "Content-Type": "application/json"
+        },
+        "body": JSON.stringify({
+            username: user,
+            password: pass
+        }),
+    }).then((response) => {
+        if(response.ok) {
+            return response.json()
+        } else {
+            throw new Error("noauth")
+        }
+    }).then((json) => {
         res.cookie('token', 'webdevteam', { maxAge: 1000 * 60 * 60 * 24 * 7, signed: true })
-        res.sendStatus(200);
-        return;
-    }
-    res.sendStatus(400)
+        res.status(200).send({user_id: json.user_id});
+
+    }).catch((error) => {
+        if(error.message == "noauth") {
+            res.status(400).send("User not authorized")
+        } else {
+            res.sendStatus(500)
+        }
+    })
+
 })
 
 router.get('/logout', (req, res) => {

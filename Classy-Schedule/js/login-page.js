@@ -30,9 +30,14 @@ loginButton.addEventListener('click', (e) => {
     },
     body: JSON.stringify(body)
   })
-  .then((response) => {
+  .then(async (response) => {
     if(response.ok) {
       // Login was successful
+      // Send user info to localstorage
+      window.localStorage.setItem("user", username)
+      window.localStorage.setItem("pass", password)
+      const json = await response.json()
+      window.localStorage.setItem("user_id", json.user_id)
       window.location.href = "/"
     } else {
       // otherwise show an error message

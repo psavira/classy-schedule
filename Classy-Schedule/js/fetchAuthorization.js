@@ -1,7 +1,8 @@
 var dbToken;
+
 let body = {
-    username: "test",
-    password: "test"
+    username: window.localStorage.getItem("user"),
+    password: window.localStorage.getItem("pass")
 }
 
 function fetchAuthorization() {
