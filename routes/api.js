@@ -4,6 +4,9 @@ const Course = require('../models/course.model');
 const Department = require('../models/department.model');
 const Room = require('../models/room.model');
 const Professor = require('../models/professor.model');
+const { AlgoTracker, ATStatusCodes, AlgoTrackerEntry, isAlgoInputValid, createAlgoProcess } = require('../models/algo');
+const { algoRequest } = require('../middleware/algo');
+const { user } = require('../config/mysql_config');
 
 router.use((req, res, next) => {
   // Custom middleware implementation
@@ -154,6 +157,64 @@ router.post('/professor', (req, res) => {
     res.send(responseText);
   }
 });
+
+/* -------------------------------------------------------------------------- */
+/*                               Algo API Route                               */
+/* -------------------------------------------------------------------------- */
+
+router.post('/generateSchedule', algoRequest, (req, res) => {
+  const user_id = req.headers.user_id
+
+  let userATEntry = AlgoTracker[user_id];
+  
+  // Check if user exists in tracker
+  if(userATEntry) {
+    // Make sure a schedule isn't already generating or creating
+    if(userATEntry.isRunning()) {
+      res.status(403).send("Schedule already generating");
+      return;
+    } else if (!userATEntry.isFinished()) {
+      res.status(403).send("Too many schedule requests");
+    }
+  } else {
+    // If no entry exists in the tracker, create a new entry for the user.
+    userATEntry = new AlgoTrackerEntry(user_id);
+    AlgoTracker[user_id] = userATEntry;
+  }
+
+  // INFO: By here, user entry exists and no generation running.
+
+  // Validate body
+  const body = req.body;
+
+  // If body invalid, send an error response.
+  if(!isAlgoInputValid(body)) {
+    res.status(400).send("Input not valid for the algorithm");
+    return;
+  }
+
+  // INFO: By here, request is valid
+
+  // Send a successful response and start creating the algo process
+  res.status(200).send();
+  createAlgoProcess(userATEntry, body);
+
+})
+
+router.get('/getAlgoStatus', algoRequest, (req, res) => {
+  const user_id = req.headers.user_id
+  const userATEntry = AlgoTracker[user_id];
+
+  if(!userATEntry) {
+    res.status(403).send("No entry exists. Try generating a schedule first.")
+    return;
+  }
+  res.status(200).send(`${userATEntry["status"]}`);
+})
+
+router.get('/getAlgoSchedule', algoRequest, (req, res) => {
+
+})
 
 
 module.exports = router;

@@ -76,4 +76,8 @@ router.get('/editPreferences', authLocals, isAuthorized, (req, res) => {
     res.render('editPreferences');
 })
 
+router.get('/scheduleGeneration', authLocals, isAuthorized, (req, res) => {
+    res.render('scheduleGeneration');
+})
+
 module.exports = router
