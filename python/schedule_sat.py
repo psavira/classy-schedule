@@ -114,7 +114,7 @@ class SchedulePartialSolutionPrinter(cp_model.CpSolverSolutionCallback):
     def solution_count(self):
         return self._solution_count
 
-solution_limit = 5
+solution_limit = 30
 solution_printer = SchedulePartialSolutionPrinter(solution_limit)
 
 solver.Solve(model, solution_printer)
