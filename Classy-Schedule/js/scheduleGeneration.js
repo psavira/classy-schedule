@@ -1,16 +1,5 @@
 async function ready() {
-    Promise.all([fetchProfessorsData(),
-                fetchClassesData(),
-                fetchRoomsData(),
-                fetchTimesData()])
-        .then((values) => {
-            let professors, classes, rooms, times
-            [professors, classes, rooms, times] = values
-            console.log(professors)
-            console.log(classes)
-            console.log(rooms)
-            console.log(times)
-        })
+    
 }
 
 function formatDataToBody(professors, classes, rooms, times) {
@@ -70,7 +59,7 @@ function generateSchedule() {
         return fetch('/api/generateSchedule',
         {
             headers: {
-                user_id: -99,
+                user_id: window.localStorage.getItem("user_id"),
                 "Content-Type": "application/json"
             },
             method: "POST",
@@ -113,7 +102,7 @@ function statusChecker() {
     fetch('/api/getAlgoStatus',
     {
         headers: {
-            user_id: -99
+            user_id: window.localStorage.getItem("user_id")
         }
     }).then(async (res) => {
         const restext = await res.text()
@@ -139,7 +128,7 @@ function statusChecker() {
             elemScheduleGenerated.classList.remove("no-display")
             fetch('/api/getAlgoSchedule', {
                 headers: {
-                    user_id: -99
+                    user_id: window.localStorage.getItem("user_id")
                 }
             }).then(res => {
                 return res.json()
