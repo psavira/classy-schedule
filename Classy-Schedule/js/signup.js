@@ -100,6 +100,11 @@ function isValidForm(username, pass, reenter_pass) {
     alertContainer++;
   }
 
+  if(!validEmail(username)) {
+    showAlert('username(email) must be valid.');
+    alertContainer++;
+  }
+
   if (pass.search(/[a-zA-Z]/) == -1) {
     showAlert('password must contain at least one character.');
     alertContainer++;
@@ -114,6 +119,16 @@ function isValidForm(username, pass, reenter_pass) {
   // Fail if any alerts
   if (alertContainer > 0) return false;
   return true;
+}
+
+function validEmail(mail) {
+  var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  if (mail.match(mailformat)) {
+    console.log("true");
+    return (true)
+  }
+  console.log("false");
+  return (false)
 }
 
 /** function to show error messages */
