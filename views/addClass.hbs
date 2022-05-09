@@ -58,17 +58,28 @@
           </label>
         </div>
       </div>
-
-      <div class = "cell small-6">
+      
+    <div class = "cell small-6">
+        <div class = "input" >
+          <label>Sections
+            <input type = "number" name = "sects" placeholder = "xx"
+              oninput = "javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+              onkeyup = "if(this.value < 0){this.value = this.value * -1}" max = "20" min = "0" step = "1" maxlength = "2" />
+          </label>
+        </div>
+        </div>
+        <div class = "cell small-6">
           <label>Does class have a lab included
             <input type = "checkbox" name = "isLab" maxlength = "5" min = "4" placeholder = "True or False"
              />
-             <script>
-               
-             </script>
           </label>
         </div>
       </div>
+      </div>
+
+
+
+      
       
 
 
@@ -83,8 +94,8 @@
 
   <!-- Run scripts on page load -->
   <script>
-    //fetchDepartments();
-    fetchProfessorsData();
+    fetchDepartments();
+    //fetchProfessorsData();
     //fetchRoomsData();
     //fetchClassesData();
     //fetchTimesData();
@@ -96,7 +107,12 @@
  <style>
     .submit {
     margin-bottom: 15%;
+    margin-left: 7% ;
 }
+
+    .input {
+  width: 48.5%;
+  }
   </style>
 
 </html>

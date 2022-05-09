@@ -14,6 +14,7 @@ async function submitForm() {
   classForm.capacity.classList.remove('error');
   classForm.credits.classList.remove('error');
   classForm.isLab.classList.remove('error');
+  classForm.sections.classList.remove('error');
 
   // Get form values
   const className = classForm.className.value;
@@ -21,11 +22,12 @@ async function submitForm() {
   const classNum = classForm.classNumber.value;
   const capacity = classForm.capacity.value;
   const credits = classForm.credits.value;
+  const sections = classForm.sections.value;
   const isLab = classForm.isLab.checked;
 
 
   // If info is all valid
-  if (isValidForm(className, deptID, classNum, capacity, credits, isLab)) {
+  if (isValidForm(className, deptID, classNum, capacity, credits, isLab, sections)) {
     // Create an object to POST as JSON
     const postData = {
       class_name: className,
@@ -33,7 +35,8 @@ async function submitForm() {
       class_num: classNum,
       capacity: capacity,
       credits: credits,
-      is_lab: isLab
+      is_lab: isLab,
+      sections: sections
     };
 
 
@@ -57,6 +60,7 @@ async function submitForm() {
           classForm.capacity.value = '';
           classForm.credits.value = '';
           classForm.isLab.value = '';
+          classForm.sections.value = '';
         } else {
           clearAlerts();
           const text = await response.text();
@@ -73,7 +77,7 @@ async function submitForm() {
 }
 
 /* function to see if class entry form is valid */
-function isValidForm(className, deptID, classNum, capacity, credits, isLab) {
+function isValidForm(className, deptID, classNum, capacity, credits, isLab, sections) {
   // variable to hold # of alerts
   let alertCount = 0;
 
@@ -88,6 +92,13 @@ function isValidForm(className, deptID, classNum, capacity, credits, isLab) {
   if (validator.isEmpty(deptID)) {
     showAlert('Please pick a department.');
     document.forms.classForm.department.classList.add('error');
+    alertCount += 1;
+  }
+
+  // Validate department if empty
+  if (validator.isEmpty(sections)) {
+    showAlert('Please enter the number of sections.');
+    document.forms.classForm.sections.classList.add('error');
     alertCount += 1;
   }
 

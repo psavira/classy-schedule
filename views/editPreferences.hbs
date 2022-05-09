@@ -24,6 +24,7 @@
 
 
 
+
       <script>
 /** function to fetch profs from database */
 // eslint-disable-next-line no-unused-vars
@@ -149,51 +150,7 @@ function getProfID(){
 }*/
     </script>
       <!-- I think i got all the errors except negatives -->
-
-        <div class="cell small-6">
-          <label>Class Number
-            <input type="text" name="classNumber" maxlength="6" min="0"
-              onkeyup="if(this.value<0){this.value= this.value * -1}" placeholder="xxxxxx" />
-          </label>
-        </div>
-      </div>
-
-      <div class="grid-x grid-padding-x">
-        <div class="cell small-6">
-          <label>Capacity
-            <input type="number" name="capacity" placeholder="xx" pattern="\d*" min="0" max="99" maxlength="2"
-              onkeyup="if(this.value<0){this.value= this.value * -1}"
-              oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-              step="1" />
-          </label>
-        </div>
-
-        <div class="cell small-6">
-          <label>Credits
-            <input type="number" name="credits" placeholder="x"
-              oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-              onkeyup="if(this.value<0){this.value= this.value * -1}" max="4" min="0" step="1" maxlength="1" />
-          </label>
-        </div>
-      </div>
-
-      <div class="cell small-6">
-          <label>Does class have a lab included
-            <input type="checkbox" name="isLab" maxlength="5" min="4" placeholder="True or False"
-             />
-             <script>
-               
-             </script>
-          </label>
-        </div>
-      </div>
       
-
-
-      <button type="button" class="submit success button" onclick="submitForm()">
-        Submit
-      </button>
-    </div>
   </form>
   <!-- FORM END -->
 
