@@ -66,11 +66,10 @@ function clearAlerts() {
     alertContainer.removeChild(child);
   }
 }
-/*
+
 function getProfID(){
   var select = document.getElementById('profSelect');
   var value  = select.options[select.selectedIndex].value;
-
   return value;
 }
 
@@ -80,7 +79,7 @@ async function fetchCanTeach() {
   const classSelect = document.getElementById('testCan');
   // fetch courses from database
   dbToken.then((token) => {
-return fetch('https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/can-teach/1'+getProfID(), 
+return fetch('https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/can-teach/57', 
 {
 headers: {'Authorization': token}
 })
@@ -115,4 +114,4 @@ headers: {'Authorization': token}
       showAlert(error.message);
     });
 
-}*/
+}

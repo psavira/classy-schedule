@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  {{> globalHead }}
+  
+  <script src = "https://unpkg.com/validator@latest/validator.min.js"></script>
+  <script src = "js/editPreference.js"></script>
+  <title>Can Teach</title>
+</head>
+
+<body>
+  <!-- NAVBAR START -->
+  {{> navbar}}
+  <!-- NAVBAR END <select type="text" name="profId" id="profSelect" />-->
+  <div>
+    <label class="tab">Select A Professor To Edit</label>
+    <select class="tab" id="profSelect" name='profId'></select>
+  </div>

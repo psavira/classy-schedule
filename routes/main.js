@@ -106,6 +106,10 @@ router.get('/editPreferences', authLocals, isAuthorized, (req, res) => {
     res.render('editPreferences');
 })
 
+router.get('/canTeach', authLocals, isAuthorized, (req, res) => {
+    res.render('canTeach');
+})
+
 router.get('/scheduleGeneration', authLocals, isAuthorized, (req, res) => {
     res.render('scheduleGeneration');
 })
