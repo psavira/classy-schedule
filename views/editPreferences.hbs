@@ -17,12 +17,14 @@
     <label class="tab">Select A Professor To Edit</label>
     <select class="tab" id="profSelect" name='profId'></select>
   </div>
-
-  <li ><a href="/canTeach"><button type="button" class="button">Edit Can Teach</button></a></li>
-  <li ><a href="/editPreferences"><button type="button" class="button">Edit Prefer To Teach</button></a></li>
-  <button class='button' >Edit Time Of Day</button>
-  <button class='button' >Edit Day Of Week</button>
-  <button class='button' >Edit Timeslot</button>
+  <div class="buttons">
+    <LinkTo @route="canTeach" class="menu">Home</LinkTo>
+    <a href="/canTeach.hbs"><button type="button" class="but">Edit Can Teach</button></a>
+    <a href="/preferTeach"><button type="button" class="but">Edit Prefer To Teach</button></a>
+    <a href="/timeOfDay"><button type="button" class="but">Edit Time Of Day</button></a>
+    <a href="/dayOfWeek"><button type="button" class="but">Edit Day Of Week</button></a>
+    <a href="/timeSlot"><button type="button" class="but">Edit Timeslot</button></a>
+  </div>
         
 
 
@@ -41,8 +43,20 @@
   </script>
   <style>
     .tab{
-      margin-left: 5%;
+      margin-left: 35%;
       width: 30%;
+    }
+    .buttons {
+      width: 90%;
+      margin: 0 auto;
+      padding-left: 10%;
+      display: inline;}
+    .but{
+      background-color: green;
+      width: 200px;
+      padding: 10px;
+      margin: 0 auto;
+      display: inline;}
     }
 
   </style>
