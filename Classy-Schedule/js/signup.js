@@ -80,31 +80,35 @@ function isValidForm(username, pass, reenter_pass) {
     alertContainer++;
   }
 
+  // Validate if password and re-enter password are the same
   if (pass != reenter_pass) {
     showAlert('password is different from re-enter password.');
     alertContainer++;
   }
 
+  // Validate if password is between 6-50 char long
   if (pass.length < 6) {
     showAlert('password is too short.');
     alertContainer++;
   }
-
   if (pass.length > 50) {
     showAlert('password is too long.');
     alertContainer++;
   }
 
+  // Validate if password contain at least one number
   if (pass.search(/\d/) == -1) {
     showAlert('password must contain at least one number.');
     alertContainer++;
   }
 
-  if(!validEmail(username)) {
+  // Validate is email is valid
+  if(!isValidEmail(username)) {
     showAlert('username(email) must be valid.');
     alertContainer++;
   }
 
+  // Validate if password contain at least one character
   if (pass.search(/[a-zA-Z]/) == -1) {
     showAlert('password must contain at least one character.');
     alertContainer++;
@@ -121,13 +125,15 @@ function isValidForm(username, pass, reenter_pass) {
   return true;
 }
 
-function validEmail(mail) {
+/** function checks if email is valid */
+function isValidEmail(mail) {
+  // valid format of an email
   var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  // if email matches the valid format, return true
   if (mail.match(mailformat)) {
-    console.log("true");
     return (true)
   }
-  console.log("false");
+  // else return false
   return (false)
 }
 
