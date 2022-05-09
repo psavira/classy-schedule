@@ -27,7 +27,13 @@ async function submitForm() {
 
 
   // If info is all valid
-  if (isValidForm(className, deptID, classNum, capacity, credits, isLab, sections)) {
+  if (isValidForm(className,
+                  deptID, 
+                  classNum, 
+                  capacity, 
+                  credits, 
+                  isLab, 
+                  sections)) {
     // Create an object to POST as JSON
     const postData = {
       class_name: className,
@@ -42,11 +48,14 @@ async function submitForm() {
 
     // POST the data to upload the course
     dbToken.then((token) => {
-      return fetch('https://capstonedbapi.azurewebsites.net/class-management/classes/create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': token },
-        body: JSON.stringify(postData),
-      })
+      return fetch(
+        'https://capstonedbapi.azurewebsites.net' + 
+        '/class-management/classes/create', 
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': token },
+          body: JSON.stringify(postData),
+        })
     })
       .then(async (response) => {
         // Check that response code is 200
@@ -77,7 +86,13 @@ async function submitForm() {
 }
 
 /* function to see if class entry form is valid */
-function isValidForm(className, deptID, classNum, capacity, credits, isLab, sections) {
+function isValidForm(className, 
+                     deptID, 
+                     classNum, 
+                     capacity, 
+                     credits, 
+                     isLab, 
+                     sections) {
   // variable to hold # of alerts
   let alertCount = 0;
 
@@ -183,7 +198,9 @@ async function fetchDepartments() {
   const departmentSelect = document.getElementById('department');
   // fetch departments from database
   dbToken.then((token) => {
-  return fetch('https://capstonedbapi.azurewebsites.net/department-management/departments', 
+  return fetch(
+    'https://capstonedbapi.azurewebsites.net' + 
+    '/department-management/departments', 
     {
       headers: {'Authorization': token}
     })
@@ -224,12 +241,13 @@ async function fetchClasses() {
   const classSelect = document.getElementById('testclasses');
   // fetch courses from database
   dbToken.then(token => {
-    return fetch('https://capstonedbapi.azurewebsites.net/class-management/classes',
-    {
-      headers: {
-        'Authorization': token
-      }
-    })
+    return fetch(
+      'https://capstonedbapi.azurewebsites.net/class-management/classes',
+      {
+        headers: {
+          'Authorization': token
+        }
+      })
   })
   // if response okay return response
     .then(async (response) => {
