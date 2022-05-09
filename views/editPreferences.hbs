@@ -5,35 +5,28 @@
   {{> globalHead }}
   
   <script src = "https://unpkg.com/validator@latest/validator.min.js"></script>
-  <script src = "js/addPreference.js"></script>
+  <script src = "js/editPreference.js"></script>
   <title>Edit Preferences</title>
 </head>
 
 <body>
   <!-- NAVBAR START -->
   {{> navbar}}
-  <!-- NAVBAR END -->
+  <!-- NAVBAR END <select type="text" name="profId" id="profSelect" />-->
+  <div>
+    <label class="tab">Select A Professor To Edit</label>
+    <select class="tab" id="profSelect" name='profId'></select>
+  </div>
 
-  <!-- FORM START -->
-  <form id="classForm" name="classForm">
-    <div class="grid-container">
-      <label>Professor to Edit
-        <select type="text" name="profId" id="profSelect" />
+  <button onclick="myFunction()">Click me</button>
         
-      </label>
-    <p>is this here</p>
-    
-      <p>is this here</p>
-      
-    </div>
-    <p>is this here</p>
-    
-    </form>
-    <p>is this here</p>
+
+
+
+
 
       
       
-  <!-- FORM END -->
 
 
 
@@ -41,16 +34,13 @@
   <!-- Run scripts on page load -->
   <script>
     fetchProfessors();
-    //fetchCanTeach();
   </script>
+  <style>
+    .tab{
+      margin-left: 5%;
+      width: 30%;
+    }
+  </style>
  </body>
   {{> footer}}
-
-
- <style>
-    .submit {
-    margin-bottom: 15%;
-}
-  </style>
-    <p>is this here</p>
 </html>

@@ -66,7 +66,7 @@ function clearAlerts() {
     alertContainer.removeChild(child);
   }
 }
-
+/*
 function getProfID(){
   var select = document.getElementById('profSelect');
   var value  = select.options[select.selectedIndex].value;
@@ -115,4 +115,4 @@ headers: {'Authorization': token}
       showAlert(error.message);
     });
 
-}
+}*/
