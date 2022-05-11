@@ -123,7 +123,7 @@ function clearAlerts() {
 function Createcheckbox(chkboxid) {
   var checkbox = document.createElement('input');
   checkbox.type = "checkbox";
-  checkbox.id = "checkbox";
+  checkbox.id = "checkbox"+chkboxid;
   checkbox.value = chkboxid;
 
   dbToken.then((token) => {
@@ -146,10 +146,7 @@ function Createcheckbox(chkboxid) {
         // loop through courses
         .then((testpreferences) => {
           testpreferences.forEach((preference) => {
-            //console.log(preference);
-            //console.log(preference.class_id+' - '+preference.can_teach);
             if(preference.class_id==chkboxid && preference.can_teach==true){
-              console.log('CHECKED');
               checkbox.checked = true;
             }
 
@@ -166,7 +163,6 @@ function Createcheckbox(chkboxid) {
    var label = this.parentNode;
    label.checked;
    label.value = chkboxid;
-   //console.log(chkboxid, "checkbox");
    checkbox.value = chkboxid;
   };
   return checkbox;
@@ -225,11 +221,11 @@ async function submitForm() {
   const teach_form = document.forms.teachForm;
   //can't get class id
   const class_id = test.value;
-  //this is goodV
+  //this is good
   const can_teach = test.checked;
 
 
-
+  //console.log(test.value);  
 
   if(isValidForm(class_id, can_teach)){
     const postData = 
@@ -282,6 +278,5 @@ function isValidForm(class_id, can_teach ) {
 
 //disables button
 function disableButton(button){
-  console.log(button);
   document.getElementById(button).disabled = true;
 }
