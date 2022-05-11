@@ -1,6 +1,6 @@
 /** function to fetch profs from database */
 // eslint-disable-next-line no-unused-vars
-async function fetchProfessors() {
+/*async function fetchProfessors() {
   // get prof select by id
   const profSelect = document.getElementById('profSelect');
   // fetch prof from db
@@ -38,7 +38,61 @@ async function fetchProfessors() {
       clearAlerts();
       showAlert(error.message);
     });
+}*/
+
+function getProfID(){
+  var select = document.getElementById('profSelect');
+  var value  = select.options[select.selectedIndex].value;
+  return value;
 }
+
+
+async function fetchCanTeach() {
+  // make classSelect by id
+  //const classSelect = document.getElementById('testCan');
+  // fetch courses from database
+  dbToken.then((token) => {
+return fetch('https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/can-teach/51', 
+{
+headers: {'Authorization': token}
+})
+})
+  // if response okay return response
+    .then(async (response) => {
+      if (response.ok) {
+        //console.log(response.json());
+        return response.json();
+        
+      }
+      // otherwise error
+      const errorText = await response.text();
+      throw new Error(errorText);
+    })
+    // loop through courses
+    .then((testpreferences) => {
+      testpreferences.forEach((preference) => {
+        // create element for each course
+        const label = document.createElement('label');
+        var br = document.createElement('br');
+        var alabel = document.getElementById('div1');
+        var last = alabel[alabel.length - 1];
+        label.value = preference.class_id;
+        label.htmlFor = "lbl"+preference.class_id;
+        label.appendChild(Createcheckbox('test' + preference.class_id));
+        label.appendChild(document.createTextNode('ClassID: ' + preference.class_id));
+        label.appendChild(br);
+        document.getElementById('div1').appendChild(label);
+        //classSelect.appendChild(label);
+      });
+    })
+     //catch errors and show message
+    .catch((error) => {
+      clearAlerts();
+      showAlert(error.message);
+    });
+}
+
+
 /** function to show error messages */
 function showAlert(alertText) {
   // create container to hold alerts
@@ -67,51 +121,115 @@ function clearAlerts() {
   }
 }
 
-function getProfID(){
-  var select = document.getElementById('profSelect');
-  var value  = select.options[select.selectedIndex].value;
-  return value;
+function Createcheckbox(chkboxid) {
+  var checkbox = document.createElement('input');
+  checkbox.type = "checkbox";
+  checkbox.onclick = function(){
+   this.onclick = null;
+   var label = this.parentNode;
+   label.checked;
+  };
+  checkbox.id = chkboxid;
+  checkbox.value = chkboxid;
+  return checkbox;
 }
 
-
-async function fetchCanTeach() {
+async function fetchClasses() {
   // make classSelect by id
-  const classSelect = document.getElementById('testCan');
+  //const classSelect = document.getElementById('testclasses');
   // fetch courses from database
-  dbToken.then((token) => {
-return fetch('https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/can-teach/57', 
-{
-headers: {'Authorization': token}
-})
-})
+  dbToken.then(token => {
+    return fetch(
+      'https://capstonedbapi.azurewebsites.net/class-management/classes',
+      {
+        headers: {
+          'Authorization': token
+        }
+      })
+  })
   // if response okay return response
     .then(async (response) => {
       if (response.ok) {
-        console.log(response.json());
         return response.json();
-        
       }
       // otherwise error
       const errorText = await response.text();
       throw new Error(errorText);
     })
     // loop through courses
-    .then((testpreferences) => {
-      testpreferences.forEach((preference) => {
+    .then((testclasses) => {
+      testclasses.forEach((classes) => {
         // create element for each course
-        const classOption = document.createElement('option');
-        // set value to dept id
-        classOption.value = preference.deptID;
-        // set text to class Name
-        classOption.textContent = preference.className;
-        // add each course
-        classSelect.appendChild(classOption);
+        const label = document.createElement('label');
+        var br = document.createElement('br');
+        var alabel = document.getElementById('div2');
+        var last = alabel[alabel.length - 1];
+        label.htmlFor = "lbl"+classes.class_id;
+        label.appendChild(Createcheckbox('test' + classes.class_id));
+        label.appendChild(document.createTextNode('ClassID: ' + classes.class_id));
+        label.appendChild(br);
+        document.getElementById('div2').appendChild(label);
       });
     })
+    
     // catch errors and show message
     .catch((error) => {
       clearAlerts();
       showAlert(error.message);
     });
 
+}
+
+async function submitForm() {
+  clearAlerts();
+  const teach_form = document.forms.teachForm;
+  const class_id = teach_form.testCan.checked;
+  const can_teach = teach_form.testCan.checked;
+
+
+
+
+  if(isValidForm(class_id, can_teach)){
+    const postData = {
+      class_id: class_id,
+      can_teach: can_teach
+    };
+    dbToken.then((token) => {
+      return fetch('https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/can-teach/save/51', {
+        // send to db
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': token},
+        body: JSON.stringify(postData),
+      })
+    })
+    // if response is good
+    .then(async (response) => {
+      if (response.ok) {
+        clearAlerts();
+        showAlert('Success!');
+
+        teach_form.label.value = '';
+      } else {
+        clearAlerts();
+        const text = await response.text();
+        showAlert(text);
+      }
+    })
+    .catch((error) => {
+      clearAlerts();
+      showAlert(error.message);
+    });
+    showAlert('Sending request...');
+  }
+}
+
+/* function to check if prof entry is valid */
+// eslint-disable-next-line camelcase
+function isValidForm(class_id, can_teach ) {
+  // counter for alerts
+  let alertContainer = 0;
+
+  // Fail if any alerts
+  if (alertContainer > 0) return false;
+  return true;
 }
