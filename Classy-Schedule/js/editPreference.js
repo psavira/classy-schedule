@@ -74,8 +74,8 @@ headers: {'Authorization': token}
         // create element for each course
         const label = document.createElement('label');
         var br = document.createElement('br');
-        var alabel = document.getElementById('div1');
-        var last = alabel[alabel.length - 1];
+        //var alabel = document.getElementById('div1');
+        //var last = alabel[alabel.length - 1];
         label.value = preference.class_id;
         label.htmlFor = "lbl"+preference.class_id;
         label.appendChild(Createcheckbox('test' + preference.class_id));
@@ -91,7 +91,6 @@ headers: {'Authorization': token}
       showAlert(error.message);
     });
 }
-
 
 /** function to show error messages */
 function showAlert(alertText) {
@@ -128,9 +127,11 @@ function Createcheckbox(chkboxid) {
    this.onclick = null;
    var label = this.parentNode;
    label.checked;
+   label.value = chkboxid;
+   checkbox.id = "checkbox";
+   //console.log(chkboxid, "checkbox");
+   checkbox.value = chkboxid;
   };
-  checkbox.id = chkboxid;
-  checkbox.value = chkboxid;
   return checkbox;
 }
 
@@ -162,10 +163,10 @@ async function fetchClasses() {
         // create element for each course
         const label = document.createElement('label');
         var br = document.createElement('br');
-        var alabel = document.getElementById('div2');
-        var last = alabel[alabel.length - 1];
+        //var alabel = document.getElementById('div2');
+        //var last = alabel[alabel.length - 1];
         label.htmlFor = "lbl"+classes.class_id;
-        label.appendChild(Createcheckbox('test' + classes.class_id));
+        label.appendChild(Createcheckbox(classes.class_id));
         label.appendChild(document.createTextNode('ClassID: ' + classes.class_id));
         label.appendChild(br);
         document.getElementById('div2').appendChild(label);
@@ -182,18 +183,27 @@ async function fetchClasses() {
 
 async function submitForm() {
   clearAlerts();
+  //var test = document.getElementById('checkbox');
+  //console.log(test.checked);
+  //console.log(test.value);
   const teach_form = document.forms.teachForm;
-  const class_id = teach_form.testCan.checked;
-  const can_teach = teach_form.testCan.checked;
+  //can't get class id
+  const class_id = '5';//test.value;
+  //this is goodV
+  const can_teach = 'true';//test.checked;
 
 
 
 
   if(isValidForm(class_id, can_teach)){
-    const postData = {
-      class_id: class_id,
-      can_teach: can_teach
-    };
+    const postData = 
+      [
+        {
+        class_id: class_id,
+        can_teach: can_teach
+        }
+      ];
+    console.log(postData);
     dbToken.then((token) => {
       return fetch('https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/can-teach/save/51', {
         // send to db
@@ -208,7 +218,7 @@ async function submitForm() {
         clearAlerts();
         showAlert('Success!');
 
-        teach_form.label.value = '';
+        //teach_form.label.value = '';
       } else {
         clearAlerts();
         const text = await response.text();
