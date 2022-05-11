@@ -1,6 +1,6 @@
 /** function to fetch profs from database */
 // eslint-disable-next-line no-unused-vars
-/*async function fetchProfessors() {
+async function fetchProfessors() {
   // get prof select by id
   const profSelect = document.getElementById('profSelect');
   // fetch prof from db
@@ -38,21 +38,21 @@
       clearAlerts();
       showAlert(error.message);
     });
-}*/
+} 
 
 function getProfID(){
-  var select = document.getElementById('profSelect');
-  var value  = select.options[select.selectedIndex].value;
-  return value;
+  var profSelect=document.getElementById('profSelect');
+  var profID = profSelect.value;
+  sessionStorage.setItem('Prof',profID);
 }
 
 
-async function fetchCanTeach() {
+async function fetchCanTeach(profID) {
   // make classSelect by id
   //const classSelect = document.getElementById('testCan');
   // fetch courses from database
   dbToken.then((token) => {
-return fetch('https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/can-teach/51', 
+return fetch('https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/can-teach/'+profID, 
 {
 headers: {'Authorization': token}
 })
@@ -123,12 +123,46 @@ function clearAlerts() {
 function Createcheckbox(chkboxid) {
   var checkbox = document.createElement('input');
   checkbox.type = "checkbox";
+  checkbox.id = `checkbox${chkboxid}`;
+
+  dbToken.then((token) => {
+    return fetch('https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/can-teach/'+sessionStorage.getItem('Prof'), 
+    {
+    headers: {'Authorization': token}
+    })
+    })
+      // if response okay return response
+        .then(async (response) => {
+          if (response.ok) {
+            //console.log(response.json());
+            return response.json();
+            
+          }
+          // otherwise error
+          const errorText = await response.text();
+          throw new Error(errorText);
+        })
+        // loop through courses
+        .then((testpreferences) => {
+          testpreferences.forEach((preference) => {
+            console.log(preference.class_id+' - '+preference.can_teach);
+            if(preference.class_id==chkboxid && preference.can_teach==true){
+              checkbox.checked = true;
+            }
+
+          });
+        })
+         //catch errors and show message
+        .catch((error) => {
+          clearAlerts();
+          showAlert(error.message);
+        });
+
   checkbox.onclick = function(){
    this.onclick = null;
    var label = this.parentNode;
    label.checked;
    label.value = chkboxid;
-   checkbox.id = "checkbox";
    //console.log(chkboxid, "checkbox");
    checkbox.value = chkboxid;
   };
@@ -205,7 +239,7 @@ async function submitForm() {
       ];
     console.log(postData);
     dbToken.then((token) => {
-      return fetch('https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/can-teach/save/51', {
+      return fetch('https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/can-teach/save/'+sessionStorage.getItem('Prof'), {
         // send to db
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': token},
@@ -242,4 +276,10 @@ function isValidForm(class_id, can_teach ) {
   // Fail if any alerts
   if (alertContainer > 0) return false;
   return true;
+}
+
+//disables button
+function disableButton(button){
+  console.log(button);
+  document.getElementById(button).disabled = true;
 }
