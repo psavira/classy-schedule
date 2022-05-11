@@ -27,15 +27,19 @@
     <!-- Controls -->
     <div class="controls">
         <div class="control-group">
-            <select aria-label='Select a room to create a schedule for' name="roomSelect" id="roomSelect"></select>
-            <button id="loadButton" onclick="loadSchedule()" class="warning button">Load Local</button>
-            <button id="saveButton" onclick="saveSchedule()" class="success button">Save Local</button>
+            <select aria-label='Select a room to create a schedule for'
+             name="roomSelect" id="roomSelect"></select>
+            <button id="loadButton" onclick="loadSchedule()"
+             class="warning button">Load Local</button>
+            <button id="saveButton" onclick="saveSchedule()"
+             class="success button">Save Local</button>
         </div>
 
         <div class="separator"></div>
 
         <div class="control-group">
-            <select aria-label='Select a schedule plan to save or load' id="planSelect"></select>
+            <select aria-label='Select a schedule plan to save or load'
+             id="planSelect"></select>
             <button id="pullButton" class="button warning">Load Plan</button>
             <button id="pushButton" class="button success">Save to Plan</button>
             <button id="createButton" class="button">Create new Plan</button>
@@ -66,10 +70,16 @@
 
                 <!-- Top of Table Labels -->
                 <tr>
-                    <th width="100"<span title="Available time slots for the MONDAY, WEDNESDAY, & FRIDAY">TIME</span></th>
-                    <th width="100" <span title="Use the dropdown list to select a course for Monday in each time slot. Hold shift before selecting to set the week's values">MONDAY</span></th>
-                    <th width="100" <span title="Use the dropdown list to select a course for Wednesday in each time slot">WEDNESDAY</span></th>
-                    <th width="100" <span title="Use the dropdown list to select a course for Friday in each time slot">FRIDAY</th>
+                    <th width="100"<span title="Available time slots for the
+                     MONDAY, WEDNESDAY, & FRIDAY">TIME</span></th>
+                    <th width="100" <span title="Use the dropdown list to select
+                     a course for Monday in each time slot. Hold shift before
+                     selecting to set the week's values">MONDAY</span></th>
+                    <th width="100" <span title="Use the dropdown list to select
+                     a course for Wednesday in each time slot">WEDNESDAY</span>
+                     </th>
+                    <th width="100" <span title="Use the dropdown list to select
+                     a course for Friday in each time slot">FRIDAY</th>
                 </tr>
 
                 <!-- Beginning of Schedule Table -->
@@ -80,11 +90,9 @@
                         <td >8:15 - 9:20am</td>
 
                         <td data-day="M">
-                            <select 
-                            aria-label='Choose A class for Monday 8:15-9:20 am' 
-                            class="classSelection" 
-                            name="classSelection" 
-                            id="classSelection0"
+                            <select aria-label='Choose A class for Monday
+                             8:15-9:20 am' class="classSelection" 
+                             name="classSelection" id="classSelection0"
                             onchange="onSelectSchedule(0);">
                                 <option value="" selected>
                                     Choose Class
@@ -101,9 +109,8 @@
 
                         <td data-day="W">
                             <select 
-                            aria-label='Choose A class for Wednesday 8:15-9:20 am' 
-                            class="classSelection" 
-                            name="classSelection" 
+                            aria-label='Choose A class for Wednesday 8:15-9:20
+                             am' class="classSelection" name="classSelection" 
                             id="classSelection1">
                                 <option value="" selected>
                                     Choose Class
@@ -119,10 +126,9 @@
                         </td>
 
                         <td data-day="F">
-                            <select  aria-label='Choose A class for Friday 8:15-9:20 am' 
-                            class="classSelection" 
-                            name="classSelection" 
-                            id="classSelection2">
+                            <select  aria-label='Choose A class for Friday 8:15
+                             -9:20 am' class="classSelection" 
+                             name="classSelection" id="classSelection2">
                                 <option value="" selected>
                                     Choose Class
                                 </option>
@@ -163,11 +169,9 @@
                         </td>
 
                         <td data-day="W">
-                            <select  
-                            aria-label='Choose A class for Wednesday 9:35-10:40 am' 
-                            class="classSelection" 
-                            name="classSelection" 
-                            id="classSelection4">
+                            <select aria-label='Choose A class for Wednesday
+                             9:35-10:40 am' class="classSelection" 
+                             name="classSelection" id="classSelection4">
                                 <option value="" selected>
                                     Choose Class
                                 </option>
@@ -182,11 +186,9 @@
                         </td>
 
                         <td data-day="F">
-                            <select   
-                            aria-label='Choose A class for Friday 9:35-10:40 am' 
-                            class="classSelection" 
-                            name="classSelection" 
-                            id="classSelection5">
+                            <select aria-label='Choose A class for Friday 9:35-
+                             10:40 am' class="classSelection" 
+                            name="classSelection" id="classSelection5">
                                 <option value="" selected>
                                     Choose Class
                                 </option>
@@ -208,12 +210,10 @@
                         <td>10:55am - 12:00pm</td>
 
                         <td data-day="M">
-                            <select 
-                            aria-label='Choose A class for Monday 10:55 am to 12:00 pm' 
-                            class="classSelection" 
-                            name="classSelection" 
-                            id="classSelection6"
-                            onchange="onSelectSchedule(6);">
+                            <select aria-label='Choose A class for Monday 10:55
+                             am to 12:00 pm' class="classSelection" 
+                             name="classSelection" id="classSelection6"
+                             onchange="onSelectSchedule(6);">
                                 <option value="" selected>
                                     Choose Class
                                 </option>
@@ -227,11 +227,9 @@
                             </select>
                         </td>
                         <td data-day="W">
-                            <select  
-                            aria-label='Choose A class for Wednesday 10:55 am to 12:00 pm' 
-                            class="classSelection" 
-                            name="classSelection" 
-                            id="classSelection7">
+                            <select aria-label='Choose A class for Wednesday
+                             10:55 am to 12:00 pm' class="classSelection" 
+                            name="classSelection" id="classSelection7">
                                 <option value="" selected>
                                     Choose Class
                                 </option>
@@ -245,11 +243,9 @@
                             </select>
                         </td>
                         <td data-day="F">
-                            <select 
-                            aria-label='Choose A class for Friday 10:55 am to 12:00 pm'  
-                            class="classSelection" 
-                            name="classSelection" 
-                            id="classSelection8">
+                            <select aria-label='Choose A class for Friday 10:55
+                             am to 12:00 pm' class="classSelection" 
+                            name="classSelection" id="classSelection8">
                                 <option value="" selected>
                                     Choose Class
                                 </option>
@@ -291,7 +287,8 @@
 
                         <td data-day="W">
                             <select 
-                            aria-label='Choose A class for Wednesday 12:15-1:20 pm' 
+                            aria-label='Choose A class for Wednesday 12:15-1:20
+                             pm' 
                             class="classSelection" 
                             name="classSelection" 
                             id="classSelection10">
@@ -356,7 +353,8 @@
 
                         <td data-day="W">
                             <select 
-                            aria-label='Choose A class for Wednesday 1:35-2:40 pm' 
+                            aria-label='Choose A class for Wednesday 1:35-2:40
+                             pm' 
                             class="classSelection" 
                             name="classSelection" 
                             id="classSelection13">
@@ -420,7 +418,8 @@
                         
                         <td data-day="W">
                             <select 
-                            aria-label='Choose A class for Wednesday 3:25-5:00 pm' 
+                            aria-label='Choose A class for Wednesday 3:25-5:00
+                             pm' 
                             class="classSelection" 
                             name="classSelection" 
                             id="classSelection16">
@@ -485,7 +484,8 @@
 
                         <td data-day="W">
                             <select 
-                                aria-label='Choose A class for Wednesday 5:30-7:15 pm' 
+                                aria-label='Choose A class for Wednesday 5:30-
+                                 7:15 pm' 
                                 class="classSelection" 
                                 name="classSelection" 
                                 id="classSelection19">
@@ -548,7 +548,8 @@
 
                         <td data-day="W">
                             <select 
-                            aria-label='Choose A class for Wednesday 7:30-9:15 pm' 
+                            aria-label='Choose A class for Wednesday 7:30-9:15
+                             pm' 
                             class="classSelection" 
                             name="classSelection" 
                             id="classSelection22">
@@ -595,9 +596,12 @@
 
                 <!-- Top Labels 2nd Layer -->
                 <tr>
-                    <th width="100" <span title="Available time slots for TUESDAY & THURSDAY">TIME</th>
-                    <th width="100" <span title="Use the dropdown list to select a course for Tuesday in each time slot">TUESDAY</th>
-                    <th width="100"<span title="Use the dropdown list to select a course for Thursday in each time slot">THURSDAY</th>
+                    <th width="100" <span title="Available time slots for
+                     TUESDAY & THURSDAY">TIME</th>
+                    <th width="100" <span title="Use the dropdown list to select
+                     a course for Tuesday in each time slot">TUESDAY</th>
+                    <th width="100"<span title="Use the dropdown list to select
+                     a course for Thursday in each time slot">THURSDAY</th>
                 </tr>
 
 
@@ -627,7 +631,8 @@
 
                         <td data-day="R">
                             <select 
-                            aria-label='Choose A class for Thursday 8:00-9:40 am' 
+                            aria-label='Choose A class for Thursday 8:00-9:40
+                             am' 
                             class="classSelection" 
                             name="classSelection" 
                             id="classSelection25">
@@ -651,7 +656,8 @@
 
                         <td data-day="T">
                             <select 
-                            aria-label='Choose A class for Tuesday 9:55-11:35 am' 
+                            aria-label='Choose A class for Tuesday 9:55-11:35
+                             am' 
                             class="classSelection" 
                             name="classSelection" 
                             id="classSelection26"
@@ -669,7 +675,8 @@
 
                         <td data-day="R">
                             <select 
-                            aria-label='Choose A class for Thursday 9:55-11:35 am' 
+                            aria-label='Choose A class for Thursday 9:55-11:35
+                             am' 
                             class="classSelection" 
                             name="classSelection" 
                             id="classSelection27">

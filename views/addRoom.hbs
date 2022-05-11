@@ -20,13 +20,16 @@
     <div class="grid-container">
       <label>Room Number
         <!--i think i got all the errors except negatives-->
-        <input type="number" name="roomNum" maxlength="6" placeholder="Room Number" min="0" step="1"
-          oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-          onkeyup="if(this.value<0){this.value= this.value * -1}" />
+        <input type="number" name="roomNum" maxlength="6"
+         placeholder="Room Number" min="0" step="1" oninput="javascript: if 
+         (this.value.length > this.maxLength) this.value = this.value.slice(0, 
+         this.maxLength);" onkeyup="if(this.value<0){this.value= this.value * 
+         -1}" />
       </label>
 
       <label>Building Name
-        <input type="text" name="buildingName" maxlength="6" placeholder="Building Name" />
+        <input type="text" name="buildingName" maxlength="6"
+         placeholder="Building Name" />
       </label>
 
       <div class="grid-x grid-padding-x">
@@ -34,14 +37,15 @@
           <div class="cell small-6">
             <label>Capacity
               <input type="number" name="capacity" maxlength="2"
-                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                onkeyup="if(this.value<0){this.value= this.value * -1}" placeholder="xx" max="100" min="0" />
+                oninput="javascript: if (this.value.length > this.maxLength) 
+                 this.value = this.value.slice(0, this.maxLength);"
+                 onkeyup="if(this.value<0){this.value= this.value * -1}"
+                  placeholder="xx" max="100" min="0" />
             </label>
           </div>
           <!-- Submit Button -->
-          <button type="button" class="submit success button" onclick="submitForm()">
-            Submit
-          </button>
+          <button type="button" class="submit success button"
+           onclick="submitForm()">Submit</button>
         </div>
       </div>
     </div>
