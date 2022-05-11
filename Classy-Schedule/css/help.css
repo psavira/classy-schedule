@@ -18,14 +18,14 @@
   padding-top: 5%;
 
   color: #32a852;
-  text-align: justify;
+  text-align: center;
   text-transform: uppercase;
-  padding-left: 25%;
+  /*padding-left: 25%;*/
   
 }
 .help-container2 {
   flex: 0 0 auto;
-  padding-top: 15%;
+  padding-top: 10%;
   padding-bottom: 30%;
   padding-left: 5%;
   width: 772px;
