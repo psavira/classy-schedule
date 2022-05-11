@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
 
 <head>
@@ -8,12 +7,23 @@
   <script src = "js/editPreference.js"></script>
   <title>Can Teach</title>
 </head>
-
 <body>
-  <!-- NAVBAR START -->
   {{> navbar}}
-  <!-- NAVBAR END <select type="text" name="profId" id="profSelect" />-->
-  <div>
-    <label class="tab">Select A Professor To Edit</label>
-    <select class="tab" id="profSelect" name='profId'></select>
-  </div>
+<form id="teachForm">
+<input type="button" id="testCan" name='testCan' value="Get Classes Prof Can Teach" onclick="fetchCanTeach()"></input>
+<Div id='div1'>
+</div>
+<input type="button" id="testCan" value="Get All Classes" onclick="fetchClasses();"/>
+<Div id='div2'>
+</div>
+<button type = "button" onclick = "submitForm()">Submit</button>
+
+<script>
+  const check = document.getElementById('testCan');
+  console.log(check.value)
+</script>
+
+</form>
+<div id = "alertContainer"></div>
+</body>
+</html>
