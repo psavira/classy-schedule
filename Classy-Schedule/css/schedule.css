@@ -8,16 +8,16 @@
   justify-content: flex-start;
   margin-bottom: 0;
   padding-bottom: 0;
-  }
-  .schedule-container1 {
+}
+.schedule-container1 {
   flex: 0 0 auto;
   margin-bottom: 0;
   padding-bottom: 0;
   width: 100%;
   display: flex;
   align-items: flex-start;
-  }
-  .schedule-navbar {
+}
+.schedule-navbar {
   width: 100%;
   height: 100px;
   display: flex;
@@ -32,57 +32,57 @@
   /*padding-bottom: var(--dl-space-space-doubleunit);
   justify-content: space-between;*/
   background-color: #fbf8f8;
-  }
-  .schedule-left-side {
+}
+.schedule-left-side {
   display: flex;
   align-items: center;
   flex-direction: row;
   margin-bottom: 0;
   padding-bottom: 0;
   justify-content: center;
-  }
-  .schedule-image {
+}
+.schedule-image {
   width: 109px;
   height: 93px;
   align-self: center;
   object-fit: cover;
   margin-right: var(--dl-space-space-doubleunit);
-  }
-  .schedule-links-container {
+}
+.schedule-links-container {
   display: flex;
   padding-bottom: 0;
   align-items: flex-start;
   flex-direction: row;
   margin-bottom: 0;
-  }
-  
-  .schedule-link {
+}
+
+.schedule-link {
   color: #24249a;
   margin-right: var(--dl-space-space-tripleunit);
   text-decoration: none;
-  }
-  .schedule-link1 {
+}
+.schedule-link1 {
   color: #24249a;
   margin-right: var(--dl-space-space-tripleunit);
   text-decoration: none;
-  }
-  .schedule-link2 {
+}
+.schedule-link2 {
   color: #24249a;
   margin-right: var(--dl-space-space-tripleunit);
   text-decoration: none;
-  }
-  .schedule-link3 {
+}
+.schedule-link3 {
   color: #24249a;
   text-decoration: none;
-  }
-  .schedule-right-side {
+}
+.schedule-right-side {
   align-items: right;
   flex-direction: row;
   padding-bottom: 0;
   justify-content: space-between;
   margin-bottom: 0;
-  }
-  .schedule-cta-btn {
+}
+.schedule-cta-btn {
   color: var(--dl-color-gray-white);
   padding-top: var(--dl-space-space-unit);
   padding-left: var(--dl-space-space-fiveunits);
@@ -91,16 +91,114 @@
   padding-bottom: var(--dl-space-space-unit);
   text-decoration: none;
   background-color: #24249a;
-  }
-  @media(max-width: 767px) {
+}
+@media (max-width: 767px) {
   .schedule-links-container {
     display: none;
   }
-  }
-  @media(max-width: 479px) {
+}
+@media (max-width: 479px) {
   .schedule-cta-btn {
     font-size: 16px;
     padding-left: var(--dl-space-space-doubleunit);
     padding-right: var(--dl-space-space-doubleunit);
   }
+}
+
+/* Hides the professor select when hidden class enabled */
+select.professorSelect.hidden {
+  display: none;
+}
+
+/* Controls Bar Styling */
+.controls {
+  padding: 1em;
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.controls .separator {
+  flex-grow: 1;
+  height: 0;
+  border-top: 2px solid lightgray;
+  margin: 1em;
+  transition: opacity 1s ease;
+}
+
+.controls .control-group {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+}
+
+@media (max-width: 1000px) {
+  .controls .separator {
+    opacity: 0;
+    flex-grow: 0;
+    width: 0;
   }
+}
+
+
+.controls button {
+  margin: 0;
+}
+
+.controls select {
+  margin: 0;
+  height: 100%;
+}
+
+
+#roomSelect {
+  width: max-content;
+  margin: 0;
+}
+
+#saveButton {
+  margin: 0;
+}
+
+#planSelect {
+  width: max-content;
+}
+
+/* Table Styling */
+
+.row {
+  display: flex;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+.column {
+  flex: 50%;
+  padding: 0px;
+  padding-top: 20px;
+}
+.column2 {
+  flex: 0%;
+  padding-left: 100px;
+  padding-right: 50px;
+  padding-top: 20px;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+td {
+  text-align: center;
+  padding: 16px;
+}
+th {
+  background-color: #179941;
+  text-align: center;
+  padding: 16px;
+}
+tr:nth-child(even) {
+  background-color: #ddd;
+}
