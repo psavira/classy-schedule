@@ -144,3 +144,23 @@ function loadCanTeachData() {
 }
 
 let canTeachData = loadCanTeachData()
+
+/* -------------------------------------------------------------------------- */
+/*                               Keystroke Data                               */
+/* -------------------------------------------------------------------------- */
+
+let keyTracker = {}
+
+keyTracker["shiftDown"] = false
+
+$(document)
+.keydown((event) => {
+  if(event.key == 'Shift'){
+    keyTracker["shiftDown"] = true
+  }
+})
+.keyup((event) => {
+  if(event.key == 'Shift'){
+    keyTracker["shiftDown"] = false
+  }
+})

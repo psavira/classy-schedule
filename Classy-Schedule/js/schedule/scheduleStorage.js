@@ -27,18 +27,31 @@ function loadSchedule() {
 
 /* ----------------------------- Room Schedules ----------------------------- */
 
+/**
+ * Save the given table to the given room in temporary storage
+ * @param {*} room_id Room to save to
+ * @param {*} table Table to save
+ */
 function saveRoom(room_id, table) {
     localSchedule[room_id] = table
 }
 
+/**
+ * Load the table saved in the given room from temporary storage
+ * @param {*} room_id Room to load from
+ * @returns The table at the given room. Undefined if the table doesn't exist
+ */
 function loadRoom(room_id) {
     if(!localSchedule[room_id]) {
         console.log("No schedule exists for this room yet")
         return
     }
-    setTable(localSchedule[room_id])
+    return localSchedule[room_id]
 }
 
+/**
+ * Saves the current table to the current room in temporary storage
+ */
 function saveCurrentRoom() {
     let roomSelect = document.querySelector('#roomSelect')
     if(roomSelect.value != '') {
@@ -46,6 +59,9 @@ function saveCurrentRoom() {
       }
 }
 
+/**
+ * Loads the current room from temporary storage and updates the visible table
+ */
 function loadCurrentRoom() {
     let roomSelect = document.querySelector('#roomSelect')
     let room_id = roomSelect.value

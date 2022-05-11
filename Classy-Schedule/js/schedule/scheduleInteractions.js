@@ -110,11 +110,16 @@ function setClass(timecode, day, class_id, section) {
 function getTable() {
   let table = {}
 
-  // Iterate through selects in schedule
+  // Iterate through class selects in schedule
   let selects = document.querySelectorAll("table select.classSelection");
+  
   selects.forEach((select) => {
-    // Get the select value
+    // Get the class select value
     let selectedClass = select.value;
+    // Get the professor select value
+    let profSelect = select.parentNode.querySelector('select.professorSelect')
+    let selectedProf = profSelect.value;
+    
     // Find the time block and the day
     let day = select.parentNode.dataset.day;
     let time = select.parentNode.parentNode.dataset.time;
@@ -123,7 +128,10 @@ function getTable() {
     if (table[day] === undefined) {
       table[day] = {};
     }
-    table[day][time] = selectedClass;
+    table[day][time] = {
+      'class': selectedClass,
+      'professor': selectedProf
+    };
   });
 
   return table;
@@ -137,6 +145,9 @@ function setTable(table) {
   // Iterate through selects in table
   let selects = document.querySelectorAll("table select.classSelection");
   selects.forEach((select) => {
+    // Get the local professor select
+    let profSelect = select.parentNode.querySelector('select.professorSelect')
+
     // Find the time block and the day
     let day = select.parentNode.dataset.day;
     let time = select.parentNode.parentNode.dataset.time;
@@ -149,7 +160,10 @@ function setTable(table) {
     if (table[day][time] === undefined) {
       throw new Error(`Couldn't find time [${time}] for day [${day}] in parameter table`);
     }
-    select.value = table[day][time];
+    select.value = table[day][time]['class'];
+    profSelect.value = table[day][time]['professor'];
+
+    select.dispatchEvent(new Event('change'))
   });
 }
 

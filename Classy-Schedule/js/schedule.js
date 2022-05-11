@@ -156,72 +156,96 @@ function makeInfoTable() {
 // Fires when an option is selected from drop down on schedule page
 function onSelectSchedule(num){
   value = document.getElementById(`classSelection${num}`).value;
-
-  if(num <= 23){
-    autoFill(num);
-  }else{
-    autoFillTuesThurs(num);
+  if(keyTracker["shiftDown"]) {
+    if(num <= 23){
+      autoFill(num);
+    }else{
+      autoFillTuesThurs(num);
+    }
   }
-  updateTable(num);
 }
 
 /* Auto-fills Weds and Fri slots when Monday is selected :
    DOES NOT FILL IF CLASS HAS ALREADY BEEN SELECTED FOR WED/FRI */
 function autoFill(num) {
   let monValue = document.getElementById(`classSelection${num}`).value;
-  let wedValue = document.getElementById(`classSelection${num + 1}`).value;
-  let friValue = document.getElementById(`classSelection${num + 2}`).value;
 
-  if(monValue != ''){
-    if(wedValue == ''){
-      document.getElementById(`classSelection${num + 1}`).value = monValue;
-      updateTable(num + 1)
-    }
-    if(friValue == ''){
-      document.getElementById(`classSelection${num + 2}`).value = monValue;
-      updateTable(num + 2)
-    }
-  }
+  let wedElem = document.getElementById(`classSelection${num + 1}`)
+  let friElem = document.getElementById(`classSelection${num + 2}`)
+
+  wedElem.value = monValue;
+  wedElem.dispatchEvent(new Event('change'))
+
+  friElem.value = monValue;
+  friElem.dispatchEvent(new Event('change'))
+    
 }
 
 /* Auto-fills Thurs when Tues is selected
    DOES NOT FILL IF CLASS HAS ALREADY BEEN SELECTED FOR THURS */
 function autoFillTuesThurs(num) {
   var tuesValue = document.getElementById(`classSelection${num}`).value;
-  var thursValue = document.getElementById(`classSelection${num + 1}`).value;
 
-  if(tuesValue != ''){
-    if (thursValue == ''){
-      document.getElementById(`classSelection${num + 1}`).value = tuesValue;
-      updateTable(num + 1)
-    }
-  }
-}
-
-/* Will update table when class section is scheduled :
-   When Sections=0, that class will be made unavailable to schedule */
-function updateTable(num){
-  var currentClassElem = document.getElementById(`classSelection${num}`);
-  var currentClassValue = currentClassElem.value;
-
-  // If val is not none, 
-  // set the only visible options to be those prof can teach
-  let professorSelect = currentClassElem.parentNode.querySelector(".professor-select")
-  
-  if(currentClassValue != '') {
-
-  }
+  let thursElem = document.getElementById(`classSelection${num + 1}`)
+  thursElem.value = tuesValue;
+  thursElem.dispatchEvent(new Event('change'))
 
 }
 
 function attachClassSelectEvents() {
+  // Get the necessary elements
   let classSelects = document.querySelectorAll('select.classSelection')
   let roomSelect = document.querySelector('#roomSelect')
 
+  // Attach a change event listener to each class select element
   for(let classSelect of classSelects) {
     classSelect.addEventListener('change', (event) => {
-      let day = classSelect.closest('td').dataset['day']
-      let timecode = classSelect.closest('tr').dataset['timeCode']
+
+      console.log("Change Event Fired")
+
+      // Get the local professor dropdown
+      let profSelect = event.target.parentNode.querySelector('.professorSelect')
+      // profSelect.value = ''
+
+      if(classSelect.value == '') {
+        // If the selected class value is blank, clear the professor select
+        profSelect.classList.add('hidden')
+        profSelect.value = ''
+      } else {
+        // Ensure the professor select isn't hidden
+        profSelect.classList.remove('hidden')
+        
+        // Disable and hide professor options that can't teach the new course
+        $(profSelect).children().each((index, option) => {
+          // Do nothing for the default option
+          if(option.value == '') return
+
+          // Reset the option's attributes
+          option.disabled = true
+          option.hidden = true
+
+          // If the professor is not in the can teach map, disable it
+          canTeachData
+          .then((canTeachMap) => {
+            if (!canTeachMap) return
+            let class_id = parseInt(classSelect.value.split(':')[0])
+            canTeachArray = canTeachMap[class_id]
+            if(canTeachArray) {
+              if(canTeachArray.indexOf(parseInt(option.value)) != -1) {
+                option.disabled = false
+                option.hidden = false
+              }
+            }
+          })
+        })
+
+        // If the selected professor is not a viable option, reset to default
+        if(classSelect.options[classSelect.selectedIndex].disabled) {
+          profSelect.value = ''
+        }
+      }
+
+      // Save the room
       if(roomSelect.value != '') {
         saveRoom(roomSelect.value, getTable())
       }
