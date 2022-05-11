@@ -123,7 +123,8 @@ function clearAlerts() {
 function Createcheckbox(chkboxid) {
   var checkbox = document.createElement('input');
   checkbox.type = "checkbox";
-  checkbox.id = `checkbox${chkboxid}`;
+  checkbox.id = "checkbox";
+  checkbox.value = chkboxid;
 
   dbToken.then((token) => {
     return fetch('https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/can-teach/'+sessionStorage.getItem('Prof'), 
@@ -145,8 +146,10 @@ function Createcheckbox(chkboxid) {
         // loop through courses
         .then((testpreferences) => {
           testpreferences.forEach((preference) => {
-            console.log(preference.class_id+' - '+preference.can_teach);
+            //console.log(preference);
+            //console.log(preference.class_id+' - '+preference.can_teach);
             if(preference.class_id==chkboxid && preference.can_teach==true){
+              console.log('CHECKED');
               checkbox.checked = true;
             }
 
@@ -217,14 +220,13 @@ async function fetchClasses() {
 
 async function submitForm() {
   clearAlerts();
-  //var test = document.getElementById('checkbox');
+  var test = document.getElementById('checkbox');
   //console.log(test.checked);
-  //console.log(test.value);
   const teach_form = document.forms.teachForm;
   //can't get class id
-  const class_id = '5';//test.value;
+  const class_id = test.value;
   //this is goodV
-  const can_teach = 'true';//test.checked;
+  const can_teach = test.checked;
 
 
 
