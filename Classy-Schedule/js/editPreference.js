@@ -1,5 +1,17 @@
  var pref = [];
 
+ function testPrefUpdate(){
+   var chkboxContainer = document.querySelectorAll('.checkbox');
+
+   for (chkbx in chkboxContainer){
+     var class_id = chkbx.value;
+console.log(class_id);
+     pref.push({class_id: class_id, can_teach: chkbx.checked});
+   }
+
+   submitForm();
+ }
+
 /** function to fetch profs from database */
 // eslint-disable-next-line no-unused-vars
 async function fetchProfessors() {
@@ -125,7 +137,7 @@ function clearAlerts() {
 function Createcheckbox(chkboxid) {
   var checkbox = document.createElement('input');
   checkbox.type = "checkbox";
-  checkbox.id = "checkbox";
+  checkbox.class = "checkbox";
   checkbox.value = chkboxid;
 
   dbToken.then((token) => {
@@ -151,8 +163,6 @@ function Createcheckbox(chkboxid) {
             if(preference.class_id==chkboxid && preference.can_teach==true){
               checkbox.checked = true;
             }
-            var canT = {class_id: chkboxid, can_teach: checkbox.checked};
-            pref.push(canT);
           });
         })
          //catch errors and show message
@@ -219,16 +229,6 @@ async function fetchClasses() {
 
 async function submitForm() {
   clearAlerts();
-  var test = document.getElementById('checkbox');
-  //console.log(test.checked);
-  const teach_form = document.forms.teachForm;
-  //can't get class id
-  const class_id = test.value;
-  //this is good
-  const can_teach = test.checked;
-
-
-  //console.log(test.value);  
 
   if(isValidForm(class_id, can_teach)){
     const postData = pref;
