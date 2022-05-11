@@ -1,3 +1,5 @@
+ var pref = [];
+
 /** function to fetch profs from database */
 // eslint-disable-next-line no-unused-vars
 async function fetchProfessors() {
@@ -123,7 +125,7 @@ function clearAlerts() {
 function Createcheckbox(chkboxid) {
   var checkbox = document.createElement('input');
   checkbox.type = "checkbox";
-  checkbox.id = "checkbox"+chkboxid;
+  checkbox.id = "checkbox";
   checkbox.value = chkboxid;
 
   dbToken.then((token) => {
@@ -149,7 +151,8 @@ function Createcheckbox(chkboxid) {
             if(preference.class_id==chkboxid && preference.can_teach==true){
               checkbox.checked = true;
             }
-
+            var canT = {class_id: chkboxid, can_teach: checkbox.checked};
+            pref.push(canT);
           });
         })
          //catch errors and show message
@@ -228,13 +231,7 @@ async function submitForm() {
   //console.log(test.value);  
 
   if(isValidForm(class_id, can_teach)){
-    const postData = 
-      [
-        {
-        class_id: class_id,
-        can_teach: can_teach
-        }
-      ];
+    const postData = pref;
     console.log(postData);
     dbToken.then((token) => {
       return fetch('https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/can-teach/save/'+sessionStorage.getItem('Prof'), {
