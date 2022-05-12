@@ -1,12 +1,18 @@
  var pref = [];
 
  function testPrefUpdate(){
-   var chkboxContainer = document.querySelectorAll('.checkbox');
+   var chkboxContainer = document.getElementsByName('checkbox');
+
+   console.log(chkboxContainer);
 
    for (chkbx in chkboxContainer){
+    console.log(chkbx);
+
      var class_id = chkbx.value;
-console.log(class_id);
-     pref.push({class_id: class_id, can_teach: chkbx.checked});
+
+     console.log(class_id);
+
+     //pref.push({class_id: class_id, can_teach: chkbx.checked});
    }
 
    submitForm();
@@ -137,7 +143,7 @@ function clearAlerts() {
 function Createcheckbox(chkboxid) {
   var checkbox = document.createElement('input');
   checkbox.type = "checkbox";
-  checkbox.class = "checkbox";
+  checkbox.name = "checkbox";
   checkbox.value = chkboxid;
 
   dbToken.then((token) => {
@@ -230,7 +236,7 @@ async function fetchClasses() {
 async function submitForm() {
   clearAlerts();
 
-  if(isValidForm(class_id, can_teach)){
+  if(isValidForm(1, true)){
     const postData = pref;
     console.log(postData);
     dbToken.then((token) => {
