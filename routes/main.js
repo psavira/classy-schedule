@@ -118,4 +118,8 @@ router.get('/preferTeach', authLocals, isAuthorized, (req, res) => {
     res.render('preferTeach');
 })
 
+router.get('/timeOfDay', authLocals, isAuthorized, (req, res) => {
+    res.render('timeOfDay');
+})
+
 module.exports = router
