@@ -1,9 +1,13 @@
- var pref = [];    // holds preferences to send to database
- var prefer = [];  // holds preferences to send to database
+ var pref = [];    // holds canTeach preferences to send to database
+ var prefer = [];  // holds preferTeach preferences to send to database
 
+ /** function to fetch all professors in database**/
  function getProf(){
+   //authorize
   dbToken.then((token) => {
-    return fetch('https://capstonedbapi.azurewebsites.net//professor-management/professors/' + sessionStorage.getItem('Prof'), 
+    //fetching professors based on prof id chosen
+    return fetch('https://capstonedbapi.azurewebsites.net//professor-management/professors/' 
+    + sessionStorage.getItem('Prof'), 
       {
         headers: {'Authorization': token}
       })
@@ -17,6 +21,7 @@
       const errorText = await response.text();
       throw new Error(errorText);
     })
+    //display in dropdown by last name
     .then((prof) => {
       var profName = "Professor " + prof[0].last_name;
       var text = document.createElement('h1');
@@ -27,18 +32,18 @@
   
     })
  }
- 
+
+ /**updating checkboxes on submit for canTeach**/
  function testPrefUpdate(){
+   //get the checkboxes
    var chkboxContainer = document.getElementsByName('checkbox');
-
-   console.log(chkboxContainer);
-
+   //loop through them
    for (chkbx of chkboxContainer){
-    
-
+    //get classID and push info to array of objects to send to db
     class_id = chkbx.value;
     pref.push({class_id: class_id, can_teach: chkbx.checked});
    }
+   //call submit form to send to db
    submitForm();
  }
 
@@ -84,57 +89,12 @@ async function fetchProfessors() {
     });
 } 
 
+/** function to get the id of a professor selected */
 function getProfID(){
   var profSelect=document.getElementById('profSelect');
   var profID = profSelect.value;
   sessionStorage.setItem('Prof',profID);
 }
-
-
-/*async function fetchCanTeach(profID) {
-  // make classSelect by id
-  //const classSelect = document.getElementById('testCan');
-  // fetch courses from database
-  dbToken.then((token) => {
-return fetch('https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/can-teach/'+profID, 
-{
-headers: {'Authorization': token}
-})
-})
-  // if response okay return response
-    .then(async (response) => {
-      if (response.ok) {
-        //console.log(response.json());
-        return response.json();
-        
-      }
-      // otherwise error
-      const errorText = await response.text();
-      throw new Error(errorText);
-    })
-    // loop through courses
-    .then((testpreferences) => {
-      testpreferences.forEach((preference) => {
-        // create element for each course
-        const label = document.createElement('label');
-        var br = document.createElement('br');
-        //var alabel = document.getElementById('div1');
-        //var last = alabel[alabel.length - 1];
-        label.value = preference.class_id;
-        label.htmlFor = "lbl"+preference.class_id;
-        label.appendChild(Createcheckbox('test' + preference.class_id));
-        label.appendChild(document.createTextNode('ClassID: ' + preference.class_id));
-        label.appendChild(br);
-        document.getElementById('div1').appendChild(label);
-        //classSelect.appendChild(label);
-      });
-    })
-     //catch errors and show message
-    .catch((error) => {
-      clearAlerts();
-      showAlert(error.message);
-    });
-}*/
 
 /** function to show error messages */
 function showAlert(alertText) {
@@ -164,14 +124,18 @@ function clearAlerts() {
   }
 }
 
+/** function to create checkboxes dynamically */
 function Createcheckbox(chkboxid) {
+  //create checkbox and give it name and value
   var checkbox = document.createElement('input');
   checkbox.type = "checkbox";
   checkbox.name = "checkbox";
   checkbox.value = chkboxid;
 
+  //fetch can teach based on chosen professor id
   dbToken.then((token) => {
-    return fetch('https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/can-teach/'+sessionStorage.getItem('Prof'), 
+    return fetch('https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/can-teach/' 
+    + sessionStorage.getItem('Prof'), 
     {
     headers: {'Authorization': token}
     })
@@ -190,7 +154,8 @@ function Createcheckbox(chkboxid) {
         // loop through courses
         .then((testpreferences) => {
           testpreferences.forEach((preference) => {
-            if(preference.class_id==chkboxid && preference.can_teach==true){
+            //make checkboxes clicked if prof can teach it already
+            if(preference.class_id == chkboxid && preference.can_teach == true){
               checkbox.checked = true;
             }
           });
@@ -200,7 +165,8 @@ function Createcheckbox(chkboxid) {
           clearAlerts();
           showAlert(error.message);
         });
-
+  
+  //update checkboxes
   checkbox.onclick = function(){
    this.onclick = null;
    var label = this.parentNode;
@@ -211,10 +177,9 @@ function Createcheckbox(chkboxid) {
   return checkbox;
 }
 
+/** fetching classes prof can teach and making checkboxes */
 async function fetchClassesCanTeach() {
-  // make classSelect by id
-  //const classSelect = document.getElementById('testclasses');
-  // fetch courses from database
+  //fetch all classes
   dbToken.then(token => {
     return fetch(
       'https://capstonedbapi.azurewebsites.net/class-management/classes',
@@ -239,9 +204,8 @@ async function fetchClassesCanTeach() {
         // create element for each course
         const label = document.createElement('label');
         var br = document.createElement('br');
-        //var alabel = document.getElementById('div2');
-        //var last = alabel[alabel.length - 1];
-        label.htmlFor = "lbl"+classes.class_id;
+        //this makes checkbox for each class
+        label.htmlFor = "lbl" + classes.class_id;
         label.appendChild(Createcheckbox(classes.class_id));
         label.appendChild(document.createTextNode('ClassID: ' + classes.class_id));
         label.appendChild(br);
@@ -256,15 +220,16 @@ async function fetchClassesCanTeach() {
     });
 
 }
-
+/** submit form for can teach classes */
 async function submitForm() {
   clearAlerts();
-
+  //if the form is valid
   if(isValidForm(1, true)){
     const postData = pref;
-    console.log(postData);
+    //save updated professor can teach info
     dbToken.then((token) => {
-      return fetch('https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/can-teach/save/'+sessionStorage.getItem('Prof'), {
+      return fetch('https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/can-teach/save/'
+       + sessionStorage.getItem('Prof'), {
         // send to db
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': token},
@@ -277,7 +242,7 @@ async function submitForm() {
         clearAlerts();
         showAlert('Success!');
 
-        //teach_form.label.value = '';
+
       } else {
         clearAlerts();
         const text = await response.text();
@@ -309,12 +274,12 @@ function disableButton(button){
 }
 
 ////////PREFER TO TEACH////////////////////////////////////////////////////////
+//holds preferTeach info to send to bd
 var preference = [];
 
+/**fetch classes and create checkbox for all */
 async function fetchClassesPreferTeach() {
-    // make classSelect by id
-    //const classSelect = document.getElementById('testclasses');
-    // fetch courses from database
+    //fetch all classes
     dbToken.then(token => {
       return fetch(
         'https://capstonedbapi.azurewebsites.net/class-management/classes',
@@ -339,9 +304,8 @@ async function fetchClassesPreferTeach() {
           // create element for each course
           const label = document.createElement('label');
           var br = document.createElement('br');
-          //var alabel = document.getElementById('div2');
-          //var last = alabel[alabel.length - 1];
-          label.htmlFor = "lbl"+classes.class_id;
+          //make a checkbox for each course
+          label.htmlFor = "lbl" + classes.class_id;
           label.appendChild(CreatecheckboxPrefer(classes.class_id));
           label.appendChild(document.createTextNode('ClassID: ' + classes.class_id));
           label.appendChild(br);
@@ -355,15 +319,18 @@ async function fetchClassesPreferTeach() {
         showAlert(error.message);
       });
     }
-  
+      /** checkbox function for preferTeach */
       function CreatecheckboxPrefer(chkboxid) {
+        //create checkbox and give it name and value
         var checkbox = document.createElement('input');
         checkbox.type = "checkbox";
         checkbox.name = "check";
         checkbox.value = chkboxid;
-      
+        //fetch classes prof prefer to teach by id
         dbToken.then((token) => {
-          return fetch('https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/prefer-to-teach/'+sessionStorage.getItem('Prof'), 
+          return fetch('https://capstonedbapi.azurewebsites.net/'
+          +'preference-management/class-preferences/prefer-to-teach/'
+           + sessionStorage.getItem('Prof'), 
           {
           headers: {'Authorization': token}
           })
@@ -382,7 +349,8 @@ async function fetchClassesPreferTeach() {
               // loop through courses
               .then((testpreferences) => {
                 testpreferences.forEach((preference) => {
-                  if(preference.class_id==chkboxid && preference.prefer_to_teach==true){
+                  //if prof already prefers to teach that class - make it clicked
+                  if(preference.class_id == chkboxid && preference.prefer_to_teach == true){
                     checkbox.checked = true;
                   }
                 });
@@ -392,7 +360,7 @@ async function fetchClassesPreferTeach() {
                 clearAlerts();
                 showAlert(error.message);
               });
-      
+        //updates checkboxes
         checkbox.onclick = function(){
          this.onclick = null;
          var label = this.parentNode;
@@ -403,15 +371,17 @@ async function fetchClassesPreferTeach() {
         return checkbox;
       }
   
-  
+      /** submit for for preferTeach */
       async function submitFormPrefer() {
         clearAlerts();
-      
+        //if form is valid
         if(isValidForm(1, true)){
           const postData = preference;
-          console.log(postData);
           dbToken.then((token) => {
-            return fetch('https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/prefer-to-teach/save/'+sessionStorage.getItem('Prof'), {
+            //save arrray of objects to db
+            return fetch('https://capstonedbapi.azurewebsites.net/'+
+            'preference-management/class-preferences/prefer-to-teach/save/' 
+            + sessionStorage.getItem('Prof'), {
               // send to db
               method: 'POST',
               headers: { 'Content-Type': 'application/json', 'Authorization': token},
@@ -424,7 +394,6 @@ async function fetchClassesPreferTeach() {
               clearAlerts();
               showAlert('Success!');
       
-              //teach_form.label.value = '';
             } else {
               clearAlerts();
               const text = await response.text();
@@ -439,22 +408,30 @@ async function fetchClassesPreferTeach() {
         }
       }
   
-  
+      /** get updated checkbox info on submit */
       function testPrefUpdatePrefer(){
+        // get all checkboxes
         var chkboxContainer = document.getElementsByName('check');
-        for (i=0 ; i < chkboxContainer.length ; i++){
+        //loop through them
+        for (i = 0 ; i < chkboxContainer.length ; i ++){
+          //get value and add to array
          var chkbx = chkboxContainer[i];
          class_id = chkbx.value;
          preference.push({class_id: class_id, prefer_to_teach: chkbx.checked});
         }
+        // call function to submit form
         submitFormPrefer();
       }
     
 ////////////////Time OF Day////////////////////////////
+
+/** get all time of day preferences */
 async function fetchTimeOfDay() {
   dbToken.then(token => {
     return fetch(
-      'https://capstonedbapi.azurewebsites.net/preference-management/time-of-day-preferences/'+sessionStorage.getItem('Prof'), {
+      //get all time of day preferences by prof id
+      'https://capstonedbapi.azurewebsites.net/'+
+      'preference-management/time-of-day-preferences/' + sessionStorage.getItem('Prof'), {
         headers: {
           'Authorization': token
         }
@@ -469,7 +446,9 @@ async function fetchTimeOfDay() {
       const errorText = await response.text();
       throw new Error(errorText);
     })
+    // go through preferences
     .then((day) =>{
+      //if mor, aft, or eve are already true - make checkbox clicked
       if(day.prefer_morning == true){
         document.getElementById('mor').checked = true;
       }
@@ -482,14 +461,16 @@ async function fetchTimeOfDay() {
     })
   }
 
+  /** submit form for time of day */
   async function submitFormToD(preference) {
     clearAlerts();
-  
+    //if form is valid
     if(isValidForm(1, true)){
       const postData = preference;
-      console.log(postData);
       dbToken.then((token) => {
-        return fetch('https://capstonedbapi.azurewebsites.net/preference-management/time-of-day-preferences/save/'+sessionStorage.getItem('Prof'), {
+        //save array of objects to db
+        return fetch('https://capstonedbapi.azurewebsites.net/' +
+        'preference-management/time-of-day-preferences/save/' + sessionStorage.getItem('Prof'), {
           // send to db
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': token},
@@ -502,7 +483,6 @@ async function fetchTimeOfDay() {
           clearAlerts();
           showAlert('Success!');
   
-          //teach_form.label.value = '';
         } else {
           clearAlerts();
           const text = await response.text();
@@ -519,16 +499,20 @@ async function fetchTimeOfDay() {
 
   // Builds preference object
 function testTimeOfDayUpdate(){
+  //get all checkboxes for time of day
   var chkboxContainer = document.getElementsByName('checkbox');
+  //see if they are checked or not
   var mor   = document.getElementById('mor').checked;
   var aft   = document.getElementById('aft').checked;
   var eve   = document.getElementById('eve').checked;
 
+  //create object to store
   preference = {
     prefer_morning: mor, 
     prefer_afternoon: aft,
     prefer_evening: eve
   }
+  //call submit for time of day to send to db
   submitFormToD(preference);
 }
   
@@ -537,11 +521,14 @@ function testTimeOfDayUpdate(){
 
 ////////// DAY OF WEEK ///////////////////
 
+/** function to get day of week preferences */
 async function fetchDayOfWeek() {
   // fetch preferences from database
   dbToken.then(token => {
     return fetch(
-      'https://capstonedbapi.azurewebsites.net/preference-management/day-of-week-preferences/'+sessionStorage.getItem('Prof'), {
+      // get dow preferences by prof id
+      'https://capstonedbapi.azurewebsites.net/'+
+      'preference-management/day-of-week-preferences/' + sessionStorage.getItem('Prof'), {
         headers: {
           'Authorization': token
         }
@@ -556,7 +543,9 @@ async function fetchDayOfWeek() {
     const errorText = await response.text();
     throw new Error(errorText);
   })
+  // go through pref
   .then((day) => {
+    //if mon, tue, wed, thurs, fri are already prefered by prod - make checkbox clicked
       if(day.prefer_monday == true){
         document.getElementById('mon').checked = true;
       }
@@ -579,14 +568,16 @@ async function fetchDayOfWeek() {
   })
 }
 
+/** submit form for dow */
 async function submitFormDoW(preference) {
   clearAlerts();
-
+  // if form is valid
   if(isValidForm(1, true)){
     const postData = preference;
-    console.log(postData);
     dbToken.then((token) => {
-      return fetch('https://capstonedbapi.azurewebsites.net/preference-management/day-of-week-preferences/save/'+sessionStorage.getItem('Prof'), {
+      //save array of objects to db
+      return fetch('https://capstonedbapi.azurewebsites.net/' +
+      'preference-management/day-of-week-preferences/save/' + sessionStorage.getItem('Prof'), {
         // send to db
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': token},
@@ -599,7 +590,7 @@ async function submitFormDoW(preference) {
         clearAlerts();
         showAlert('Success!');
 
-        //teach_form.label.value = '';
+
       } else {
         clearAlerts();
         const text = await response.text();
@@ -616,13 +607,15 @@ async function submitFormDoW(preference) {
 
 // Builds preference object
 function testDayOfWeekUpdate(){
+  //get all checkboxes
   var chkboxContainer = document.getElementsByName('checkbox');
+  //see if true or false
   var mon   = document.getElementById('mon').checked;
   var tues  = document.getElementById('tues').checked;
   var wed   = document.getElementById('wed').checked;
   var thurs = document.getElementById('thurs').checked;
   var fri   = document.getElementById('fri').checked;
-
+  //create object to store info
   preference = {
     prefer_monday: mon, 
     prefer_tuesday: tues,
@@ -630,23 +623,28 @@ function testDayOfWeekUpdate(){
     prefer_thursday: thurs,
     prefer_friday: fri
   }
-
+  // call sumbit dow too send to db
   submitFormDoW(preference);
 }
 
 
 /////// TIME SLOT //////
 
-var timeSlotPref = [];  // holds preferences to send to database
+//array to store timeslot pref data
+var timeSlotPref = [];
 
+/** creates checkboxes dynamically for timeslot */
 function CreatecheckboxTimeSlot(chkboxid) {
+  //create checkbox and give name and value
   var checkbox = document.createElement('input');
   checkbox.type = "checkbox";
   checkbox.name = "timeBox";
   checkbox.value = chkboxid;
 
   dbToken.then((token) => {
-    return fetch('https://capstonedbapi.azurewebsites.net/preference-management/time-slot-preferences/can-teach/'+sessionStorage.getItem('Prof'), 
+    //get all timeslot pref a prof can teach
+    return fetch('https://capstonedbapi.azurewebsites.net/' + 
+    'preference-management/time-slot-preferences/can-teach/' + sessionStorage.getItem('Prof'), 
     {
     headers: {'Authorization': token}
     })
@@ -662,10 +660,11 @@ function CreatecheckboxTimeSlot(chkboxid) {
           const errorText = await response.text();
           throw new Error(errorText);
         })
-        // loop through courses
+        // loop through preferences
         .then((testpreferences) => {
           testpreferences.forEach((preference) => {
-            if(preference.time_slot_id==chkboxid && preference.can_teach==true){
+            //if prof already wants that time slot make checkbox clicked
+            if(preference.time_slot_id == chkboxid && preference.can_teach == true){
               checkbox.checked = true;
             }
           });
@@ -675,7 +674,7 @@ function CreatecheckboxTimeSlot(chkboxid) {
           clearAlerts();
           showAlert(error.message);
         });
-
+  // update checkboxes
   checkbox.onclick = function(){
    this.onclick = null;
    var label = this.parentNode;
@@ -686,11 +685,13 @@ function CreatecheckboxTimeSlot(chkboxid) {
   return checkbox;
 }
 
+/** get timeslots on prof id */
 async function fetchTimeSlots() {
   // fetch time slots from database
   dbToken.then(token => {
     return fetch(
-      'https://capstonedbapi.azurewebsites.net/preference-management/time-slot-preferences/can-teach/'+sessionStorage.getItem('Prof'),
+      'https://capstonedbapi.azurewebsites.net/' + 
+      'preference-management/time-slot-preferences/can-teach/' + sessionStorage.getItem('Prof'),
       {
         headers: {
           'Authorization': token
@@ -706,15 +707,14 @@ async function fetchTimeSlots() {
       const errorText = await response.text();
       throw new Error(errorText);
     })
-    // loop through courses
+    // loop through timeslots
     .then((timeSlots) => {
       for(time of timeSlots){
         // create element for each pref
         const label = document.createElement('label');
         var br = document.createElement('br');
-        //var alabel = document.getElementById('div2');
-        //var last = alabel[alabel.length - 1];
-        label.htmlFor = "lbl"+time.time_slot_id;
+        //display checkbox
+        label.htmlFor = "lbl" + time.time_slot_id;
         label.appendChild(CreatecheckboxTimeSlot(time.time_slot_id));
         label.appendChild(document.createTextNode(time.start_time + ' - ' + time.end_time));
         label.appendChild(br);
@@ -730,14 +730,16 @@ async function fetchTimeSlots() {
 
 }
 
+/** submit for time slot */
 async function submitFormTimeSlot() {
   clearAlerts();
-
+  //if valid
   if(isValidForm(1, true)){
     const postData = timeSlotPref;
-    console.log(postData);
     dbToken.then((token) => {
-      return fetch('https://capstonedbapi.azurewebsites.net/preference-management/time-slot-preferences/can-teach/save/'+sessionStorage.getItem('Prof'), {
+      // send array of object to db
+      return fetch('https://capstonedbapi.azurewebsites.net/' + 
+      'preference-management/time-slot-preferences/can-teach/save/' + sessionStorage.getItem('Prof'), {
         // send to db
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': token},
@@ -749,8 +751,6 @@ async function submitFormTimeSlot() {
       if (response.ok) {
         clearAlerts();
         showAlert('Success!');
-
-        //teach_form.label.value = '';
       } else {
         clearAlerts();
         const text = await response.text();
@@ -767,11 +767,14 @@ async function submitFormTimeSlot() {
 
 // starter function to submit form: creates preference sent to db
 function testTimeSlotUpdate(){
+  //get all checkboxes for time slot
   var chkboxContainer = document.getElementsByName('timeBox');
-
+  //loop through them
   for (chkbx of chkboxContainer){
+    //save object to array
    id = chkbx.value;
    timeSlotPref.push({time_slot_id: parseInt(id), can_teach: chkbx.checked});
   }
+  //call function to submit
   submitFormTimeSlot();
 }
