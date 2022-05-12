@@ -1,5 +1,5 @@
- var pref = [];
- var prefer = [];
+ var pref = [];    // holds preferences to send to database
+ var prefer = [];  // holds preferences to send to database
 
  function getProf(){
   dbToken.then((token) => {
@@ -705,4 +705,138 @@ function testDayOfWeekUpdate(){
   }
 
   submitFormDoW(preference);
+}
+
+
+/////// TIME SLOT //////
+
+var timeSlotPref = [];  // holds preferences to send to database
+
+function CreatecheckboxTimeSLot(chkboxid) {
+  var checkbox = document.createElement('input');
+  checkbox.type = "checkbox";
+  checkbox.name = "checkbox";
+  checkbox.value = chkboxid;
+
+  dbToken.then((token) => {
+    return fetch('https://capstonedbapi.azurewebsites.net/time-slot-preferences/can-teach/'+sessionStorage.getItem('Prof'), 
+    {
+    headers: {'Authorization': token}
+    })
+    })
+      // if response okay return response
+        .then(async (response) => {
+          if (response.ok) {
+            //console.log(response.json());
+            return response.json();
+            
+          }
+          // otherwise error
+          const errorText = await response.text();
+          throw new Error(errorText);
+        })
+        // loop through courses
+        .then((testpreferences) => {
+          testpreferences.forEach((preference) => {
+            if(preference.time_slot_id==chkboxid && preference.can_teach==true){
+              checkbox.checked = true;
+            }
+          });
+        })
+         //catch errors and show message
+        .catch((error) => {
+          clearAlerts();
+          showAlert(error.message);
+        });
+
+  checkbox.onclick = function(){
+   this.onclick = null;
+   var label = this.parentNode;
+   label.checked;
+   label.value = chkboxid;
+   checkbox.value = chkboxid;
+  };
+  return checkbox;
+}
+
+async function fetchTimeSlots() {
+  // make classSelect by id
+  //const classSelect = document.getElementById('testclasses');
+  // fetch courses from database
+  dbToken.then(token => {
+    return fetch(
+      'https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/can-teach/save/'+sessionStorage.getItem('Prof'),
+      {
+        headers: {
+          'Authorization': token
+        }
+      })
+  })
+  // if response okay return response
+    .then(async (response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      // otherwise error
+      const errorText = await response.text();
+      throw new Error(errorText);
+    })
+    // loop through courses
+    .then((timeSlots) => {
+      console.log(timeSlots);
+    })
+    
+    // catch errors and show message
+    .catch((error) => {
+      clearAlerts();
+      showAlert(error.message);
+    });
+
+}
+
+async function submitFormTimeSlot() {
+  clearAlerts();
+
+  if(isValidForm(1, true)){
+    const postData = pref;
+    console.log(postData);
+    dbToken.then((token) => {
+      return fetch('https://capstonedbapi.azurewebsites.net/preference-management/time-slot-preferences/can-teach/save/'+sessionStorage.getItem('Prof'), {
+        // send to db
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': token},
+        body: JSON.stringify(postData),
+      })
+    })
+    // if response is good
+    .then(async (response) => {
+      if (response.ok) {
+        clearAlerts();
+        showAlert('Success!');
+
+        //teach_form.label.value = '';
+      } else {
+        clearAlerts();
+        const text = await response.text();
+        showAlert(text);
+      }
+    })
+    .catch((error) => {
+      clearAlerts();
+      showAlert(error.message);
+    });
+    showAlert('Sending request...');
+  }
+}
+
+function testTimeSlotUpdate(){
+  var chkboxContainer = document.getElementsByName('checkbox');
+
+  console.log(chkboxContainer);
+
+  for (chkbx of chkboxContainer){
+   id = chkbx.value;
+   pref.push({time_slot_id: parseInt(id), can_teach: chkbx.checked});
+  }
+  submitFormTimeSlot();
 }
