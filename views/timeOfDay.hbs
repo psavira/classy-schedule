@@ -6,7 +6,7 @@
   <script src = "https://unpkg.com/validator@latest/validator.min.js"></script>
   <script src = "js/editPreference.js"></script>
   <link href="css/preferences.css" rel="stylesheet" />
-  <title>Can Teach</title>
+  <title>Day of Week</title>
 </head>
 <body>
   <!-- NAVBAR START -->
@@ -17,14 +17,26 @@
 </div>
 
 <form class="canTeach" id="teachForm">
-<input type="button" id="testCan2" value="Get All Time of Day Preferences"
- onclick="fetchTimeofDay();disableButton('testCan2');"/>
 
 <div class="div" id='div2'>
+    <label for="mon">
+        <input type="checkbox" name="checkbox" id="mor" value="">
+        Morning
+        <br>
+    </label>
+    <label for="tue">
+        <input type="checkbox" name="checkbox" id="aft" value="">
+        Afternoon
+        <br>
+    </label>
+    <label for="wed">
+        <input type="checkbox" name="checkbox" id="eve" value="">
+        Evening
+        <br>
+    </label>
 </div>
 
-
-<button class="submit" type="button" onclick = "testPrefUpdateDay()">Submit</button>
+<button class="submit" type="button" onclick = "testTimeOfDayUpdate()">Submit</button>
 
 
 </form>
@@ -33,6 +45,7 @@
 
 <script>
   getProf();
+  fetchTimeOfDay();
 </script>
 
 </html>

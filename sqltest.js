@@ -28,7 +28,7 @@ conn.connect(
 
 function queryDatabase(){
 
-  conn.query('SELECT * from day_of_week_preference', function(err, results, fields) {
+  conn.query('SELECT * from time_of_day_preference', function(err, results, fields) {
   if(err) throw err;
       console.log(JSON.stringify(results));
   })

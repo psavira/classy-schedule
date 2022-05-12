@@ -452,12 +452,9 @@ async function fetchClassesPreferTeach() {
     
 ////////////////Time OF Day////////////////////////////
 async function fetchTimeOfDay() {
-  // make classSelect by id
-  //const classSelect = document.getElementById('testclasses');
-  // fetch courses from database
   dbToken.then(token => {
     return fetch(
-      'https://capstonedbapi.azurewebsites.net/preference-management/day-of-week-preferences/'+sessionStorage.getItem('Prof'), {
+      'https://capstonedbapi.azurewebsites.net/preference-management/time-of-day-preferences/'+sessionStorage.getItem('Prof'), {
         headers: {
           'Authorization': token
         }
@@ -472,140 +469,70 @@ async function fetchTimeOfDay() {
       const errorText = await response.text();
       throw new Error(errorText);
     })
-
-    /*
-    // loop through the departments
-    .then((departments) => {
-      departments.forEach((department) => {
-        // create an element for each department
-        const departmentOption = document.createElement('option');
-        // set the value to department ID
-        departmentOption.value = department.dept_id;
-        // set text to department name
-        departmentOption.textContent = department.dept_name;
-        // add department to departmentSelect
-        departmentSelect.appendChild(departmentOption);
-      });
+    .then((day) =>{
+      if(day.prefer_morning == true){
+        document.getElementById('mor').checked = true;
+      }
+      if(day.prefer_afternoon == true){
+        document.getElementById('aft').checked = true;
+      }
+      if(day.prefer_evening == true){
+        document.getElementById('eve').checked = true;
+      }
     })
-    */
-    // loop through courses
-    .then((testclasses) => {
-      testclasses.forEach((classes) => {
-        //const day = document.createElement('checkbox');
-        
-        // create element for each course
-        //const label = document.createElement('label');
-        //var br = document.createElement('br');
-        //var alabel = document.getElementById('div2');
-        //var last = alabel[alabel.length - 1];
-        //label.htmlFor = "lbl"+classes.class_id;
-        //label.appendChild(CreatecheckboxPrefer(classes.professor_id));
-        //label.appendChild(document.createTextNode('ClassID: ' + classes.class_id));
-        //label.appendChild(br);
-        //document.getElementById('div2').appendChild(label);
-      });
-    })
-    
-    // catch errors and show message
-    .catch((error) => {
-      clearAlerts();
-      showAlert(error.message);
-    });
   }
 
-    /*function CreatecheckboxPrefer(chkboxid) {
-      var checkbox = document.createElement('input');
-      checkbox.type = "checkbox";
-      checkbox.name = "check";
-      checkbox.value = chkboxid;
-    
+  async function submitFormToD(preference) {
+    clearAlerts();
+  
+    if(isValidForm(1, true)){
+      const postData = preference;
+      console.log(postData);
       dbToken.then((token) => {
-        return fetch('https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/prefer-to-teach/'+sessionStorage.getItem('Prof'), 
-        {
-        headers: {'Authorization': token}
+        return fetch('https://capstonedbapi.azurewebsites.net/preference-management/time-of-day-preferences/save/'+sessionStorage.getItem('Prof'), {
+          // send to db
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': token},
+          body: JSON.stringify(postData),
         })
-        })
-          // if response okay return response
-            .then(async (response) => {
-              if (response.ok) {
-                //console.log(response.json());
-                return response.json();
-                
-              }
-              // otherwise error
-              const errorText = await response.text();
-              throw new Error(errorText);
-            })
-            // loop through courses
-            .then((testpreferences) => {
-              testpreferences.forEach((preference) => {
-                if(preference.class_id==chkboxid && preference.prefer_to_teach==true){
-                  checkbox.checked = true;
-                }
-              });
-            })
-             //catch errors and show message
-            .catch((error) => {
-              clearAlerts();
-              showAlert(error.message);
-            });
-    
-      checkbox.onclick = function(){
-       this.onclick = null;
-       var label = this.parentNode;
-       label.checked;
-       label.value = chkboxid;
-       checkbox.value = chkboxid;
-      };
-      return checkbox;
-    }
-
-
-    async function submitFormPrefer() {
-      clearAlerts();
-    
-      if(isValidForm(1, true)){
-        const postData = preference;
-        console.log(postData);
-        dbToken.then((token) => {
-          return fetch('https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/prefer-to-teach/save/'+sessionStorage.getItem('Prof'), {
-            // send to db
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': token},
-            body: JSON.stringify(postData),
-          })
-        })
-        // if response is good
-        .then(async (response) => {
-          if (response.ok) {
-            clearAlerts();
-            showAlert('Success!');
-    
-            //teach_form.label.value = '';
-          } else {
-            clearAlerts();
-            const text = await response.text();
-            showAlert(text);
-          }
-        })
-        .catch((error) => {
+      })
+      // if response is good
+      .then(async (response) => {
+        if (response.ok) {
           clearAlerts();
-          showAlert(error.message);
-        });
-        showAlert('Sending request...');
-      }
+          showAlert('Success!');
+  
+          //teach_form.label.value = '';
+        } else {
+          clearAlerts();
+          const text = await response.text();
+          showAlert(text);
+        }
+      })
+      .catch((error) => {
+        clearAlerts();
+        showAlert(error.message);
+      });
+      showAlert('Sending request...');
     }
+  }
 
+  // Builds preference object
+function testTimeOfDayUpdate(){
+  var chkboxContainer = document.getElementsByName('checkbox');
+  var mor   = document.getElementById('mor').checked;
+  var aft   = document.getElementById('aft').checked;
+  var eve   = document.getElementById('eve').checked;
 
-    function testPrefUpdatePrefer(){
-      var chkboxContainer = document.getElementsByName('check');
-      for (i=0 ; i < chkboxContainer.length ; i++){
-       var chkbx = chkboxContainer[i];
-       class_id = chkbx.value;
-       preference.push({class_id: class_id, prefer_to_teach: chkbx.checked});
-      }
-      submitFormPrefer();
-    }*/
+  preference = {
+    prefer_morning: mor, 
+    prefer_afternoon: aft,
+    prefer_evening: eve
+  }
+  submitFormToD(preference);
+}
+  
+
 
 
 ////////// DAY OF WEEK ///////////////////
