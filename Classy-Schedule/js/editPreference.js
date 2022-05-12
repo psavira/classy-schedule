@@ -606,3 +606,103 @@ async function fetchTimeOfDay() {
       }
       submitFormPrefer();
     }*/
+
+
+////////// DAY OF WEEK ///////////////////
+
+async function fetchDayOfWeek() {
+  // fetch preferences from database
+  dbToken.then(token => {
+    return fetch(
+      'https://capstonedbapi.azurewebsites.net/preference-management/day-of-week-preferences/'+sessionStorage.getItem('Prof'), {
+        headers: {
+          'Authorization': token
+        }
+      })
+  })
+  // if response okay return response
+  .then(async (response) => {
+    if (response.ok) {
+      return response.json();
+    }
+    // otherwise error
+    const errorText = await response.text();
+    throw new Error(errorText);
+  })
+  .then((day) => {
+      if(day.prefer_monday == true){
+        document.getElementById('mon').checked = true;
+      }
+      
+      if(day.prefer_tuesday == true){
+        document.getElementById('tues').checked = true;
+      }  
+
+      if(day.prefer_wednesday == true){
+        document.getElementById('wed').checked = true;
+      }  
+
+      if(day.prefer_thursday == true){
+        document.getElementById('thurs').checked = true;
+      }  
+
+      if(day.prefer_friday == true){
+        document.getElementById('fri').checked = true;
+      }  
+  })
+}
+
+async function submitFormDoW(preference) {
+  clearAlerts();
+
+  if(isValidForm(1, true)){
+    const postData = preference;
+    console.log(postData);
+    dbToken.then((token) => {
+      return fetch('https://capstonedbapi.azurewebsites.net/preference-management/day-of-week-preferences/save/'+sessionStorage.getItem('Prof'), {
+        // send to db
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': token},
+        body: JSON.stringify(postData),
+      })
+    })
+    // if response is good
+    .then(async (response) => {
+      if (response.ok) {
+        clearAlerts();
+        showAlert('Success!');
+
+        //teach_form.label.value = '';
+      } else {
+        clearAlerts();
+        const text = await response.text();
+        showAlert(text);
+      }
+    })
+    .catch((error) => {
+      clearAlerts();
+      showAlert(error.message);
+    });
+    showAlert('Sending request...');
+  }
+}
+
+// Builds preference object
+function testDayOfWeekUpdate(){
+  var chkboxContainer = document.getElementsByName('checkbox');
+  var mon   = document.getElementById('mon').checked;
+  var tues  = document.getElementById('tues').checked;
+  var wed   = document.getElementById('wed').checked;
+  var thurs = document.getElementById('thurs').checked;
+  var fri   = document.getElementById('fri').checked;
+
+  preference = {
+    prefer_monday: mon, 
+    prefer_tuesday: tues,
+    prefer_wednesday: wed,
+    prefer_thursday: thurs,
+    prefer_friday: fri
+  }
+
+  submitFormDoW(preference);
+}

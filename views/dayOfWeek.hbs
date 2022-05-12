@@ -1,0 +1,61 @@
+<html>
+
+<head>
+  {{> globalHead }}
+  
+  <script src = "https://unpkg.com/validator@latest/validator.min.js"></script>
+  <script src = "js/editPreference.js"></script>
+  <link href="css/preferences.css" rel="stylesheet" />
+  <title>Day of Week</title>
+</head>
+<body>
+  <!-- NAVBAR START -->
+  {{> navbar}}
+
+
+<div class="div" id="div1">
+</div>
+
+<form class="canTeach" id="teachForm">
+
+<div class="div" id='div2'>
+    <label for="mon">
+        <input type="checkbox" name="checkbox" id="mon" value="">
+        Monday
+        <br>
+    </label>
+    <label for="Tues">
+        <input type="checkbox" name="checkbox" id="tues" value="">
+        Tuesday
+        <br>
+    </label>
+    <label for="wed">
+        <input type="checkbox" name="checkbox" id="wed" value="">
+        Wednesday
+        <br>
+    </label>
+    <label for="thurs">
+        <input type="checkbox" name="checkbox" id="thurs" value="">
+        Thursday
+        <br>
+    </label>
+    <label for="fri">
+        <input type="checkbox" name="checkbox" id="fri" value="">
+        Friday
+        <br>
+    </label>
+</div>
+
+<button class="submit" type="button" onclick = "testDayOfWeekUpdate()">Submit</button>
+
+
+</form>
+<div id = "alertContainer"></div>
+</body>
+
+<script>
+  getProf();
+  fetchDayOfWeek();
+</script>
+
+</html>
