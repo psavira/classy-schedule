@@ -1,0 +1,44 @@
+<html>
+
+<head>
+  {{> globalHead }}
+  
+  <script src = "https://unpkg.com/validator@latest/validator.min.js"></script>
+  <script src = "js/editPreference.js"></script>
+  <link href="css/preferences.css" rel="stylesheet" />
+  <title>Time Slot</title>
+</head>
+<body>
+  <!-- NAVBAR START -->
+  {{> navbar}}
+
+
+<div class="div" id="div1">
+</div>
+
+<form class="canTeach" id="teachForm">
+<input type="button" id="testCan2" value="Can Teach"
+ onclick="fetchClassesCanTeach();disableButton('testCan2');"/>
+
+<div class="div" id='div2'>
+    <label for="mon">
+        <input type="checkbox" name="checkbox" id="timeSlot" value="0">
+        8:00 - 9:15 am
+        <br>
+    </label>
+
+</div>
+
+<button class="submit" type="button" onclick = "testTimeSlotUpdate()">Submit</button>
+
+
+</form>
+<div id = "alertContainer"></div>
+</body>
+
+<script>
+  getProf();
+  fetchTimeSlots();
+</script>
+
+</html>

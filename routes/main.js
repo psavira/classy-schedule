@@ -126,4 +126,8 @@ router.get('/dayOfWeek', authLocals, isAuthorized, (req, res) => {
     res.render('dayOfWeek');
 })
 
+router.get('/timeSlot', authLocals, isAuthorized, (req, res) => {
+    res.render('timeSlot');
+})
+
 module.exports = router
