@@ -1,12 +1,38 @@
  var pref = [];
 
+ function getProf(){
+  dbToken.then((token) => {
+    return fetch('https://capstonedbapi.azurewebsites.net//professor-management/professors/' + sessionStorage.getItem('Prof'), 
+      {
+        headers: {'Authorization': token}
+      })
+    })
+    // if response is good return it
+    .then(async (response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      // else error
+      const errorText = await response.text();
+      throw new Error(errorText);
+    })
+    .then((prof) => {
+      var profName = "Professor " + prof[0].last_name;
+      var text = document.createElement('h1');
+
+      text.innerHTML = profName;
+
+      document.getElementById('div1').appendChild(text);
+  
+    })
+ }
+ 
  function testPrefUpdate(){
    var chkboxContainer = document.getElementsByName('checkbox');
 
    console.log(chkboxContainer);
 
-   for (i=0 ; i < chkboxContainer.length ; i++){
-    var chkbx = chkboxContainer[i];
+   for (chkbx of chkboxContainer){
     
     class_id = chkbx.value;
     
