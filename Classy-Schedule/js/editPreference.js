@@ -1,18 +1,13 @@
  var pref = [];
+ var prefer = [];
 
  function testPrefUpdate(){
    var chkboxContainer = document.getElementsByName('checkbox');
-
-   console.log(chkboxContainer);
-
    for (i=0 ; i < chkboxContainer.length ; i++){
     var chkbx = chkboxContainer[i];
-    
     class_id = chkbx.value;
-    
     pref.push({class_id: class_id, can_teach: chkbx.checked});
    }
-
    submitForm();
  }
 
@@ -65,7 +60,7 @@ function getProfID(){
 }
 
 
-async function fetchCanTeach(profID) {
+/*async function fetchCanTeach(profID) {
   // make classSelect by id
   //const classSelect = document.getElementById('testCan');
   // fetch courses from database
@@ -108,7 +103,7 @@ headers: {'Authorization': token}
       clearAlerts();
       showAlert(error.message);
     });
-}
+}*/
 
 /** function to show error messages */
 function showAlert(alertText) {
@@ -185,7 +180,7 @@ function Createcheckbox(chkboxid) {
   return checkbox;
 }
 
-async function fetchClasses() {
+async function fetchClassesCanTeach() {
   // make classSelect by id
   //const classSelect = document.getElementById('testclasses');
   // fetch courses from database
@@ -281,3 +276,147 @@ function isValidForm(class_id, can_teach ) {
 function disableButton(button){
   document.getElementById(button).disabled = true;
 }
+
+////////PREFER TO TEACH////////////////////////////////////////////////////////
+var preference = [];
+
+async function fetchClassesPreferTeach() {
+    // make classSelect by id
+    //const classSelect = document.getElementById('testclasses');
+    // fetch courses from database
+    dbToken.then(token => {
+      return fetch(
+        'https://capstonedbapi.azurewebsites.net/class-management/classes',
+        {
+          headers: {
+            'Authorization': token
+          }
+        })
+    })
+    // if response okay return response
+      .then(async (response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        // otherwise error
+        const errorText = await response.text();
+        throw new Error(errorText);
+      })
+      // loop through courses
+      .then((testclasses) => {
+        testclasses.forEach((classes) => {
+          // create element for each course
+          const label = document.createElement('label');
+          var br = document.createElement('br');
+          //var alabel = document.getElementById('div2');
+          //var last = alabel[alabel.length - 1];
+          label.htmlFor = "lbl"+classes.class_id;
+          label.appendChild(CreatecheckboxPrefer(classes.class_id));
+          label.appendChild(document.createTextNode('ClassID: ' + classes.class_id));
+          label.appendChild(br);
+          document.getElementById('div2').appendChild(label);
+        });
+      })
+      
+      // catch errors and show message
+      .catch((error) => {
+        clearAlerts();
+        showAlert(error.message);
+      });
+    }
+  
+      function CreatecheckboxPrefer(chkboxid) {
+        var checkbox = document.createElement('input');
+        checkbox.type = "checkbox";
+        checkbox.name = "check";
+        checkbox.value = chkboxid;
+      
+        dbToken.then((token) => {
+          return fetch('https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/prefer-to-teach/'+sessionStorage.getItem('Prof'), 
+          {
+          headers: {'Authorization': token}
+          })
+          })
+            // if response okay return response
+              .then(async (response) => {
+                if (response.ok) {
+                  //console.log(response.json());
+                  return response.json();
+                  
+                }
+                // otherwise error
+                const errorText = await response.text();
+                throw new Error(errorText);
+              })
+              // loop through courses
+              .then((testpreferences) => {
+                testpreferences.forEach((preference) => {
+                  if(preference.class_id==chkboxid && preference.prefer_to_teach==true){
+                    checkbox.checked = true;
+                  }
+                });
+              })
+               //catch errors and show message
+              .catch((error) => {
+                clearAlerts();
+                showAlert(error.message);
+              });
+      
+        checkbox.onclick = function(){
+         this.onclick = null;
+         var label = this.parentNode;
+         label.checked;
+         label.value = chkboxid;
+         checkbox.value = chkboxid;
+        };
+        return checkbox;
+      }
+  
+  
+      async function submitFormPrefer() {
+        clearAlerts();
+      
+        if(isValidForm(1, true)){
+          const postData = preference;
+          console.log(postData);
+          dbToken.then((token) => {
+            return fetch('https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/prefer-to-teach/save/'+sessionStorage.getItem('Prof'), {
+              // send to db
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Authorization': token},
+              body: JSON.stringify(postData),
+            })
+          })
+          // if response is good
+          .then(async (response) => {
+            if (response.ok) {
+              clearAlerts();
+              showAlert('Success!');
+      
+              //teach_form.label.value = '';
+            } else {
+              clearAlerts();
+              const text = await response.text();
+              showAlert(text);
+            }
+          })
+          .catch((error) => {
+            clearAlerts();
+            showAlert(error.message);
+          });
+          showAlert('Sending request...');
+        }
+      }
+  
+  
+      function testPrefUpdatePrefer(){
+        var chkboxContainer = document.getElementsByName('check');
+        for (i=0 ; i < chkboxContainer.length ; i++){
+         var chkbx = chkboxContainer[i];
+         class_id = chkbx.value;
+         preference.push({class_id: class_id, prefer_to_teach: chkbx.checked});
+        }
+        submitFormPrefer();
+      }
+    
+    
