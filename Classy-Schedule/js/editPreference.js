@@ -5,14 +5,12 @@
 
    console.log(chkboxContainer);
 
-   for (chkbx in chkboxContainer){
-    console.log(chkbx);
-
-     var class_id = chkbx.value;
-
-     console.log(class_id);
-
-     //pref.push({class_id: class_id, can_teach: chkbx.checked});
+   for (i=0 ; i < chkboxContainer.length ; i++){
+    var chkbx = chkboxContainer[i];
+    
+    class_id = chkbx.value;
+    
+    pref.push({class_id: class_id, can_teach: chkbx.checked});
    }
 
    submitForm();
