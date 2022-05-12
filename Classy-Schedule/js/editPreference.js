@@ -712,14 +712,14 @@ function testDayOfWeekUpdate(){
 
 var timeSlotPref = [];  // holds preferences to send to database
 
-function CreatecheckboxTimeSLot(chkboxid) {
+function CreatecheckboxTimeSlot(chkboxid) {
   var checkbox = document.createElement('input');
   checkbox.type = "checkbox";
-  checkbox.name = "checkbox";
+  checkbox.name = "timeBox";
   checkbox.value = chkboxid;
 
   dbToken.then((token) => {
-    return fetch('https://capstonedbapi.azurewebsites.net/time-slot-preferences/can-teach/'+sessionStorage.getItem('Prof'), 
+    return fetch('https://capstonedbapi.azurewebsites.net/preference-management/time-slot-preferences/can-teach/'+sessionStorage.getItem('Prof'), 
     {
     headers: {'Authorization': token}
     })
@@ -760,12 +760,10 @@ function CreatecheckboxTimeSLot(chkboxid) {
 }
 
 async function fetchTimeSlots() {
-  // make classSelect by id
-  //const classSelect = document.getElementById('testclasses');
-  // fetch courses from database
+  // fetch time slots from database
   dbToken.then(token => {
     return fetch(
-      'https://capstonedbapi.azurewebsites.net/preference-management/class-preferences/can-teach/save/'+sessionStorage.getItem('Prof'),
+      'https://capstonedbapi.azurewebsites.net/preference-management/time-slot-preferences/can-teach/'+sessionStorage.getItem('Prof'),
       {
         headers: {
           'Authorization': token
@@ -783,7 +781,18 @@ async function fetchTimeSlots() {
     })
     // loop through courses
     .then((timeSlots) => {
-      console.log(timeSlots);
+      for(time of timeSlots){
+        // create element for each pref
+        const label = document.createElement('label');
+        var br = document.createElement('br');
+        //var alabel = document.getElementById('div2');
+        //var last = alabel[alabel.length - 1];
+        label.htmlFor = "lbl"+time.time_slot_id;
+        label.appendChild(CreatecheckboxTimeSlot(time.time_slot_id));
+        label.appendChild(document.createTextNode(time.start_time + ' - ' + time.end_time));
+        label.appendChild(br);
+        document.getElementById('div2').appendChild(label);
+      }
     })
     
     // catch errors and show message
@@ -798,7 +807,7 @@ async function submitFormTimeSlot() {
   clearAlerts();
 
   if(isValidForm(1, true)){
-    const postData = pref;
+    const postData = timeSlotPref;
     console.log(postData);
     dbToken.then((token) => {
       return fetch('https://capstonedbapi.azurewebsites.net/preference-management/time-slot-preferences/can-teach/save/'+sessionStorage.getItem('Prof'), {
@@ -829,14 +838,13 @@ async function submitFormTimeSlot() {
   }
 }
 
+// starter function to submit form: creates preference sent to db
 function testTimeSlotUpdate(){
-  var chkboxContainer = document.getElementsByName('checkbox');
-
-  console.log(chkboxContainer);
+  var chkboxContainer = document.getElementsByName('timeBox');
 
   for (chkbx of chkboxContainer){
    id = chkbx.value;
-   pref.push({time_slot_id: parseInt(id), can_teach: chkbx.checked});
+   timeSlotPref.push({time_slot_id: parseInt(id), can_teach: chkbx.checked});
   }
   submitFormTimeSlot();
 }

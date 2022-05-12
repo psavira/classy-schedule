@@ -18,15 +18,9 @@
 
 <form class="canTeach" id="teachForm">
 <input type="button" id="testCan2" value="Can Teach"
- onclick="fetchClassesCanTeach();disableButton('testCan2');"/>
+ onclick="fetchTimeSlots();disableButton('testCan2');"/>
 
 <div class="div" id='div2'>
-    <label for="mon">
-        <input type="checkbox" name="checkbox" id="timeSlot" value="0">
-        8:00 - 9:15 am
-        <br>
-    </label>
-
 </div>
 
 <button class="submit" type="button" onclick = "testTimeSlotUpdate()">Submit</button>
@@ -38,7 +32,6 @@
 
 <script>
   getProf();
-  fetchTimeSlots();
 </script>
 
 </html>
