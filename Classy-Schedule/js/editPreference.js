@@ -194,9 +194,6 @@ async function fetchClassesCanTeach() {
       if (response.ok) {
         return response.json();
       }
-      // otherwise error
-      const errorText = await response.text();
-      throw new Error(errorText);
     })
     // loop through courses
     .then((testclasses) => {
@@ -211,11 +208,11 @@ async function fetchClassesCanTeach() {
         label.appendChild(br);
         document.getElementById('div2').appendChild(label);
       });
-    })
-    
+    }) 
     // catch errors and show message
     .catch((error) => {
       clearAlerts();
+      console.log(error.status);
       showAlert(error.message);
     });
 
@@ -725,7 +722,11 @@ async function fetchTimeSlots() {
     // catch errors and show message
     .catch((error) => {
       clearAlerts();
-      showAlert(error.message);
+      errorMessage = error.message;
+      if(error.status='404'){
+        errorMessage = 'No Preferences Saved For Professor';
+      }
+      showAlert(errorMessage);
     });
 
 }
