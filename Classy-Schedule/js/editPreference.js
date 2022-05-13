@@ -23,7 +23,8 @@
     })
     //display in dropdown by last name
     .then((prof) => {
-      var profName = "Professor " + prof[0].last_name;
+      var profName = "Professor " + prof[0].last_name +
+                      "\n" + document.title;
       var text = document.createElement('h1');
 
       text.innerHTML = profName;
@@ -82,10 +83,14 @@ async function fetchProfessors() {
         profSelect.appendChild(profOption);
       }
     })
-    // catch errors and show messages
+    // catch errors and show message
     .catch((error) => {
       clearAlerts();
-      showAlert(error.message);
+      errorMessage = error.message;
+      if(error.status='404'){
+        errorMessage = 'No Preferences Saved For Professor';
+      }
+      showAlert(errorMessage);
     });
 } 
 
@@ -160,10 +165,14 @@ function Createcheckbox(chkboxid) {
             }
           });
         })
-         //catch errors and show message
+         // catch errors and show message
         .catch((error) => {
           clearAlerts();
-          showAlert(error.message);
+          errorMessage = error.message;
+          if(error.status='404'){
+            errorMessage = 'No Preferences Saved For Professor';
+          }
+          showAlert(errorMessage);
         });
   
   //update checkboxes
@@ -204,7 +213,7 @@ async function fetchClassesCanTeach() {
         //this makes checkbox for each class
         label.htmlFor = "lbl" + classes.class_id;
         label.appendChild(Createcheckbox(classes.class_id));
-        label.appendChild(document.createTextNode('ClassID: ' + classes.class_id));
+        label.appendChild(document.createTextNode(classes.class_name));
         label.appendChild(br);
         document.getElementById('div2').appendChild(label);
       });
@@ -212,11 +221,10 @@ async function fetchClassesCanTeach() {
     // catch errors and show message
     .catch((error) => {
       clearAlerts();
-      console.log(error.status);
       showAlert(error.message);
     });
-
 }
+
 /** submit form for can teach classes */
 async function submitForm() {
   clearAlerts();
@@ -304,7 +312,7 @@ async function fetchClassesPreferTeach() {
           //make a checkbox for each course
           label.htmlFor = "lbl" + classes.class_id;
           label.appendChild(CreatecheckboxPrefer(classes.class_id));
-          label.appendChild(document.createTextNode('ClassID: ' + classes.class_id));
+          label.appendChild(document.createTextNode(classes.class_name));
           label.appendChild(br);
           document.getElementById('div2').appendChild(label);
         });
@@ -352,10 +360,14 @@ async function fetchClassesPreferTeach() {
                   }
                 });
               })
-               //catch errors and show message
+               // catch errors and show message
               .catch((error) => {
                 clearAlerts();
-                showAlert(error.message);
+                errorMessage = error.message;
+                if(error.status='404'){
+                  errorMessage = 'No Preferences Saved For Professor';
+                }
+                showAlert(errorMessage);
               });
         //updates checkboxes
         checkbox.onclick = function(){
@@ -456,6 +468,15 @@ async function fetchTimeOfDay() {
         document.getElementById('eve').checked = true;
       }
     })
+    // catch errors and show message
+  .catch((error) => {
+    clearAlerts();
+    errorMessage = error.message;
+    if(error.status='404'){
+      errorMessage = 'No Preferences Saved For Professor';
+    }
+    showAlert(errorMessage);
+  });
   }
 
   /** submit form for time of day */
@@ -563,6 +584,15 @@ async function fetchDayOfWeek() {
         document.getElementById('fri').checked = true;
       }  
   })
+  // catch errors and show message
+  .catch((error) => {
+    clearAlerts();
+    errorMessage = error.message;
+    if(error.status='404'){
+      errorMessage = 'No Preferences Saved For Professor';
+    }
+    showAlert(errorMessage);
+  });
 }
 
 /** submit form for dow */
@@ -666,11 +696,15 @@ function CreatecheckboxTimeSlot(chkboxid) {
             }
           });
         })
-         //catch errors and show message
+         // catch errors and show message
         .catch((error) => {
-          clearAlerts();
-          showAlert(error.message);
-        });
+        clearAlerts();
+        errorMessage = error.message;
+        if(error.status='404'){
+          errorMessage = 'No Preferences Saved For Professor';
+        }
+        showAlert(errorMessage);
+      });
   // update checkboxes
   checkbox.onclick = function(){
    this.onclick = null;
@@ -687,8 +721,7 @@ async function fetchTimeSlots() {
   // fetch time slots from database
   dbToken.then(token => {
     return fetch(
-      'https://capstonedbapi.azurewebsites.net/' + 
-      'preference-management/time-slot-preferences/can-teach/' + sessionStorage.getItem('Prof'),
+        'https://capstonedbapi.azurewebsites.net/time_slot-management/time_slots',
       {
         headers: {
           'Authorization': token
