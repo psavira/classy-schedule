@@ -1,6 +1,33 @@
  var pref = [];    // holds canTeach preferences to send to database
  var prefer = [];  // holds preferTeach preferences to send to database
 
+ function loadDepartment(deptID) {
+    return dbToken.then((token) => {
+      return fetch(
+        'https://capstonedbapi.azurewebsites.net/department-management/departments/' + deptID,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          }
+        }
+      )
+    })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Department request failed.");
+      }
+    })
+    .then((json) => {
+      return json[0].dept_name;
+    })
+    .catch((error) => {
+      console.log(error.message);
+    })
+}
+
  /** function to fetch all professors in database**/
  function getProf(){
    //authorize
@@ -213,8 +240,10 @@ async function fetchClassesCanTeach() {
         //this makes checkbox for each class
         label.htmlFor = "lbl" + classes.class_id;
         label.appendChild(Createcheckbox(classes.class_id));
-        label.appendChild(document.createTextNode(classes.class_name));
-        label.appendChild(br);
+        loadDepartment(classes.dept_id).then(value =>{
+          label.appendChild(document.createTextNode(value + " " + classes.class_num +
+                                                     ": " + classes.class_name));
+        })
         document.getElementById('div2').appendChild(label);
       });
     }) 
@@ -312,8 +341,10 @@ async function fetchClassesPreferTeach() {
           //make a checkbox for each course
           label.htmlFor = "lbl" + classes.class_id;
           label.appendChild(CreatecheckboxPrefer(classes.class_id));
-          label.appendChild(document.createTextNode(classes.class_name));
-          label.appendChild(br);
+          loadDepartment(classes.dept_id).then(value =>{
+            label.appendChild(document.createTextNode(value + " " + classes.class_num +
+                                                       ": " + classes.class_name));
+          })
           document.getElementById('div2').appendChild(label);
         });
       })
