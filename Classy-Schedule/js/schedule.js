@@ -136,12 +136,31 @@ function makeInfoTable() {
         } else {
           row.innerHTML += '<td>STAT</td>';
         }
+
+        var style = "";
+
+        if(classSelection[i].num_sections < 1){
+          style = "background:red;"
+        }
+
         // in each row along with dept we add class number
         // classname, capacity, and credits
 
         row.innerHTML += `<td> ${classSelection[i].class_num}</td>`;
         row.innerHTML += `<td> ${classSelection[i].class_name}</td>`;
         row.innerHTML += `<td> ${classSelection[i].capacity}</td>`;
+        row.innerHTML += `<td>
+                            <input type="number" id="section${classSelection[i].class_num}" style="${style}" 
+                              value="${classSelection[i].num_sections}" 
+                              onchange="updateInfo(${classSelection[i].class_id},
+                                                  ${classSelection[i].class_num},
+                                                  ${classSelection[i].dept_id},
+                                                  '${classSelection[i].class_name}',
+                                                  ${classSelection[i].capacity},
+                                                  ${classSelection[i].credits},
+                                                  ${classSelection[i].is_lab},
+                                                  document.getElementById('section${classSelection[i].class_num}').value);"></input>
+                          </td>`;
         // add row to table
         table.appendChild(row);
       }
@@ -151,6 +170,37 @@ function makeInfoTable() {
       clearAlerts();
       showAlert(error.message);
     });
+}
+
+// Updates section info in database
+function updateInfo(classID, classNum, deptID, className, cap, cred, isLab, sections){
+
+  // creates object
+  const postData = {
+    class_num: classNum,
+    dept_id: deptID,
+    class_name: className,
+    capacity: cap,
+    credits: cred,
+    is_lab: isLab,
+    num_sections: sections
+  }
+
+  // PUTs to database
+  dbToken.then(token => {
+    fetch('https://capstonedbapi.azurewebsites.net/class-management/classes/update/' + classID,
+    {
+      method: 'PUT',
+      body: JSON.stringify(postData),
+      headers: { 'Content-Type': 'application/json','Authorization': token }
+    })
+  })
+
+  // Refresh table
+  makeInfoTable();
+
+  // Refresh classes
+  fetchClasses();
 }
 
 // Fires when an option is selected from drop down on schedule page

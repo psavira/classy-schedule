@@ -33,7 +33,7 @@
    //authorize
   dbToken.then((token) => {
     //fetching professors based on prof id chosen
-    return fetch('https://capstonedbapi.azurewebsites.net//professor-management/professors/' 
+    return fetch('https://capstonedbapi.azurewebsites.net/professor-management/professors/' 
     + sessionStorage.getItem('Prof'), 
       {
         headers: {'Authorization': token}
@@ -51,7 +51,7 @@
     //display in dropdown by last name
     .then((prof) => {
       var profName = "Professor " + prof[0].last_name +
-                      "\n" + document.title;
+                      " " + document.title;
       var text = document.createElement('h1');
 
       text.innerHTML = profName;
