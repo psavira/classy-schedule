@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  {{> globalHead }}
+  
+  <script src = "js/alerts.js"></script>
+  
+  <script src = "https://unpkg.com/validator@latest/validator.min.js"></script>
+  <script src = "js/plan/addPlan.js"></script>
+  <title>Add Plan</title>
+</head>
+
+<body>
+  <!-- NAVBAR START -->
+  {{> navbar}}
+  <!-- NAVBAR END -->
+  
+  <div id = "alertContainer"></div>
+
+  <!-- FORM START -->
+  <form id="planForm" name="planForm">
+    <div class="grid-container">
+      <label>Plan name
+        <input type="text" placeholder="Plan Name" name="planName">
+      </label>
+
+      <label>Plan Description
+        <input type="text" placeholder="Plan Description" name="planDescription">
+      </label>
+
+      <label>Semester Year
+        <input type="number" placeholder="2022" name="planYear" maxlength=5 minlength=4>
+      </label>
+
+      <label>Semester Num
+        <input type="number" placeholder="1" name="planSemester" maxlength="1" minlength="1">
+      </label>
+    </div>
+  </form>
+  <!-- FORM END -->
+
+
+  <!-- Run scripts on page load -->
+  <script>
+    fetchDepartments();
+    //fetchProfessorsData();
+    //fetchRoomsData();
+    //fetchClassesData();
+    //fetchTimesData();
+  </script>
+ </body>
+  {{> footer}}
+
+
+ <style>
+    .submit {
+    margin-bottom: 15%;
+    margin-left: 7% ;
+}
+
+    .input {
+  width: 48.5%;
+  }
+  </style>
+
+</html>
