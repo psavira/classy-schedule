@@ -6,13 +6,13 @@
   <script src = "https://unpkg.com/validator@latest/validator.min.js"></script>
   <script src = "js/editPreference.js"></script>
   <link href="css/preferences.css" rel="stylesheet" />
-  <title>Can Teach</title>
+  <title>Prefers to Teach</title>
 </head>
 <body>
+
   <!-- NAVBAR START -->
   {{> navbar}}
-
-
+  <!-- NAVBAR END -->
 <div class="div" id="div1">
 </div>
 
@@ -21,17 +21,16 @@
 <div class="div" id='div2'>
 </div>
 
-<button class="submit" type="button" onclick = "testPrefUpdate()">Submit</button>
+<button class="submit" type="button" onclick = "testPrefUpdatePrefer()">Submit</button>
+
 
 </form>
-
 <div id = "alertContainer"></div>
-
 </body>
 
 <script>
   getProf();
-  fetchClassesCanTeach();
+  fetchClassesPreferTeach();
 </script>
 {{> footer}}
 </html>

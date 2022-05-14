@@ -110,12 +110,28 @@ router.get('/editPreferences', authLocals, isAuthorized, (req, res) => {
     res.render('editPreferences');
 })
 
+router.get('/scheduleGeneration', authLocals, isAuthorized, (req, res) => {
+    res.render('scheduleGeneration');
+})
+
 router.get('/canTeach', authLocals, isAuthorized, (req, res) => {
     res.render('canTeach');
 })
 
-router.get('/scheduleGeneration', authLocals, isAuthorized, (req, res) => {
-    res.render('scheduleGeneration');
+router.get('/preferTeach', authLocals, isAuthorized, (req, res) => {
+    res.render('preferTeach');
+})
+
+router.get('/timeOfDay', authLocals, isAuthorized, (req, res) => {
+    res.render('timeOfDay');
+})
+
+router.get('/dayOfWeek', authLocals, isAuthorized, (req, res) => {
+    res.render('dayOfWeek');
+})
+
+router.get('/timeSlot', authLocals, isAuthorized, (req, res) => {
+    res.render('timeSlot');
 })
 
 module.exports = router

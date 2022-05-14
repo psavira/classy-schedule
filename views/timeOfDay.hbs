@@ -1,0 +1,51 @@
+<html>
+
+<head>
+  {{> globalHead }}
+  
+  <script src = "https://unpkg.com/validator@latest/validator.min.js"></script>
+  <script src = "js/editPreference.js"></script>
+  <link href="css/preferences.css" rel="stylesheet" />
+  <title>Time of Day Preferences</title>
+</head>
+<body>
+  <!-- NAVBAR START -->
+  {{> navbar}}
+
+
+<div class="div" id="div1">
+</div>
+
+<form class="canTeach" id="teachForm">
+
+<div class="div" id='div2'>
+    <label for="mon">
+        <input type="checkbox" name="checkbox" id="mor" value="">
+        Morning
+        <br>
+    </label>
+    <label for="tue">
+        <input type="checkbox" name="checkbox" id="aft" value="">
+        Afternoon
+        <br>
+    </label>
+    <label for="wed">
+        <input type="checkbox" name="checkbox" id="eve" value="">
+        Evening
+        <br>
+    </label>
+</div>
+
+<button class="submit" type="button" onclick = "testTimeOfDayUpdate()">Submit</button>
+
+
+</form>
+<div id = "alertContainer"></div>
+</body>
+
+<script>
+  getProf();
+  fetchTimeOfDay();
+</script>
+{{> footer}}
+</html>
