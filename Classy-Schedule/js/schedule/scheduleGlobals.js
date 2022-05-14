@@ -146,6 +146,42 @@ function loadCanTeachData() {
 let canTeachData = loadCanTeachData()
 
 /* -------------------------------------------------------------------------- */
+/*                                  Plan Data                                 */
+/* -------------------------------------------------------------------------- */
+
+function loadPlansData() {
+  // Get the database token
+  return dbToken
+  .then((token) => {
+    // Get the plan endpoint
+    return fetch(
+      'https://capstonedbapi.azurewebsites.net/plan-management/plans',
+      {
+        headers: {
+          'Authorization': token
+        }
+      }
+    )
+  })
+  .then((response) => {
+    if(response.ok) {
+      return response.json()
+    } else {
+      throw new Error("Plan request failed")
+    }
+  })
+  .then((json) => {
+    return json
+  })
+  .catch((error) => {
+    console.error(error.message)
+    return
+  })
+}
+
+let plansData = loadPlansData()
+
+/* -------------------------------------------------------------------------- */
 /*                               Keystroke Data                               */
 /* -------------------------------------------------------------------------- */
 

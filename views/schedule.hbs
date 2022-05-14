@@ -863,6 +863,9 @@
         professorsData.then((data) => {
             populateProfessorDropdowns(data);
         })
+        plansData.then((data) => {
+            populatePlanDropdowns(data);
+        })
         makeInfoTable();
         attachClassSelectEvents();
 

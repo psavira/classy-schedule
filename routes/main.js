@@ -102,6 +102,10 @@ router.get('/addRoom', authLocals, isAuthorized, (req, res) => {
     res.render('addRoom');
 })
 
+router.get('/addPlan', authLocals, isAuthorized, (req, res) => {
+    res.render('addPlan');
+})
+
 router.get('/editPreferences', authLocals, isAuthorized, (req, res) => {
     res.render('editPreferences');
 })
