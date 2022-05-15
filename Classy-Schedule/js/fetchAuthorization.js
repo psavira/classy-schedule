@@ -25,3 +25,9 @@ dbToken = fetchAuthorization()
 dbToken.then(token => {
     console.log(token)
 })
+
+// Refresh time is 60 seconds (1000 ms/s * 60 s)
+const authRefreshTime = 1000 * 60
+setInterval(() => {
+    dbToken = fetchAuthorization()
+}, authRefreshTime)
