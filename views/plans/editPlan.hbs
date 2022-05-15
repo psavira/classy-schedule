@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  {{> globalHead }}
+  
+  <script src="js/alerts.js"></script>
+  
+  <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
+  <script src="js/plans/editPlan.js"></script>
+  <title>Edit Plan</title>
+</head>
+
+<body>
+  <!-- NAVBAR START -->
+  {{> navbar}}
+  <!-- NAVBAR END -->
+  
+  <div id = "alertContainer"></div>
+
+  <form id="chooseForm" name="chooseForm">
+    <div class="grid-container">
+      <label>
+        <select name="planId" id="planId"></select>
+      </label>
+      {{!-- <button type="button" class="button success" name="edit">Edit Plan</button> --}}
+      <button type="button" name="delete" class="button alert">Delete Plan</button>
+    </div>
+  </form>
+
+  <!-- FORM START -->
+  <form id="planForm" name="planForm" action="" class="hidden">
+    <div class="grid-container">
+      <label>Plan name
+        <input type="text" placeholder="Plan Name" name="planName">
+      </label>
+
+      <label>Plan Description
+        <input type="text" placeholder="Plan Description" name="planDescription">
+      </label>
+
+      <label>Semester Year
+        <input type="number" placeholder="2022" name="planYear" maxlength=5 minlength=4>
+      </label>
+
+      <label>Semester Num
+        <input type="number" placeholder="1" name="planSemester" maxlength="1" minlength="1">
+      </label>
+
+    </div>
+
+    <button id="submitButton" type="button" class="success button" onclick="submit(); return false">Submit</button>
+  </form>
+  
+
+  <!-- FORM END -->
+
+
+  <!-- Run scripts on page load -->
+  <script>
+    init()
+  </script>
+ </body>
+  {{> footer}}
+
+
+ <style>
+    .submit {
+    margin-bottom: 15%;
+    margin-left: 7% ;
+}
+
+    .input {
+  width: 48.5%;
+  }
+
+    .error {
+      outline: 1px solid red;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+
+</html>

@@ -90,6 +90,8 @@ router.get('/schedule', authLocals, isAuthorized, (req, res) => {
     res.render('schedule');
 })
 
+// Add Routes
+
 router.get('/addClass', authLocals, isAuthorized, (req, res) => {
     res.render('addClass');
 })
@@ -103,12 +105,21 @@ router.get('/addRoom', authLocals, isAuthorized, (req, res) => {
 })
 
 router.get('/addPlan', authLocals, isAuthorized, (req, res) => {
-    res.render('addPlan');
+    res.render('plans/addPlan');
 })
+
+// Edit Routes
 
 router.get('/editPreferences', authLocals, isAuthorized, (req, res) => {
     res.render('editPreferences');
 })
+
+router.get('/editPlan', authLocals, isAuthorized, (req, res) => {
+    res.render('plans/editPlan');
+})
+
+
+// Schedule Routes
 
 router.get('/scheduleGeneration', authLocals, isAuthorized, (req, res) => {
     res.render('scheduleGeneration');
