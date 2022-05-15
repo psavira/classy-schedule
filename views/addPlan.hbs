@@ -4,10 +4,10 @@
 <head>
   {{> globalHead }}
   
-  <script src = "js/alerts.js"></script>
+  <script src="js/alerts.js"></script>
   
-  <script src = "https://unpkg.com/validator@latest/validator.min.js"></script>
-  <script src = "js/plan/addPlan.js"></script>
+  <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
+  <script src="js/plans/addPlan.js"></script>
   <title>Add Plan</title>
 </head>
 
@@ -19,7 +19,7 @@
   <div id = "alertContainer"></div>
 
   <!-- FORM START -->
-  <form id="planForm" name="planForm">
+  <form id="planForm" name="planForm" action="">
     <div class="grid-container">
       <label>Plan name
         <input type="text" placeholder="Plan Name" name="planName">
@@ -36,18 +36,18 @@
       <label>Semester Num
         <input type="number" placeholder="1" name="planSemester" maxlength="1" minlength="1">
       </label>
+
     </div>
   </form>
+  
+  <button id="submitButton" type="button" class="success button" onclick="submit(); return false">Submit</button>
+
   <!-- FORM END -->
 
 
   <!-- Run scripts on page load -->
   <script>
-    fetchDepartments();
-    //fetchProfessorsData();
-    //fetchRoomsData();
-    //fetchClassesData();
-    //fetchTimesData();
+
   </script>
  </body>
   {{> footer}}
@@ -62,6 +62,10 @@
     .input {
   width: 48.5%;
   }
+
+    .error {
+      outline: 1px solid red;
+    }
   </style>
 
 </html>
