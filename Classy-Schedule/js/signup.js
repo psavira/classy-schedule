@@ -25,7 +25,9 @@ async function submitForm() {
     }; console.log(postData);
     // fetch the profs from database
     dbToken.then((token) => {
-      return fetch('https://capstonedbapi.azurewebsites.net/user-management/admin/create', {
+      return fetch
+        ('https://capstonedbapi.azurewebsites.net/user-management/admin/create'
+        , {
         // send to db
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': token},
