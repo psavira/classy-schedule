@@ -4,25 +4,25 @@ async function ready() {
 
 function formatDataToBody(professors, classes, rooms, times) {
     /* DEBUG */
-    let section_map = {}
-    // For each teacher
-    for(let teacher of professors) {
-        // Set teach load to 99
-        teacher.teach_load = 99
-        for(let can_teach of teacher.classes) {
-            if(!section_map[can_teach]) {
-                section_map[can_teach] = 1
-            } else {
-                section_map[can_teach] += 1
-            }
-        }
-    }
+    // let section_map = {}
+    // // For each teacher
+    // for(let teacher of professors) {
+    //     // Set teach load to 99
+    //     teacher.teach_load = 99
+    //     for(let can_teach of teacher.classes) {
+    //         if(!section_map[can_teach]) {
+    //             section_map[can_teach] = 1
+    //         } else {
+    //             section_map[can_teach] += 1
+    //         }
+    //     }
+    // }
 
-    for(let course of classes) {
-        if(section_map[course.id]) {
-            course.sections = section_map[course.id]
-        }
-    }
+    // for(let course of classes) {
+    //     if(section_map[course.id]) {
+    //         course.sections = section_map[course.id]
+    //     }
+    // }
 
     /* END DEBUG */
     return {

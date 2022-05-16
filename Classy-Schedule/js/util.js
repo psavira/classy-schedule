@@ -240,8 +240,9 @@ async function getProfClasses(profID) {
     .then((classSelection) => {
       // eslint-disable-next-line no-restricted-syntax
       for (const possibleClass of classSelection) {
-        //CLASS_ID NOT IMPLEMENTED YET IN DB - NEEDS TO BE CHANGED ONE IT IS
-        classes.push(possibleClass.dept_id + ':' + possibleClass.class_num);
+        if(possibleClass.can_teach == true) {
+          classes.push(possibleClass.class_id);
+        }
       }
       return classes;
     })
@@ -314,9 +315,9 @@ async function fetchClassesData() {
     .then((classesData) => {
       for (const course of classesData) {
         cla = { 
-          id: `${course.dept_id}:${course.class_num}`, 
+          id: parseInt(course.class_id), 
           name: course.class_name, 
-          sections: course.sections || 0 };
+          sections: course.num_sections || 0 };
         classes.push(cla);
       }
       return classes

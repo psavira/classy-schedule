@@ -39,7 +39,7 @@ for ro in rooms:
         model.AddAtMostOne(instances[(te,cl,ro,ti)] for (te,cl) in teacher_classes)
         
 
-# Enforce that at least 2 sections of intro are taught
+# Enforce that sections are at or below section count
 for cl in classes:
     section_count = cl["sections"]
     sections = []
@@ -71,6 +71,7 @@ for te in teachers:
                     teach_classes.append(instances[(te['id'], cl['id'], ro, ti)])
     model.Add(sum(teach_classes) <= teach_load)
     
+print(teacher_classes)
 
 solver = cp_model.CpSolver()
 solver.parameters.linearization_level = 0
@@ -114,9 +115,10 @@ class SchedulePartialSolutionPrinter(cp_model.CpSolverSolutionCallback):
     def solution_count(self):
         return self._solution_count
 
-solution_limit = 30
+solution_limit = 2
 solution_printer = SchedulePartialSolutionPrinter(solution_limit)
 
+print("Looking for solutions")
 solver.Solve(model, solution_printer)
 
 if(solution_printer.solution_count() == 0):
