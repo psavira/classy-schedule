@@ -1,3 +1,31 @@
+/* Returns the department name based on deptID */
+function loadDepartment(deptID) {
+  return dbToken.then((token) => {
+    return fetch(
+      'https://capstonedbapi.azurewebsites.net/department-management/departments/' + deptID,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        }
+      }
+    )
+  })
+  .then((response) => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error("Department request failed.");
+    }
+  })
+  .then((json) => {
+    return json[0].dept_name;
+  })
+  .catch((error) => {
+    console.log(error.message);
+  })
+}
+
 /** Gets classes from the database and populates page elements with available class options */
 async function fetchClasses() {
   // gets class of classes
@@ -30,17 +58,17 @@ async function fetchClasses() {
           // Store class id and section number in value
           classOption.value = classes.class_id + ':' + i;
 
-          // set the options to department id 1 for cisc otherwise stat
-          if (classes.dept_id === 1) {
-            classOption.text = `CISC ${classes.class_num}-${i+1}`;
-          } else {
-            classOption.text = `STAT ${classes.class_num}-${i+1}`;
-          }
-          // loop through the classes and append them to get all class options
-          for (let j = 0; j < classSelect.length; j += 1) {
-            classSelect[j].appendChild(classOption.cloneNode(true));
-          }
+          classOption.id = classes.class_id + ':' + i;
 
+          // loads department from database
+          loadDepartment(classes.dept_id).then(dept => {
+            classOption.text = dept + ' ' + classes.class_num + '-' + (i+1);
+          }).then(( dummy ) => {
+            // loop through the classes and append them to get all class options if it doesn't exist already
+            for (let j = 0; j < classSelect.length; j += 1) {
+                classSelect[j].appendChild(classOption.cloneNode(true));
+            }
+          })
         }
       });
     })
@@ -150,8 +178,10 @@ function makeInfoTable() {
         row.innerHTML += `<td> ${classSelection[i].class_name}</td>`;
         row.innerHTML += `<td> ${classSelection[i].capacity}</td>`;
         row.innerHTML += `<td>
-                            <input type="number" id="section${classSelection[i].class_num}" style="${style}" 
-                              value="${classSelection[i].num_sections}" 
+                            <input type="number" name="sections" id="section${classSelection[i].class_num}" style="${style}" 
+                              value="${classSelection[i].num_sections}"
+                              min = 0
+                              max = 25 
                               onchange="updateInfo(${classSelection[i].class_id},
                                                   ${classSelection[i].class_num},
                                                   ${classSelection[i].dept_id},
@@ -159,7 +189,8 @@ function makeInfoTable() {
                                                   ${classSelection[i].capacity},
                                                   ${classSelection[i].credits},
                                                   ${classSelection[i].is_lab},
-                                                  document.getElementById('section${classSelection[i].class_num}').value);"></input>
+                                                  document.getElementById('section${classSelection[i].class_num}').value);">
+                            </input>
                           </td>`;
         // add row to table
         table.appendChild(row);
@@ -176,31 +207,51 @@ function makeInfoTable() {
 function updateInfo(classID, classNum, deptID, className, cap, cred, isLab, sections){
 
   // creates object
-  const postData = {
+  var putData = {
     class_num: classNum,
     dept_id: deptID,
     class_name: className,
     capacity: cap,
     credits: cred,
     is_lab: isLab,
-    num_sections: sections
+    num_sections: parseInt(sections)
   }
 
   // PUTs to database
   dbToken.then(token => {
+    console.log(putData);
     fetch('https://capstonedbapi.azurewebsites.net/class-management/classes/update/' + classID,
     {
       method: 'PUT',
-      body: JSON.stringify(postData),
-      headers: { 'Content-Type': 'application/json','Authorization': token }
+      body: JSON.stringify(putData),
+      headers: { 'Content-Type': 'application/json','Authorization': token },
     })
   })
 
+  if(sections > 0){
+    document.getElementById('section'+classNum).style = "background: white;";
+  }
+
   // Refresh table
-  makeInfoTable();
+  refreshTable();
 
   // Refresh classes
-  fetchClasses();
+  refreshClasses();
+
+}
+
+function refreshTable(){
+  for ( section of document.getElementsByName('sections') ){
+    if ( section.value < 1 ){
+      section.style = "background: red;"
+    } else {
+      section.style = "background: white;"
+    }
+  }
+}
+
+function refreshClasses(){
+  // NOT SURE HOW TO DO THIS
 }
 
 // Fires when an option is selected from drop down on schedule page
