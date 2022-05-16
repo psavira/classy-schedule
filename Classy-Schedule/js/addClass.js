@@ -1,3 +1,77 @@
+// loads dept name
+function loadDepartment(deptID) {
+  return dbToken.then((token) => {
+    return fetch(
+      'https://capstonedbapi.azurewebsites.net/department-management/departments/' + deptID,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token
+        }
+      }
+    )
+  })
+  .then((response) => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error("Department request failed.");
+    }
+  })
+  .then((json) => {
+    return json[0].dept_name;
+  })
+  .catch((error) => {
+    console.log(error.message);
+  })
+}
+
+/** function to fetch classes from database */
+// eslint-disable-next-line no-unused-vars
+
+async function fetchClasses() {
+  // get class select by id
+  const classSelect = document.getElementById('classSelect');
+  // fetch classes from db
+  dbToken.then((token) => {
+  return fetch('https://capstonedbapi.azurewebsites.net/class-management/classes', 
+    {
+      headers: {'Authorization': token}
+    })
+  })
+    // if response is good return it
+    .then(async (response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      // else error
+      const errorText = await response.text();
+      throw new Error(errorText);
+    })
+    // loop through the profs
+    .then((classSelection) => {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const course of classSelection) {
+        // create a option for every class
+        const classOption = document.createElement('option');
+        // set value to class id
+        classOption.value = course.class_id;
+        // set text course
+        loadDepartment(course.dept_id).then(dept =>{
+          classOption.text = dept + " " + course.class_num +
+                              " - " + course.class_name;
+        })
+        // add each class
+        classSelect.appendChild(classOption);
+      }
+    })
+    // catch errors and show messages
+    .catch((error) => {
+      clearAlerts();
+      showAlert(error.message);
+    });
+}
+
 /** function to send form to db */
 async function submitForm() {
   // Clear any alerts
@@ -225,46 +299,19 @@ async function fetchDepartments() {
     });
 }
 
-/* function to get classes from database */
-async function fetchClasses() {
-  // make classSelect by id
-  const classSelect = document.getElementById('testclasses');
-  // fetch courses from database
-  dbToken.then(token => {
-    return fetch(
-      'https://capstonedbapi.azurewebsites.net/class-management/classes',
-      {
-        headers: {
-          'Authorization': token
-        }
-      })
-  })
-  // if response okay return response
-    .then(async (response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      // otherwise error
-      const errorText = await response.text();
-      throw new Error(errorText);
-    })
-    // loop through courses
-    .then((testclasses) => {
-      testclasses.forEach((classes) => {
-        // create element for each course
-        const classOption = document.createElement('option');
-        // set value to dept id
-        classOption.value = classes.deptID;
-        // set text to class Name
-        classOption.textContent = classes.className;
-        // add each course
-        classSelect.appendChild(classOption);
-      });
-    })
-    // catch errors and show message
-    .catch((error) => {
-      clearAlerts();
-      showAlert(error.message);
-    });
+// deletes selected class
+function deleteClass(){
+  var classID = document.getElementById('classSelect').value;
 
+  // fetch the class from database
+  dbToken.then((token) => {
+    return fetch('https://capstonedbapi.azurewebsites.net/class-management/classes/delete/'+ classID, {
+    // send to db
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json','Authorization': token },
+  })
+  })
+  .then(() => {
+    window.location.reload();
+  })
 }

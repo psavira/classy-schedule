@@ -140,7 +140,7 @@ async function fetchProfessors() {
         // create a option for every prof
         const profOption = document.createElement('option');
         // set value to prof id
-        profOption.value = professor.lastName;
+        profOption.value = professor.professor_id;
         // set text to last name
         profOption.text = `Professor ${professor.last_name}`;
         // add each prof
@@ -183,4 +183,19 @@ function clearAlerts() {
   }
 }
 
-
+// deletes selected professor
+function deleteProf(){
+  var profID = document.getElementById('profSelect').value;
+  console.log(profID);
+  // fetch the professors from database
+  dbToken.then((token) => {
+    return fetch('https://capstonedbapi.azurewebsites.net/professor-management/professors/delete/'+ profID, {
+    // send to db
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json','Authorization': token },
+  })
+  })
+  .then(() => {
+    window.location.reload();
+  })
+}

@@ -86,9 +86,27 @@
       </div>
       </div>
 
-      <button type = "button" class = "submit success button" onclick =
+      <button type = "button" id="sub" class = "submit success button" onclick =
        "submitForm()"> Submit </button>
     </div>
+
+  <div class = "grid-container">
+    <div class = "grid-x grid-padding-x">
+      <div class = "cell large-12">
+        <div class = "cell small-6">
+          <label>
+            Class to Delete
+            <select aria-haspopup = "true" aria-expanded = "false"
+            name = "classDelSelect" id = "classSelect"></select>
+          </label>
+        </div>
+        <button type = "button" id="del" class = "alert button" onclick = "deleteClass()">
+          DELETE
+        </button>
+      </div>
+    </div>
+  </div>
+
   </form>
   <!-- FORM END -->
 
@@ -97,6 +115,7 @@
   <!-- Run scripts on page load -->
   <script>
     fetchDepartments();
+    fetchClasses();
     //fetchProfessorsData();
     //fetchRoomsData();
     //fetchClassesData();
@@ -108,12 +127,20 @@
 
  <style>
     .submit {
-    margin-bottom: 15%;
     margin-left: 7% ;
 }
 
     .input {
   width: 48.5%;
+  }
+  #sub{
+    margin-left: 45%;
+  }
+  #classSelect{
+    width: 50%;
+  }
+  #del{
+    margin-left: 38.5%;
   }
   </style>
 

@@ -167,8 +167,11 @@ function makeInfoTable() {
 
         var style = "";
 
-        if(classSelection[i].num_sections < 1){
-          style = "background:red;"
+        // sets background to red if no sections
+        if ( classSelection[i].num_sections < 1 ){
+          style = "background: red;"
+        } else {
+          style = "background: white;"
         }
 
         // in each row along with dept we add class number
@@ -216,27 +219,22 @@ function updateInfo(classID, classNum, deptID, className, cap, cred, isLab, sect
     is_lab: isLab,
     num_sections: parseInt(sections)
   }
+  
+  putData = JSON.stringify(putData);
 
   // PUTs to database
   dbToken.then(token => {
     console.log(putData);
-    fetch('https://capstonedbapi.azurewebsites.net/class-management/classes/update/' + classID,
+    return fetch('https://capstonedbapi.azurewebsites.net/class-management/classes/update/' + classID,
     {
       method: 'PUT',
-      body: JSON.stringify(putData),
+      body: putData,
       headers: { 'Content-Type': 'application/json','Authorization': token },
     })
   })
-
-  if(sections > 0){
-    document.getElementById('section'+classNum).style = "background: white;";
-  }
-
-  // Refresh table
-  refreshTable();
-
-  // Refresh classes
-  refreshClasses();
+  .then(() => {
+    window.location.reload();
+  })
 
 }
 

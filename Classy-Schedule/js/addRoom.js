@@ -196,14 +196,17 @@ function addRoom(roomValue){
 }
 
 function deleteRoom(){
+  var roomID = document.getElementById('roomSelect').value;
   // fetch the rooms from database
   dbToken.then((token) => {
-    return fetch('https://capstonedbapi.azurewebsites.net/room-management/rooms/delete', {
+    return fetch('https://capstonedbapi.azurewebsites.net/room-management/rooms/delete/'+ roomID, {
     // send to db
-    method: 'POST',
+    method: 'DELETE',
     headers: { 'Content-Type': 'application/json','Authorization': token },
-    body: JSON.stringify(postData),
   })
+  })
+  .then(() => {
+    window.location.reload();
   })
 }
 
