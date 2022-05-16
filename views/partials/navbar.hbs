@@ -4,7 +4,8 @@
     <ul role='navigation'class="dropdown menu" data-dropdown-menu>
 
       <li><a href="/" class="schedule-link anchor">
-          <img alt="Home Page" width="109" height="98" src="Classy-Schedule.jpg" class="schedule-image" /></a></li>
+          <img alt="Home Page" width="109" height="98" src="Classy-Schedule.jpg"
+           class="schedule-image" /></a></li>
 
       <li><a aria-label="Help Page" href="/help">Help</a></li>
 
@@ -25,7 +26,8 @@
       <li>
         <a href="#">Edit</a>
         <ul class="menu">
-          <li><a aria-label='Preference Page' href="/editPreferences">Edit Preferences</a></li>
+          <li><a aria-label='Preference Page' href="/editPreferences">
+           Edit Preferences</a></li>
         </ul>
       </li>
       <li><a aria-label="Schedule Page" href="/schedule">Schedule</a></li>
@@ -38,9 +40,11 @@
   <div class="top-bar-right">
     <ul class="menu">
       {{#if loggedIn}}
-        <li ><a href="/logout"><button type="button" class="button">Logout</button></a></li>
+        <li ><a href="/logout"><button type="button" class="button">
+          Logout</button></a></li>
       {{else}}
-        <li><a href="/login"><button type="button" class="button">Log In</button></a></li>
+        <li><a href="/login"><button type="button" class="button">
+          Log In</button></a></li>
       {{/if}}
     </ul>
   </div>

@@ -5,6 +5,12 @@
   {{> globalHead }}
   
   <script src="js/alerts.js"></script>
+  <style>
+  .page-cta-btn-anchor-button{
+  width: 60%;
+  border-radius: 15%;
+}
+  </style>
   
   <script src="https://unpkg.com/validator@latest/validator.min.js"></script>
   <script src="js/plans/addPlan.js"></script>
@@ -30,17 +36,21 @@
       </label>
 
       <label>Semester Year
-        <input type="number" placeholder="2022" name="planYear" maxlength=5 minlength=4>
+        <input type="number" placeholder="2022" name="planYear" maxlength=5
+         minlength=4>
       </label>
 
       <label>Semester Num
-        <input type="number" placeholder="1" name="planSemester" maxlength="1" minlength="1">
+        <input type="number" placeholder="1" name="planSemester" maxlength="1"
+         minlength="1">
       </label>
 
     </div>
   </form>
   
-  <button id="submitButton" type="button" class="success button" onclick="submit(); return false">Submit</button>
+  <button  type="button" class="submit success button" id = "sub"
+   style="width: 5%; text-allign: center"
+   class="success button" onclick="submit(); return false">Submit</button>
 
   <!-- FORM END -->
 
@@ -54,10 +64,15 @@
 
 
  <style>
-    .submit {
+  #sub{
+    margin-left: 47.5%;
+    margin-right: 47.5%;
+  }
+  
+  .submit {
     margin-bottom: 15%;
     margin-left: 7% ;
-}
+  }
 
     .input {
   width: 48.5%;

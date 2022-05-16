@@ -20,16 +20,18 @@
     <p></p>
     <div class="grid-container">
       <label>Username (Email)
-        <input type="text" name="username" placeholder="Username (Email)" />
+        <input type="text" name="username" placeholder="Username (Email)"
+        maxlength = "99" />
       </label>
 
       <label>Password
-        <input type="password" name="password" placeholder="Password" />
+        <input type="password" name="password" placeholder="Password"
+        maxlength = "70" />
       </label>
 
       <label>Re-enter Password
         <input type="password" name="reenterPassword"
-         placeholder="Re-enter Password" />
+         placeholder="Re-enter Password" maxlength = "70" />
       </label>
 
       <button type="button" class="submit success button"
@@ -51,9 +53,13 @@
 </body>
 
  <style>
-    .alert {
+  .alert {
     margin-bottom: 15%;
-}
+  }
+  #sub{
+    margin-left: 47.5%;
+    margin-right: 47.5%;
+  }
   </style>
 
 </html>
