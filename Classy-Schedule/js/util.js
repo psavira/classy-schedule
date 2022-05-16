@@ -277,7 +277,7 @@ async function fetchRoomsData() {
     .then((roomData) => {
       // eslint-disable-next-line no-restricted-syntax
       for (const room of roomData) {
-        let ro = room.room_num;
+        let ro = room.room_id;
         rooms.push(ro);
 
       }

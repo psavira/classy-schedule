@@ -205,3 +205,103 @@ function solutionToTable(solution_id) {
     }
 
 }
+
+// Maps time codes to days and start times for saving locally
+const SOLUTION_CODEX = {
+    0: {
+        days: 'MWF',
+        time: '0815',
+    },
+    1: {
+        days: 'MWF',
+        time: '0935',
+    },
+    2: {
+        days: 'MWF',
+        time: '1055',
+    },
+    3: {
+        days: 'MWF',
+        time: '1215',
+    },
+    4: {
+        days: 'MWF',
+        time: '1335',
+    },
+    5: {
+        days: 'MWF',
+        time: '1525',
+    },
+    6: {
+        days: 'MWF',
+        time: '1730',
+    },
+    7: {
+        days: 'MWF',
+        time: '1930',
+    },
+    8: {
+        days: 'TR',
+        time: '0800',
+    },
+    9: {
+        days: 'TR',
+        time: '0955',
+    },
+    10: {
+        days: 'TR',
+        time: '1330',
+    },
+    11: {
+        days: 'TR',
+        time: '1525',
+    },
+    12: {
+        days: 'TR',
+        time: '1730',
+    },
+    13: {
+        days: 'TR',
+        time: '1930',
+    }
+}
+
+
+function solutionToLocalStorage(solution_id) {
+    let soln = solutions[solution_id];
+    let outSchedule = {}
+    let sectionMap = {}
+
+    for(let room_id in soln) {
+        outSchedule[room_id] = {}
+        for(let timecode in soln[room_id]) {
+            let codex_val = SOLUTION_CODEX[timecode]
+            
+            // Get the section number for this timecode in this room
+            // If the section counter does not exist yet, set it to 0
+            // Else, increment
+            console.log(soln[room_id][timecode]["course_id"])
+            if(sectionMap[soln[room_id][timecode]["course_id"]] == undefined) {
+                console.log("Setting new section counter")
+                sectionMap[soln[room_id][timecode]["course_id"]] = 0
+            } else {
+                console.log("Incrementing existing section num")
+                sectionMap[soln[room_id][timecode]["course_id"]] += 1
+            }
+
+            for(let day of codex_val.days.split('')) {
+                if(!outSchedule[room_id][day]) {
+                    outSchedule[room_id][day] = {}
+                }
+
+
+                outSchedule[room_id][day][codex_val.time] = {
+                    professor: `${soln[room_id][timecode]["teacher_id"]}`,
+                    class: `${soln[room_id][timecode]["course_id"]}:${sectionMap[soln[room_id][timecode]["course_id"]]}`
+                }
+            }
+        }
+    }
+
+    window.localStorage.setItem('algoSchedule', JSON.stringify(outSchedule))
+}

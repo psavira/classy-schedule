@@ -152,13 +152,13 @@ function setTable(table) {
     let day = select.parentNode.dataset.day;
     let time = select.parentNode.parentNode.dataset.time;
 
-    // Check that the appropriate day exists. If not, create one
+    // Check that the appropriate day exists. If not, do nothing
     if (table[day] === undefined) {
-      throw new Error(`Couldn't find day [${day}] in parameter table`);
+      return
     }
 
     if (table[day][time] === undefined) {
-      throw new Error(`Couldn't find time [${time}] for day [${day}] in parameter table`);
+      return
     }
     select.value = table[day][time]['class'];
     profSelect.value = table[day][time]['professor'];

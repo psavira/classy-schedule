@@ -25,6 +25,20 @@ function loadSchedule() {
     loadCurrentRoom()
 }
 
+/**
+ * Load schedule from algo
+ */
+function loadAlgoSchedule() {
+    let algoSchedule = window.localStorage.getItem('algoSchedule')
+    if(!algoSchedule) {
+        showAlert('No algo schedule found in local storage. Try generating one')
+        return
+    } else {
+        localSchedule = JSON.parse(algoSchedule)
+    }
+    loadCurrentRoom()
+}
+
 /* ----------------------------- Room Schedules ----------------------------- */
 
 /**

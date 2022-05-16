@@ -102,7 +102,9 @@ class SchedulePartialSolutionPrinter(cp_model.CpSolverSolutionCallback):
                                 # print(f"   Class: {course['name']} Teacher: {teacher['name']}")
                                 s_times[time] = {
                                     "teacher": teacher['name'],
-                                    "course": course['name']
+                                    "teacher_id": teacher['id'],
+                                    "course": course['name'],
+                                    "course_id": course['id']
                                 }
             s_rooms[room] = s_times.copy()
                                 
