@@ -865,9 +865,16 @@
         </div>
     </div>
 
+    <style>
+        input[name="sections"]{
+            width: 50%;
+            margin: auto;
+        }
+    </style>
+
     <script>
-        fetchClasses();
         fetchRooms();
+        fetchClasses();
         professorsData.then((data) => {
             populateProfessorDropdowns(data);
         })
