@@ -153,13 +153,13 @@ function setTable(table) {
     let time = select.parentNode.parentNode.dataset.time;
 
     // Check that the appropriate day exists. If not, do nothing
-    if (table[day] === undefined) {
+    if (table[day] === undefined || table[day][time] === undefined) {
+      select.value = ''
+      profSelect.value = ''
+      select.dispatchEvent(new Event('change'))
       return
     }
 
-    if (table[day][time] === undefined) {
-      return
-    }
     select.value = table[day][time]['class'];
     profSelect.value = table[day][time]['professor'];
 
