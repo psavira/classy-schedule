@@ -28,7 +28,7 @@
     <div class="controls">
         <div class="control-group">
             <select aria-label='Select a room to create a schedule for'
-             name="roomSelect" id="roomSelect"></select>
+             name="roomSelect" id="roomSelect" onchange="window.localStorage.setItem('roomID',document.getElementById('roomSelect').value);setRoom();"></select>
             <button id="loadButton" onclick="loadSchedule()"
              class="warning button">Load Local</button>
             <button id="saveButton" onclick="saveSchedule()"
@@ -50,7 +50,7 @@
     <div class="grid-x grid-margin-x">
         <!-- Labels Start -->
         <div class="cell small-12 medium-12 large-5">
-            <table  tabindex='0'id=classtable>
+            <table  tabindex='0'id="classtable">
                 <tr>
                     <th> <span title="Department of the course">DEPT</th>
                     <th> <span title="Number of the class">CLASS #</th>

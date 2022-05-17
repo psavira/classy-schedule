@@ -1,7 +1,3 @@
-async function ready() {
-    
-}
-
 function formatDataToBody(professors, classes, rooms, times) {
     /* DEBUG */
     // let section_map = {}
@@ -183,7 +179,10 @@ function solutionToTable(solution_id) {
     row.appendChild(td)
     for(let room in solution) {
         td = document.createElement('td')
-        td.textContent = room
+        td.id = room;
+        getRoomNum(room).then(roomNum => {
+            document.getElementById(room).innerHTML = ""+roomNum;
+        });
         row.appendChild(td);
     }
     table.appendChild(row)
@@ -192,7 +191,10 @@ function solutionToTable(solution_id) {
     for(let time of Array(14).keys()) {
         row = document.createElement('tr');
         td = document.createElement('td');
-        td.textContent = time
+        td.id = time;
+        getTimeSlot(time).then(text => {
+            document.getElementById(time).innerHTML = ""+text;
+        });
         row.appendChild(td)
         for(let room in solution) {
             td = document.createElement('td')
@@ -204,6 +206,60 @@ function solutionToTable(solution_id) {
         table.appendChild(row)
     }
 
+}
+
+function getRoomNum(roomID){
+    return dbToken.then((token) => {
+        return fetch(
+          'https://capstonedbapi.azurewebsites.net/room-management/rooms/' + roomID,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': token
+            }
+          }
+        )
+      })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Request failed.");
+        }
+      })
+      .then((room) => {
+        return room[0].room_num;
+      })
+      .catch((error) => {
+        console.log(error.message);
+      })
+}
+
+function getTimeSlot(timeSlotID){
+    return dbToken.then((token) => {
+        return fetch(
+          'https://capstonedbapi.azurewebsites.net/time_slot-management/time_slots/' + timeSlotID,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': token
+            }
+          }
+        )
+      })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Request failed.");
+        }
+      })
+      .then((timeslot) => {
+        return timeslot[0].start_time + " - " + timeslot[0].end_time;
+      })
+      .catch((error) => {
+        console.log(error.message);
+      })
 }
 
 // Maps time codes to days and start times for saving locally

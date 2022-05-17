@@ -270,21 +270,58 @@ function updateInfo(classID, classNum, deptID, className, cap, cred, isLab, sect
   .then(() => {
     window.location.reload();
   })
-
 }
 
-function refreshTable(){
-  for ( section of document.getElementsByName('sections') ){
-    if ( section.value < 1 ){
-      section.style = "background: red;"
-    } else {
-      section.style = "background: white;"
+function setRoom(){
+  document.getElementById('roomSelect').value = window.localStorage.getItem("roomID");
+  refresh();
+}
+
+// Refreshes page on room change
+function refresh(){
+  // get table of classes
+  var Parent = document.getElementById('classtable');
+  //wipes table
+  while(Parent.hasChildNodes())
+  {
+   Parent.removeChild(Parent.firstChild);
+  }
+
+  // Re-builds title bar
+  tr = document.createElement('tr');
+
+  for (i = 0 ; i<5 ; i++){
+    var th = document.createElement('th');
+    
+    if ( i == 0 ){
+      th.innerHTML = "<span title='Department of the course'>DEPT";
+    } else if( i == 1 ){
+      th.innerHTML = "<span title='Department of the course'>CLASS #";
+    } else if( i == 2 ){
+      th.innerHTML = "<span title='Department of the course'>CLASS NAME";
+    } else if( i == 3 ){
+      th.innerHTML = "<span title='Department of the course'>CAP";
+    } else if( i == 4 ){
+      th.innerHTML = "<span title='Department of the course'>SECTIONS";
+    }
+    tr.appendChild(th);
+    Parent.appendChild(tr);
+  }
+
+  // gets all dropdowns
+  var Parent = document.getElementsByClassName('classSelection');
+
+  //wipes dropdowns ; leaves base option of 'Choose Class'
+  for ( select of Parent ){
+    while( select.options.length > 1 ){
+      select.remove( select.options.length-1 );
     }
   }
-}
 
-function refreshClasses(){
-  // NOT SURE HOW TO DO THIS
+  // refreshes table
+  makeInfoTable();
+  // refreshes dropdowns
+  fetchClasses();
 }
 
 // Fires when an option is selected from drop down on schedule page
