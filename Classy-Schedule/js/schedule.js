@@ -110,7 +110,7 @@ async function fetchRooms() {
         // create an element to hold room options
         const roomOption = document.createElement('option');
         // set value to room id
-        roomOption.value = room.capacity;
+        roomOption.value = room.room_id;
         // roomOption hold room number
         roomOption.text = `Room ${room.room_num}`;
         // append child to get all room options
