@@ -296,13 +296,13 @@ function refresh(){
     if ( i == 0 ){
       th.innerHTML = "<span title='Department of the course'>DEPT";
     } else if( i == 1 ){
-      th.innerHTML = "<span title='Department of the course'>CLASS #";
+      th.innerHTML = "<span title='Class Number'>CLASS #";
     } else if( i == 2 ){
-      th.innerHTML = "<span title='Department of the course'>CLASS NAME";
+      th.innerHTML = "<span title='Class Name'>CLASS NAME";
     } else if( i == 3 ){
-      th.innerHTML = "<span title='Department of the course'>CAP";
+      th.innerHTML = "<span title='Class Capacity'>CAP";
     } else if( i == 4 ){
-      th.innerHTML = "<span title='Department of the course'>SECTIONS";
+      th.innerHTML = "<span title='Number of Sections'>SECTIONS";
     }
     tr.appendChild(th);
     Parent.appendChild(tr);
