@@ -134,7 +134,7 @@ const END_TIMES = {
 }
 
 async function saveToDB() {
-    // Disable save button
+    // Disable DB controls
     // TODO
 
     // Get all time slots
@@ -196,6 +196,7 @@ async function saveToDB() {
 
                     // Check if the time slot exists in the database
                     let timeSlotText = `${dbDay} ${TIME_SLOT_KEYS[starttime]}`
+                    console.log('Slot Text', timeSlotText)
 
                     let timeSlotID = timeSlotMap[timeSlotText]
 
@@ -308,4 +309,133 @@ function getNewTimeslot(starttime, day) {
             showAlert('Couldn\'t create a new time slot')
             return
         })
+}
+
+async function loadFromDB() {
+    // Disable DB controls
+
+    // Set new schedule
+    newSchedule = {}
+
+    // Generate a time slot map
+    let timeSlotMap = {}
+    let timeSlotMapSuccess = await dbToken.then((token) => {
+        return fetch('https://capstonedbapi.azurewebsites.net' +
+            '/section_time_slot-management/section_time_slots/formatted',
+            {
+                headers: {
+                    'Authorization': token
+                }
+            })
+        })
+        .then((response) => {
+            if (response.ok) {
+                return response.json()
+            } else {
+                throw new Error("Couldn't get time slots from database")
+            }
+        })
+        .then((timeslots) => {
+            for (let slot of timeslots) {
+                timeSlotMap[slot["id"]] = slot["time"]
+            }
+            return true
+        })
+        .catch((error) => {
+            return false
+        })
+
+    if (!timeSlotMapSuccess) {
+        clearAlerts()
+        showAlert("Couldn't get time slots from database")
+        return
+    }
+
+    // Get the plan ID from the dropdown
+    let planID = document.getElementById('planSelect').value
+
+    // Get the plan from the database
+    let plan = await dbToken.then((token) => {
+        return fetch('https://capstonedbapi.azurewebsites.net' +
+        '/sections-management/sections/plan/' + planID,
+        {
+            headers: {
+                'Authorization': token,
+            }
+        })
+        .then((response) => {
+            if(response.ok) {
+                return response.json()
+            } else {
+                throw new Error('Failed to get plan data')
+            }
+        })
+        .then((sections) => {
+            for(let section of sections) {
+                // Check that the section time slot is valid
+                let timeSlotText = timeSlotMap[section["section_time_slot_id"]]
+                console.log(timeSlotText, section)
+                if(!isValidTimeSlot(timeSlotText)) {
+                    throw new Error('Section time slot not valid')
+                }
+                // If it is, parse out the time and days
+                let days = timeSlotText.split(' ')[0].split('')
+                let starttime = timeSlotText.split(' ')[1].split('-')[0].replace(':', '')
+                for(let day of days) {
+                    // Format day code to local standard
+                    if(day == 'H') day = 'R'
+                    console.log(`Placing class into ${day} ${starttime}`)
+                    placeSection(section, day, starttime, newSchedule)
+                }
+            }
+            return true
+        })
+        .catch((error) => {
+            clearAlerts()
+            showAlert(error.message)
+            return false
+        })
+    })
+
+    if(!plan) {
+        return
+    } else {
+        clearTable()
+        localSchedule = newSchedule
+        loadCurrentRoom()
+    }
+}
+
+function isValidTimeSlot(timeSlotText) {
+    let timeText = timeSlotText.split(' ')[1]
+    // Replace xx:xx-xx:xx to xxxx, xxxx
+    let startTime = timeText.split('-')[0].replace(':', '')
+    let endTime = timeText.split('-')[1].replace(':', '')
+
+    // Check that end times match valid entries for start times
+    return (END_TIMES[startTime] == endTime)
+}
+
+function placeSection(section, day, time, schedule) {
+    let room_id = section['room_id']
+    if(!schedule[room_id]) {
+        schedule[room_id] = {}
+    }
+
+    if(!schedule[room_id][day]) {
+        schedule[room_id][day] = {}
+    }
+
+    if(!schedule[room_id][day][time]) {
+        schedule[room_id][day][time] = {}
+    }
+
+    let class_id = section['class_id']
+    let section_num = section['section_num']
+    let professor_id = section['professor_id']
+
+    schedule[room_id][day][time] = {
+        class: `${class_id}:${section_num}`,
+        professor: `${professor_id}`
+    }
 }
