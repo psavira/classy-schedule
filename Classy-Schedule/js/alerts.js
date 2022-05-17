@@ -1,3 +1,5 @@
+const { redirect } = require("express/lib/response");
+
 /**
  * Displays an alert box to the user
  * @param alertText Text that appears in the alert box

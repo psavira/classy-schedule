@@ -35,6 +35,7 @@ async function submitForm() {
       body: JSON.stringify(postData),
     })
     })
+    
     // if response is good
       .then(async (response) => {
         if (response.ok) {
@@ -53,6 +54,9 @@ async function submitForm() {
           showAlert(text);
         }
       })
+      .then(() => {
+        window.location.reload();
+      })
     // catch errors and show messages
       .catch((error) => {
         clearAlerts();
@@ -62,49 +66,65 @@ async function submitForm() {
   }
 }
 
+
+
 /* function to check if prof entry is valid */
 // eslint-disable-next-line camelcase
 function isValidForm(first_name, last_name, teach_load, user_email ) {
   // counter for alerts
   let alertContainer = 0;
 
-  // Validate first name if empty
-  if (validator.isEmpty(first_name)) {
-    showAlert('empty firstName.');
-    alertContainer++;
-  }
+ if ((/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(user_email.value))){
+  showAlert('invalid email');
+  alertContainer++;
+}
+
+
 
   if (validator.isEmpty(user_email)) {
     showAlert('empty email');
+    document.forms.profForm.userEmail.classList.add('error');
     alertContainer++;
   }
 
-  // last name empty
-  if (validator.isEmpty(last_name)) {
-    showAlert('Empty lastName.');
-    alertContainer++;
-  }
+  
+
   // teach load empty
   if (validator.isEmpty(teach_load)) {
     showAlert('Empty teachLoad');
+    document.forms.profForm.teachLoad.classList.add('error');
     alertContainer++;
   }
   // validate room number if not integer
   if (!validator.isInt(teach_load)) {
     showAlert('teachLoad should be an integer.');
+    document.forms.profForm.teachLoad.classList.add('error');
     alertContainer++;
   }
 
   // validate last name if integer
   if (validator.isInt(last_name)) {
     showAlert('lastName should not have ints.');
+    document.forms.profForm.lastName.classList.add('error');
+    alertContainer++;
+  }
+  if (validator.isEmpty(last_name)) {
+    showAlert('lastName should not have ints.');
+    document.forms.profForm.lastName.classList.add('error');
     alertContainer++;
   }
   // check if first name int
   if (validator.isInt(first_name)) {
-    showAlert('firstName should nto have ints.');
+    showAlert('firstName should not have ints.');
+    document.forms.profForm.firstName.classList.add('error');
     alertContainer++;
   }
+  if (validator.isEmpty(first_name)) {
+    showAlert('firstName should not have ints.');
+    document.forms.profForm.firstName.classList.add('error');
+    alertContainer++;
+  }
+
 
   // Fail if any alerts
   if (alertContainer > 0) return false;

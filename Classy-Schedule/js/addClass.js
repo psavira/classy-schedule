@@ -145,6 +145,9 @@ async function submitForm() {
           showAlert(text);
         }
       })
+      .then(() => {
+        window.location.reload();
+      })
       // catch any errors and show error message
       .catch((error) => {
         clearAlerts();

@@ -54,15 +54,20 @@ async function fetchClasses() {
         for(let i = 0; i < classes['num_sections']; i++) {
           // create an element for options
           const classOption = document.createElement('option');
+         
 
           // Store class id and section number in value
           classOption.value = classes.class_id + ':' + i;
-
           classOption.id = classes.class_id + ':' + i;
+
 
           // loads department from database
           loadDepartment(classes.dept_id).then(dept => {
+            if(classes.is_lab == true){
+              classOption.text = dept + ' ' + classes.class_num + '-' + "LAB";
+            } else{
             classOption.text = dept + ' ' + classes.class_num + '-' + (i+1);
+            }
           }).then(( dummy ) => {
             var roomSelect = document.getElementById('roomSelect');
             // loop through the classes and append them to get all class options if it doesn't exist already

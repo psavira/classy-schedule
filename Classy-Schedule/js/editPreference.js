@@ -732,6 +732,7 @@ function CreatecheckboxTimeSlot(chkboxid) {
         clearAlerts();
         errorMessage = error.message;
         if(error.status='404'){
+          errorMessage.col
           errorMessage = 'No Preferences Saved For Professor';
         }
         showAlert(errorMessage);

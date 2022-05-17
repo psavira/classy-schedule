@@ -77,7 +77,7 @@
         </div>
         </div>
         <div class = "cell small-6">
-          <label>Does class have a lab included
+          <label>Is this a lab?
             <input type = "checkbox" name = "isLab" maxlength = "5" min = "4"
             placeholder = "True or False"
              />
@@ -94,13 +94,14 @@
     <div class = "grid-x grid-padding-x">
       <div class = "cell large-12">
         <div class = "cell small-6">
-          <label>
+          <label style="margin-left: 35%">
             Class to Delete
+            <br>
             <select aria-haspopup = "true" aria-expanded = "false"
             name = "classDelSelect" id = "classSelect"></select>
           </label>
         </div>
-        <button type = "button" class = "alert button" onclick = "deleteClass()">
+        <button style="margin-left: 47%"type = "button"  class = "alert button" onclick = "deleteClass()">
           DELETE
         </button>
       </div>
@@ -140,9 +141,7 @@
   #classSelect{
     width: 50%;
   }
-  #del{
-    margin-left: 38.5%;
-  }
+
   </style>
 
 </html>

@@ -19,11 +19,11 @@
     <div class = "grid-container">
 
       <label>First Name
-        <input type = "text" name = "firstName" placeholder = "First Name" />
+        <input type = "text" name = "firstName" placeholder = "First Name" maxlength="50"/>
       </label>
 
       <label>Last Name
-        <input type = "text" name = "lastName" placeholder = "Last Name" />
+        <input type = "text" name = "lastName" placeholder = "Last Name" maxlength="50"/>
       </label>
 
       <div class = "grid-x grid-padding-x">
@@ -38,11 +38,11 @@
 
            <label>Email
             <input type = "text" name = "userEmail" placeholder = "Email"
-            max = "100"/>
+            maxlength = "50"/>
           </label>
 
-          <button type = "button" class = "submit success button" 
-          onclick = "submitForm()"> Submit</button>
+          <button style="margin-left: 47%" type = "button" class = "submit success button" 
+          onclick = "submitForm()" > Submit</button>
         </div>
       </div>
     </div>
@@ -58,14 +58,15 @@
             name = "profDelSelect" id = "profSelect"></select>
           </label>
         </div>
-        <button type = "button" class = "alert button" onclick = "deleteProf()">
+        <button style="margin-left: 40%" type = "button" class = "alert button" onclick = "deleteProf()">
           DELETE
         </button>
       </div>
     </div>
   </div>
 
-  <div id = "alertContainer"></div>
+   <!-- Alert Container -->
+  <div style=""" id="alertContainer"></div>
 
   <script>
     fetchProfessors()

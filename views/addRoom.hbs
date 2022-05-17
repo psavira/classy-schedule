@@ -20,7 +20,7 @@
     <div class="grid-container">
       <label>Room Number
         <!--i think i got all the errors except negatives-->
-        <input type="number" name="roomNum" maxlength="6"
+        <input type="number" name="roomNum" maxlength="4"
          placeholder="Room Number" min="0" step="1" oninput="javascript: if 
          (this.value.length > this.maxLength) this.value = this.value.slice(0, 
          this.maxLength);" onkeyup="if(this.value<0){this.value= this.value * 
@@ -44,7 +44,7 @@
             </label>
           </div>
           <!-- Submit Button -->
-          <button type="button" class="submit success button"
+          <button style="margin-left: 47%" type="button" class="submit success button"
            onclick="submitForm()">Submit</button>
         </div>
       </div>
@@ -64,7 +64,7 @@
           </label>
         </div>
         <!-- Delete Button -->
-        <button type="button" class="alert button" onclick="deleteRoom()">
+        <button style="margin-left: 34%" type="button" class="alert button" onclick="deleteRoom()">
           DELETE
         </button>
       </div>
@@ -85,9 +85,7 @@
 </body>
 
  <style>
-    .alert {
-    margin-bottom: 15%;
-}
+    
   </style>
 
 
