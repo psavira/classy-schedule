@@ -66,7 +66,10 @@ async function fetchClasses() {
           }).then(( dummy ) => {
             // loop through the classes and append them to get all class options if it doesn't exist already
             for (let j = 0; j < classSelect.length; j += 1) {
-                classSelect[j].appendChild(classOption.cloneNode(true));
+                // check capacity
+                if (classes.capacity <= document.getElementById('roomSelect').value){
+                  classSelect[j].appendChild(classOption.cloneNode(true));
+                }
             }
           })
         }
@@ -107,7 +110,7 @@ async function fetchRooms() {
         // create an element to hold room options
         const roomOption = document.createElement('option');
         // set value to room id
-        roomOption.value = room.room_id;
+        roomOption.value = room.capacity;
         // roomOption hold room number
         roomOption.text = `Room ${room.room_num}`;
         // append child to get all room options
@@ -165,13 +168,22 @@ function makeInfoTable() {
           row.innerHTML += '<td>STAT</td>';
         }
 
-        var style = "";
+        var styleSections = "";
+        var styleCap = "";
 
         // sets background to red if no sections
         if ( classSelection[i].num_sections < 1 ){
-          style = "background: red;"
+          styleSections = "background: red;"
         } else {
-          style = "background: white;"
+          styleSections = ""
+        }
+
+        //sets cap to red if class is too large for room
+        if ( classSelection[i].capacity > document.getElementById('roomSelect').value ){
+          styleCap = "background: red;"
+          //removeClassFromRoom(classSelection[i]);
+        } else {
+          styleCap = "";
         }
 
         // in each row along with dept we add class number
@@ -179,9 +191,9 @@ function makeInfoTable() {
 
         row.innerHTML += `<td> ${classSelection[i].class_num}</td>`;
         row.innerHTML += `<td> ${classSelection[i].class_name}</td>`;
-        row.innerHTML += `<td> ${classSelection[i].capacity}</td>`;
+        row.innerHTML += `<td style="${styleCap}"> ${classSelection[i].capacity}</td>`;
         row.innerHTML += `<td>
-                            <input type="number" name="sections" id="section${classSelection[i].class_num}" style="${style}" 
+                            <input type="number" name="sections" id="section${classSelection[i].class_num}" style="${styleSections}" 
                               value="${classSelection[i].num_sections}"
                               min = 0
                               max = 25 
@@ -205,6 +217,23 @@ function makeInfoTable() {
       showAlert(error.message);
     });
 }
+
+/* removes a class from the current room
+function removeClassFromRoom(course){
+  console.log(course);
+  var classSelect = document.getElementsByClassName('classSelection');
+  for ( select of classSelect ){
+    console.log(select.options[1]);
+    for ( j=0; j<select.length ; j++ ){
+      for ( i = 0 ; i < select.num_sections ; i++){
+        console.log("test");
+        if( select[j].value == course.class_id + ":" + i ){
+          select.remove(option);
+        }
+      }
+    }
+  }
+}*/
 
 // Updates section info in database
 function updateInfo(classID, classNum, deptID, className, cap, cred, isLab, sections){
