@@ -32,11 +32,12 @@ function loadAlgoSchedule() {
     let algoSchedule = window.localStorage.getItem('algoSchedule')
     if (!algoSchedule) {
         showAlert('No algo schedule found in local storage. Try generating one')
-        return
+        return false
     } else {
         localSchedule = JSON.parse(algoSchedule)
     }
     loadCurrentRoom()
+    return true
 }
 
 /* ----------------------------- Room Schedules ----------------------------- */
@@ -134,8 +135,31 @@ const END_TIMES = {
 }
 
 async function saveToDB() {
-    // Disable DB controls
-    // TODO
+    // Try to delete old plan
+    let planID = document.getElementById('planSelect').value
+    let deleteOldSucceeded = await dbToken.then((token) => {
+        return fetch('https://capstonedbapi.azurewebsites.net' +
+        '/sections-management/sections/delete/plan/' + planID,
+        {
+            headers: {
+                'Authorization': token
+            },
+            method: 'DELETE'
+        })
+    })
+    .then((response) => {
+        if(response.ok) {
+            return true
+        } else {
+            return false
+        }
+    })
+
+    if(!deleteOldSucceeded) {
+        clearAlerts()
+        showAlert('Failed to delete old plan.')
+        return
+    }
 
     // Get all time slots
     let timeSlotMap = {}
@@ -212,7 +236,6 @@ async function saveToDB() {
 
                     // Create a new section with the proper variables
                     let classData = entry.class.split(':')
-                    let planID = document.getElementById('planSelect').value
 
                     let section = {
                         section_num: classData[1],
@@ -371,10 +394,10 @@ async function loadFromDB() {
             }
         })
         .then((sections) => {
+            console.log(sections)
             for(let section of sections) {
                 // Check that the section time slot is valid
                 let timeSlotText = timeSlotMap[section["section_time_slot_id"]]
-                console.log(timeSlotText, section)
                 if(!isValidTimeSlot(timeSlotText)) {
                     throw new Error('Section time slot not valid')
                 }
@@ -384,7 +407,6 @@ async function loadFromDB() {
                 for(let day of days) {
                     // Format day code to local standard
                     if(day == 'H') day = 'R'
-                    console.log(`Placing class into ${day} ${starttime}`)
                     placeSection(section, day, starttime, newSchedule)
                 }
             }

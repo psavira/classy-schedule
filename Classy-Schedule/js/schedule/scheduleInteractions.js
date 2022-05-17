@@ -176,3 +176,39 @@ function clearTable() {
     tableSelect.value = '';
   });
 }
+
+/* -------------------------------------------------------------------------- */
+/*                                  Controls                                  */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Disables all saving/loading controls
+ */
+function disableStorageControls()
+{
+  $('.controls').find(':input').prop('disabled', true)
+}
+
+/**
+ * Enables all saving/loading controls
+ */
+function enableStorageControls()
+{
+  $('.controls').find(':input').prop('disabled', false)
+}
+
+/**
+ * Disables all table controls
+ */
+function disableTableControls()
+{
+  $('#table').find(':input').prop('disabled', true)
+} 
+
+
+/**
+ * Enables all table controls
+ */
+function enableTableControls() {
+  $('#table').find(':input').prop('disabled', false)
+}

@@ -42,7 +42,7 @@
              id="planSelect"></select>
             <button id="pullButton" class="button warning">Load Plan</button>
             <button id="pushButton" class="button success">Save to Plan</button>
-            <button id="createButton" class="button">Create new Plan</button>
+            <button id="algoButton" class="button">Get Automatic Plan</button>
         </div>
     </div>
 
@@ -880,6 +880,11 @@
     </style>
 
     <script>
+        // Disable controls by default
+        disableStorageControls()
+        disableTableControls()
+
+        // Start fetching data and populating page
         fetchRooms();
         fetchClasses();
         professorsData.then((data) => {
@@ -888,8 +893,13 @@
         plansData.then((data) => {
             populatePlanDropdowns(data);
         })
+
+        // Generate the side table
         makeInfoTable();
+
+        // Attach events to the class and professor selects
         attachClassSelectEvents();
+        attachProfessorSelectEvents();
 
         //Saves current room when room is changed
         (function () {
@@ -907,6 +917,24 @@
                 previous = this.value;
             });
         })();
+
+
+        // Wait for all data to be loaded
+        Promise.all([professorsData, plansData]).then(() => {
+            // Attach events to controls
+            attachControlEvents()
+
+            // Enable controls
+            enableStorageControls()
+            enableTableControls()
+        })
+
+        // Hide algo button if no algo schedule present
+        let algoSchedule = window.localStorage.getItem('algoSchedule')
+        console.log("algo schedule", algoSchedule)
+        if (!algoSchedule) {
+            document.querySelector('#algoButton').style.display = 'none'
+        }
     </script>
 
     {{> footer}}

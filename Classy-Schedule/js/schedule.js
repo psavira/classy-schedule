@@ -368,6 +368,9 @@ function autoFillTuesThurs(num) {
 
 }
 
+/**
+ * Attaches events to the class selects
+ */
 function attachClassSelectEvents() {
   // Get the necessary elements
   let classSelects = document.querySelectorAll('select.classSelection')
@@ -376,8 +379,6 @@ function attachClassSelectEvents() {
   // Attach a change event listener to each class select element
   for(let classSelect of classSelects) {
     classSelect.addEventListener('change', (event) => {
-
-      console.log("Change Event Fired")
 
       // Get the local professor dropdown
       let profSelect = event.target.parentNode.querySelector('.professorSelect')
@@ -427,4 +428,62 @@ function attachClassSelectEvents() {
       }
     });
   }
+}
+
+/**
+ * Attaches events to the professor selects
+ */
+function attachProfessorSelectEvents() {
+  let roomSelect = document.querySelector('#roomSelect')
+  let professorSelects = document.querySelectorAll('.professorSelect')
+
+  for(let professorSelect of professorSelects) {
+
+    // Attach the change event to each professor select
+    professorSelect.addEventListener('change', (event) => {
+      // Save the room
+      if(roomSelect.value != '') {
+        saveRoom(roomSelect.value, getTable())
+      }
+    })
+  }
+}
+
+/**
+ * Attaches events to all table controls
+ */
+function attachControlEvents() {
+  // Load Plan (DB) Button
+  let loadPlanButton = document.querySelector('#pullButton');
+  loadPlanButton.addEventListener('click', (event) => {
+    // Disable all controls
+    disableStorageControls()
+    disableTableControls()
+    // Load the table
+    loadFromDB().then(() => {
+      // Once finished, re-enable controls
+      enableStorageControls()
+      enableTableControls()
+    })
+  })
+
+  // Save Plan (DB) Button
+  let savePlanButton = document.querySelector('#pushButton');
+  savePlanButton.addEventListener('click', (event) => {
+    // Disable all controls
+    disableStorageControls()
+    disableTableControls()
+    // Save the table
+    saveToDB().then(() => {
+      // Once finished, re-enable controls
+      enableStorageControls()
+      enableTableControls()
+    })
+  })
+
+  // Get Algo Plan
+  let algoButton = document.querySelector('#algoButton');
+  algoButton.addEventListener('click', (event) => {
+    loadAlgoSchedule()
+  })
 }
