@@ -69,56 +69,66 @@ function isValidForm(username, pass, reenter_pass) {
   // Validate username if empty
   if (validator.isEmpty(username)) {
     showAlert('empty Username.');
+    document.forms.signupForm.username.classList.add('error');
     alertContainer++;
   }
   // Validate password if empty
   if (validator.isEmpty(pass)) {
     showAlert('empty Password.');
+    document.forms.signupForm.password.classList.add('error');
     alertContainer++;
   }
   // Validate re-enter password if empty
   if (validator.isEmpty(reenter_pass)) {
     showAlert('empty Re-enter Password.');
+    document.forms.signupForm.reenterPassword.classList.add('error');
     alertContainer++;
   }
 
   // Validate if password and re-enter password are the same
   if (pass != reenter_pass) {
     showAlert('password is different from re-enter password.');
+    document.forms.signupForm.reenterPassword.classList.add('error');
     alertContainer++;
   }
 
   // Validate if password is between 6-50 char long
   if (pass.length < 6) {
     showAlert('password is too short.');
+    document.forms.signupForm.password.classList.add('error');
     alertContainer++;
   }
   if (pass.length > 50) {
     showAlert('password is too long.');
+    document.forms.signupForm.password.classList.add('error');
     alertContainer++;
   }
 
   // Validate if password contain at least one number
   if (pass.search(/\d/) == -1) {
     showAlert('password must contain at least one number.');
+    document.forms.signupForm.password.classList.add('error');
     alertContainer++;
   }
 
   // Validate is email is valid
   if(!isValidEmail(username)) {
     showAlert('username(email) must be valid.');
+    document.forms.signupForm.username.classList.add('error');
     alertContainer++;
   }
 
   // Validate if password contain at least one character
   if (pass.search(/[a-zA-Z]/) == -1) {
     showAlert('password must contain at least one character.');
+    document.forms.signupForm.password.classList.add('error');
     alertContainer++;
   }
   
   // password may contain special characters like !@#$%^&*()_+
   if (pass.search(/[^a-zA-Z0-9\!\@\#\$\%\^\&\*\(\)\_\+]/) != -1) {
     showAlert('password cannot contain special characters other than !@#$%^&*()_+');
+    document.forms.signupForm.password.classList.add('error');
     alertContainer++;
   }
 
