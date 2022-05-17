@@ -64,10 +64,12 @@ async function fetchClasses() {
           loadDepartment(classes.dept_id).then(dept => {
             classOption.text = dept + ' ' + classes.class_num + '-' + (i+1);
           }).then(( dummy ) => {
+            var roomSelect = document.getElementById('roomSelect');
             // loop through the classes and append them to get all class options if it doesn't exist already
-            for (let j = 0; j < classSelect.length; j += 1) {
+            for (let j = 0; j < classSelect.length; j += 1) {;
                 // check capacity
-                if (classes.capacity <= document.getElementById('roomSelect').value){
+                if (classes.capacity <= 
+                    roomSelect.options[roomSelect.selectedIndex].getAttribute("data-cap")){
                   classSelect[j].appendChild(classOption.cloneNode(true));
                 }
             }
@@ -109,6 +111,8 @@ async function fetchRooms() {
       roomSelection.forEach((room) => {
         // create an element to hold room options
         const roomOption = document.createElement('option');
+        // hold capacity value
+        roomOption.dataset.cap = room.capacity;
         // set value to room id
         roomOption.value = room.room_id;
         // roomOption hold room number
@@ -178,8 +182,10 @@ function makeInfoTable() {
           styleSections = ""
         }
 
+        var roomSelect = document.getElementById('roomSelect');
+
         //sets cap to red if class is too large for room
-        if ( classSelection[i].capacity > document.getElementById('roomSelect').value ){
+        if ( classSelection[i].capacity > roomSelect.options[roomSelect.selectedIndex].getAttribute("data-cap") ){
           styleCap = "background: red;"
           //removeClassFromRoom(classSelection[i]);
         } else {
