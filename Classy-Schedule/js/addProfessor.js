@@ -74,15 +74,17 @@ function isValidForm(first_name, last_name, teach_load, user_email ) {
   // counter for alerts
   let alertContainer = 0;
 
+  var style = "background-color: #FFD2D2;";
+
  if ((/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(user_email.value))){
-  showAlert('invalid email');
+  showAlert('invalid email', style);
   alertContainer++;
 }
 
 
 
   if (validator.isEmpty(user_email)) {
-    showAlert('empty email');
+    showAlert('empty email', style);
     document.forms.profForm.userEmail.classList.add('error');
     alertContainer++;
   }
@@ -91,36 +93,36 @@ function isValidForm(first_name, last_name, teach_load, user_email ) {
 
   // teach load empty
   if (validator.isEmpty(teach_load)) {
-    showAlert('Empty teachLoad');
+    showAlert('Empty teachLoad', style);
     document.forms.profForm.teachLoad.classList.add('error');
     alertContainer++;
   }
   // validate room number if not integer
   if (!validator.isInt(teach_load)) {
-    showAlert('teachLoad should be an integer.');
+    showAlert('teachLoad should be an integer.', style);
     document.forms.profForm.teachLoad.classList.add('error');
     alertContainer++;
   }
 
   // validate last name if integer
   if (validator.isInt(last_name)) {
-    showAlert('lastName should not have ints.');
+    showAlert('lastName should not have ints.', style);
     document.forms.profForm.lastName.classList.add('error');
     alertContainer++;
   }
   if (validator.isEmpty(last_name)) {
-    showAlert('lastName should not have ints.');
+    showAlert('lastName should not have ints.', style);
     document.forms.profForm.lastName.classList.add('error');
     alertContainer++;
   }
   // check if first name int
   if (validator.isInt(first_name)) {
-    showAlert('firstName should not have ints.');
+    showAlert('firstName should not have ints.', style);
     document.forms.profForm.firstName.classList.add('error');
     alertContainer++;
   }
   if (validator.isEmpty(first_name)) {
-    showAlert('firstName should not have ints.');
+    showAlert('firstName should not have ints.', style);
     document.forms.profForm.firstName.classList.add('error');
     alertContainer++;
   }
@@ -175,7 +177,7 @@ async function fetchProfessors() {
 }
 
 /** function to show error messages */
-function showAlert(alertText) {
+function showAlert(alertText, style) {
   // create container to hold alerts
   const alertContainer = document.getElementById('alertContainer');
   // create alert div
@@ -183,6 +185,7 @@ function showAlert(alertText) {
   // add callout and warnings
   alert.classList.add('callout', 'warning');
   alert.innerText = alertText;
+  alert.style = style;
   // add alert to container
   alertContainer.appendChild(alert);
 }

@@ -1,10 +1,10 @@
-const { redirect } = require("express/lib/response");
+//const { redirect } = require("express/lib/response");
 
 /**
  * Displays an alert box to the user
  * @param alertText Text that appears in the alert box
  */
-function showAlert(alertText, alertClass) {
+function showAlert(alertText, alertClass, style) {
   // if defined, use parameter alert class. Otherwise, use 'alert'
   alertClass = alertClass || 'alert';
   // container to hold alerts
@@ -13,6 +13,7 @@ function showAlert(alertText, alertClass) {
   const alert = document.createElement('div');
   // add callout and alert class to alert
   alert.classList.add('callout', alertClass);
+  alert.style = style;
   alert.innerText = alertText;
   // add alert to alert container
   alertContainer.appendChild(alert);
