@@ -16,29 +16,38 @@
 
     <div id="alertContainer"></div>
 
-    <div id="scheduleNotGenerating" class="no-display">
-        <button onclick="generateSchedule()" class="success button">
-          Generate Schedule</button>
-    </div>
+    <div class="grid-container">
 
-    <div id="scheduleGenerating" class="no-display">
-        <p>Schedule is already generating...</p>
-        <p id="status"></p>
-    </div>
+      <div id="scheduleNotGenerating" class="no-display">
+          <button onclick="generateSchedule()" class="success button">
+            Generate Schedule</button>
+      </div>
 
-    <div id="scheduleGenerated" class="no-display">
-        <p>Schedule created!</p>
+      <div id="scheduleGenerating" class="no-display">
+          <p style="text-align: center">Schedule is already generating...</p>
+          <p id="status"></p>
+      </div>
 
-        <select id="previewSolutionSelect"></select>
-        
-        <div id="previewSolutionTableContainer">
-          <table id="previewSolutionTable">
-          </table>
-        </div>
+      <div id="scheduleGenerated" class="no-display">
+          <p style="text-align: center">Schedule created!</p>
 
+          <select id="previewSolutionSelect"></select>
+          
+          <div id="previewSolutionTableContainer">
+            <table id="previewSolutionTable">
+            </table>
+          </div>
 
-        <button onclick="generateSchedule()" class="success button">
-          Generate New Schedule</button>
+          <div class="grid-x grid-margin-x" style="margin-top: 1em">
+            <button onclick="generateSchedule()" class="cell button">
+              Generate New Schedule
+            </button>
+            
+            <button onclick="currentSolutionToLocalStorage()" class="cell success button">
+              Save Current Schedule
+            </button>
+          </div>
+      </div>
     </div>
 
     <script>ready()</script>

@@ -166,6 +166,23 @@ function previewSolutions() {
     solutionToTable(elemPreviewSolutionSelect.value)
 }
 
+const TIME_CODE_LEGENDS = {
+    0: "MWF 08:15-09:20",
+    1: "MWF 09:35-10:40",
+    2: "MWF 10:55-12:00",
+    3: "MWF 12:15-13:20",
+    4: "MWF 13:35-14:40",
+    5: "MWF 15:25-17:00",
+    6: "MWF 17:30-19:15",
+    7: "MWF 19:30-21:15",
+    8: "TR 08:00-09:40",
+    9: "TR 09:55-11:35",
+    10: "TR 13:30-15:10",
+    11: "TR 15:25-17:00",
+    12: "TR 17:30-19:15",
+    13: "TR 19:30-21:15",
+}
+
 function solutionToTable(solution_id) {
     const table = document.getElementById("previewSolutionTable")
     table.innerHTML = ""
@@ -192,9 +209,7 @@ function solutionToTable(solution_id) {
         row = document.createElement('tr');
         td = document.createElement('td');
         td.id = time;
-        getTimeSlot(time).then(text => {
-            document.getElementById(time).innerHTML = ""+text;
-        });
+        td.textContent = TIME_CODE_LEGENDS[time]
         row.appendChild(td)
         for(let room in solution) {
             td = document.createElement('td')
@@ -320,6 +335,12 @@ const SOLUTION_CODEX = {
         days: 'TR',
         time: '1930',
     }
+}
+
+function currentSolutionToLocalStorage() {
+    let currentSolnId = document.querySelector('#previewSolutionSelect').value
+    solutionToLocalStorage(currentSolnId)
+    alert('Saved to local storage. Return to the schedule page to load.')
 }
 
 
