@@ -885,8 +885,8 @@
         disableTableControls()
 
         // Start fetching data and populating page
-        fetchRooms();
-        fetchClasses();
+        let roomPromise = fetchRooms();
+        let classesPromise = fetchClasses();
         professorsData.then((data) => {
             populateProfessorDropdowns(data);
         })

@@ -1,8 +1,13 @@
-/* Returns the department name based on deptID */
+// Covers general purpose and legacy functions for the page
+
+/**
+ * Returns the department name based on deptID 
+ */
 function loadDepartment(deptID) {
   return dbToken.then((token) => {
     return fetch(
-      'https://capstonedbapi.azurewebsites.net/department-management/departments/' + deptID,
+      'https://capstonedbapi.azurewebsites.net/' + 
+      'department-management/departments/' + deptID,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -26,13 +31,18 @@ function loadDepartment(deptID) {
   })
 }
 
-/** Gets classes from the database and populates page elements with available class options */
+/** 
+ * Gets classes from the database and populates page elements 
+ * with available class options 
+ * @returns A promise that resolves when classes populated
+ */
 async function fetchClasses() {
   // gets class of classes
   const classSelect = document.getElementsByClassName('classSelection');
   // fetch the courses
-  dbToken.then(token => {
-    return fetch('https://capstonedbapi.azurewebsites.net/class-management/classes',
+  return dbToken.then(token => {
+    return fetch('https://capstonedbapi.azurewebsites.net' + 
+    '/class-management/classes',
     {
       headers: {
         'Authorization': token
@@ -68,13 +78,19 @@ async function fetchClasses() {
             } else{
             classOption.text = dept + ' ' + classes.class_num + '-' + (i+1);
             }
-          }).then(( dummy ) => {
+          }).then(async ( dummy ) => {
+            // Avoid race condition by waiting for room data
+            await roomPromise
+
             var roomSelect = document.getElementById('roomSelect');
-            // loop through the classes and append them to get all class options if it doesn't exist already
+            // loop through the classes and append them to get all 
+            // class options if it doesn't exist already
             for (let j = 0; j < classSelect.length; j += 1) {;
                 // check capacity
-                if (classes.capacity <= 
-                    roomSelect.options[roomSelect.selectedIndex].getAttribute("data-cap")){
+                let currentIndex = roomSelect.selectedIndex
+                let roomOp = roomSelect.options
+                let roomCapacity = roomOp[currentIndex].getAttribute("data-cap")
+                if (classes.capacity <= roomCapacity){
                   classSelect[j].appendChild(classOption.cloneNode(true));
                 }
             }
@@ -89,13 +105,17 @@ async function fetchClasses() {
     });
 }
 
-/** Gets room information from the database and populates page room options */
+/** 
+ * Gets room information from the database and populates page room options 
+ * @returns A promise that resolves when rooms are populated
+ */
 async function fetchRooms() {
   // create an element to hold rooms
   const roomSelect = document.getElementById('roomSelect');
   // fetch rooms
-  dbToken.then((token) => {
-    return fetch('https://capstonedbapi.azurewebsites.net/room-management/rooms', 
+  return dbToken.then((token) => {
+    return fetch('https://capstonedbapi.azurewebsites.net' + 
+      '/room-management/rooms', 
       {
         headers: {'Authorization': token}
       })
@@ -133,12 +153,15 @@ async function fetchRooms() {
     });
 }
 
-/* funtion that makes a table holding all the classes entered. This will allow user
-to see what has been entered and what options they have for schedule */
+/** funtion that makes a table holding all the classes entered. This 
+ * will allow user to see what has been entered and what options 
+ * they have for schedule 
+ */
 function makeInfoTable() {
   // get the courses
   dbToken.then(token => {
-    return fetch('https://capstonedbapi.azurewebsites.net/class-management/classes',
+    return fetch('https://capstonedbapi.azurewebsites.net' + 
+    '/class-management/classes',
     {
       headers: {
         'Authorization': token
@@ -154,7 +177,7 @@ function makeInfoTable() {
       const errorText = await response.text();
       throw new Error(errorText);
     })
-    .then((classSelection) => {
+    .then(async (classSelection) => {
       // get the table from id
       const table = document.getElementById('classtable');
       
@@ -163,7 +186,10 @@ function makeInfoTable() {
         // make a row for each class
         const row = document.createElement('tr');
 
-        var currentClassValue = `${classSelection[i].dept_id}-${classSelection[i].class_num}`;
+        let deptId = classSelection[i].dept_id
+        let classNum = classSelection[i].class_num
+
+        var currentClassValue = `${deptId}-${classNum}`;
 
         // adds id to each row
         row.id = 'R' + currentClassValue;
@@ -189,8 +215,14 @@ function makeInfoTable() {
 
         var roomSelect = document.getElementById('roomSelect');
 
+        // Wait for room to avoid race condition
+        await roomPromise
+
         //sets cap to red if class is too large for room
-        if ( classSelection[i].capacity > roomSelect.options[roomSelect.selectedIndex].getAttribute("data-cap") ){
+        let selectedRoom = roomSelect.selectedIndex
+        let roomOpt = roomSelect.options
+        let roomCapacity = roomOpt[selectedRoom].getAttribute("data-cap")
+        if ( classSelection[i].capacity > roomCapacity){
           styleCap = "background: red;"
           //removeClassFromRoom(classSelection[i]);
         } else {
@@ -202,20 +234,29 @@ function makeInfoTable() {
 
         row.innerHTML += `<td> ${classSelection[i].class_num}</td>`;
         row.innerHTML += `<td> ${classSelection[i].class_name}</td>`;
-        row.innerHTML += `<td style="${styleCap}"> ${classSelection[i].capacity}</td>`;
+        row.innerHTML += `<td 
+                            style="${styleCap}"
+                            > ${classSelection[i].capacity}</td>`;
         row.innerHTML += `<td>
-                            <input type="number" name="sections" id="section${classSelection[i].class_num}" style="${styleSections}" 
+                            <input 
+                              type="number" 
+                              name="sections" 
+                              id="section${classSelection[i].class_num}" 
+                              style="${styleSections}" 
                               value="${classSelection[i].num_sections}"
                               min = 0
                               max = 25 
-                              onchange="updateInfo(${classSelection[i].class_id},
-                                                  ${classSelection[i].class_num},
-                                                  ${classSelection[i].dept_id},
-                                                  '${classSelection[i].class_name}',
-                                                  ${classSelection[i].capacity},
-                                                  ${classSelection[i].credits},
-                                                  ${classSelection[i].is_lab},
-                                                  document.getElementById('section${classSelection[i].class_num}').value);">
+                              onchange="
+                              updateInfo(${classSelection[i].class_id},
+                                        ${classSelection[i].class_num},
+                                        ${classSelection[i].dept_id},
+                                        '${classSelection[i].class_name}',
+                                        ${classSelection[i].capacity},
+                                        ${classSelection[i].credits},
+                                        ${classSelection[i].is_lab},
+                                        document.getElementById('
+                                          section${classSelection[i].class_num}
+                                        ').value);">
                             </input>
                           </td>`;
         // add row to table
@@ -229,25 +270,9 @@ function makeInfoTable() {
     });
 }
 
-/* removes a class from the current room
-function removeClassFromRoom(course){
-  console.log(course);
-  var classSelect = document.getElementsByClassName('classSelection');
-  for ( select of classSelect ){
-    console.log(select.options[1]);
-    for ( j=0; j<select.length ; j++ ){
-      for ( i = 0 ; i < select.num_sections ; i++){
-        console.log("test");
-        if( select[j].value == course.class_id + ":" + i ){
-          select.remove(option);
-        }
-      }
-    }
-  }
-}*/
-
-// Updates section info in database
-function updateInfo(classID, classNum, deptID, className, cap, cred, isLab, sections){
+/** Updates section info in database */
+function updateInfo(classID, classNum, deptID, 
+                    className, cap, cred, isLab, sections) {
 
   // creates object
   var putData = {
@@ -265,7 +290,8 @@ function updateInfo(classID, classNum, deptID, className, cap, cred, isLab, sect
   // PUTs to database
   dbToken.then(token => {
     console.log(putData);
-    return fetch('https://capstonedbapi.azurewebsites.net/class-management/classes/update/' + classID,
+    return fetch('https://capstonedbapi.azurewebsites.net' + 
+    '/class-management/classes/update/' + classID,
     {
       method: 'PUT',
       body: putData,
@@ -278,11 +304,11 @@ function updateInfo(classID, classNum, deptID, className, cap, cred, isLab, sect
 }
 
 function setRoom(){
-  document.getElementById('roomSelect').value = window.localStorage.getItem("roomID");
+  document.getElementById('roomSelect').value = localStorage.getItem("roomID");
   refresh();
 }
 
-// Refreshes page on room change
+/** Refreshes the info table on a room change */
 function refresh(){
   // get table of classes
   var Parent = document.getElementById('classtable');

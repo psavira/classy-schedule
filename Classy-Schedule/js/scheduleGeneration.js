@@ -1,26 +1,12 @@
+/**
+ * Format input data into request body
+ * @param {*} professors Professor list
+ * @param {*} classes Class list
+ * @param {*} rooms Room list
+ * @param {*} times Time list
+ * @returns Input parameters formatted into request body
+ */
 function formatDataToBody(professors, classes, rooms, times) {
-    /* DEBUG */
-    // let section_map = {}
-    // // For each teacher
-    // for(let teacher of professors) {
-    //     // Set teach load to 99
-    //     teacher.teach_load = 99
-    //     for(let can_teach of teacher.classes) {
-    //         if(!section_map[can_teach]) {
-    //             section_map[can_teach] = 1
-    //         } else {
-    //             section_map[can_teach] += 1
-    //         }
-    //     }
-    // }
-
-    // for(let course of classes) {
-    //     if(section_map[course.id]) {
-    //         course.sections = section_map[course.id]
-    //     }
-    // }
-
-    /* END DEBUG */
     return {
         // Get an array of ints from 0-13
         "times": [...Array(14).keys()],
@@ -30,15 +16,17 @@ function formatDataToBody(professors, classes, rooms, times) {
     }
 }
 
-
+/**
+ * Send a request to generate the schedule
+ */
 function generateSchedule() {
-    const elemScheduleGenerated = document.getElementById("scheduleGenerated")
-    const elemScheduleGenerating = document.getElementById("scheduleGenerating")
-    const elemScheduleNotGenerating = document.getElementById("scheduleNotGenerating")
+    const elemSchedGened = document.getElementById("scheduleGenerated")
+    const elemSchedGening = document.getElementById("scheduleGenerating")
+    const elemSchedNotGen = document.getElementById("scheduleNotGenerating")
 
-    elemScheduleGenerated.classList.add("no-display");
-    elemScheduleNotGenerating.classList.remove("no-display")
-    elemScheduleGenerating.classList.add("no-display")
+    elemSchedGened.classList.add("no-display");
+    elemSchedNotGen.classList.remove("no-display")
+    elemSchedGening.classList.add("no-display")
 
     Promise.all([fetchProfessorsData(),
         fetchClassesData(),
@@ -68,13 +56,14 @@ function generateSchedule() {
             showAlert(restext);
         } else {
             console.log("Creating schedule")
-            elemScheduleNotGenerating.classList.add("no-display")
-            elemScheduleGenerating.classList.remove("no-display")
+            elemSchedNotGen.classList.add("no-display")
+            elemSchedGening.classList.remove("no-display")
             statusChecker()
         }
     })
 }
 
+/** Status codes for the algorithm tracker */
 const ATStatusCode = {
     STARTING: 0,
     RUNNING: 1,
@@ -90,9 +79,9 @@ function statusChecker() {
     console.log("Checking status")
 
     // Get element references
-    const elemScheduleGenerated = document.getElementById("scheduleGenerated")
-    const elemScheduleGenerating = document.getElementById("scheduleGenerating")
-    const elemScheduleNotGenerating = document.getElementById("scheduleNotGenerating")
+    const elemSchedGened = document.getElementById("scheduleGenerated")
+    const elemSchedGening = document.getElementById("scheduleGenerating")
+    const elemSchedNotGen = document.getElementById("scheduleNotGenerating")
 
     // Send the request to the status check endpoint
     fetch('/api/getAlgoStatus',
@@ -106,9 +95,9 @@ function statusChecker() {
         // Check to see if a schedule has been made
         if(res.status == 403) {
             // If not, show the generate schedule view
-            elemScheduleNotGenerating.classList.remove("no-display")
-            elemScheduleGenerating.classList.add("no-display")
-            elemScheduleGenerated.classList.add("no-display")
+            elemSchedNotGen.classList.remove("no-display")
+            elemSchedGening.classList.add("no-display")
+            elemSchedGened.classList.add("no-display")
             return
         }
         
@@ -119,9 +108,9 @@ function statusChecker() {
 
         if(parseInt(restext) == ATStatusCode.FINISHED) {
             console.log("Finished")
-            elemScheduleNotGenerating.classList.add("no-display")
-            elemScheduleGenerating.classList.add("no-display")
-            elemScheduleGenerated.classList.remove("no-display")
+            elemSchedNotGen.classList.add("no-display")
+            elemSchedGening.classList.add("no-display")
+            elemSchedGened.classList.remove("no-display")
             fetch('/api/getAlgoSchedule', {
                 headers: {
                     user_id: window.localStorage.getItem("user_id")
@@ -143,29 +132,33 @@ function statusChecker() {
     })
 }
 
+/**
+ * Generates the preview system. Sets up solution input and events.
+ */
 function previewSolutions() {
     if(!solutions) {
         showAlert("No solutions to show")
         return
     }
 
-    const elemPreviewSolutionSelect = document.getElementById("previewSolutionSelect")
-    elemPreviewSolutionSelect.innerHTML = ""
+    const elemPrevSolnSelect = document.getElementById("previewSolutionSelect")
+    elemPrevSolnSelect.innerHTML = ""
     
     for(let solution_id in solutions) {
         const selectOption = document.createElement("option");
         selectOption.value = solution_id
         selectOption.textContent = `Solution ${parseInt(solution_id) + 1}`
-        elemPreviewSolutionSelect.appendChild(selectOption)
+        elemPrevSolnSelect.appendChild(selectOption)
     }
 
-    elemPreviewSolutionSelect.onchange = function() {
-        let solution_id = elemPreviewSolutionSelect.value
+    elemPrevSolnSelect.onchange = function() {
+        let solution_id = elemPrevSolnSelect.value
         solutionToTable(solution_id);
     }
-    solutionToTable(elemPreviewSolutionSelect.value)
+    solutionToTable(elemPrevSolnSelect.value)
 }
 
+/** Maps time codes to formatted text */
 const TIME_CODE_LEGENDS = {
     0: "MWF 08:15-09:20",
     1: "MWF 09:35-10:40",
@@ -183,6 +176,10 @@ const TIME_CODE_LEGENDS = {
     13: "TR 19:30-21:15",
 }
 
+/**
+ * Generates the solution table from a given solution id
+ * @param {*} solution_id Solution to generate table for
+ */
 function solutionToTable(solution_id) {
     const table = document.getElementById("previewSolutionTable")
     table.innerHTML = ""
@@ -214,7 +211,9 @@ function solutionToTable(solution_id) {
         for(let room in solution) {
             td = document.createElement('td')
             if(solution[room][time]) {
-                td.innerHTML = `${solution[room][time].course}<br/><i><b>${solution[room][time].teacher}</b></i>`
+                td.innerHTML = `${solution[room][time].course}
+                    <br/>
+                    <i><b>${solution[room][time].teacher}</b></i>`
             }
             row.appendChild(td)
         }
@@ -223,10 +222,16 @@ function solutionToTable(solution_id) {
 
 }
 
+/**
+ * Gets the room number for a given ID
+ * @param {*} roomID Room ID to get number for
+ * @returns Promise resolving to number for the room
+ */
 function getRoomNum(roomID){
     return dbToken.then((token) => {
         return fetch(
-          'https://capstonedbapi.azurewebsites.net/room-management/rooms/' + roomID,
+          'https://capstonedbapi.azurewebsites.net' + 
+          '/room-management/rooms/' + roomID,
           {
             headers: {
               'Content-Type': 'application/json',
@@ -244,33 +249,6 @@ function getRoomNum(roomID){
       })
       .then((room) => {
         return room[0].room_num;
-      })
-      .catch((error) => {
-        console.log(error.message);
-      })
-}
-
-function getTimeSlot(timeSlotID){
-    return dbToken.then((token) => {
-        return fetch(
-          'https://capstonedbapi.azurewebsites.net/time_slot-management/time_slots/' + timeSlotID,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': token
-            }
-          }
-        )
-      })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error("Request failed.");
-        }
-      })
-      .then((timeslot) => {
-        return timeslot[0].start_time + " - " + timeslot[0].end_time;
       })
       .catch((error) => {
         console.log(error.message);
@@ -337,13 +315,19 @@ const SOLUTION_CODEX = {
     }
 }
 
+/**
+ * Saves the currently selected solution to local storage
+ */
 function currentSolutionToLocalStorage() {
     let currentSolnId = document.querySelector('#previewSolutionSelect').value
     solutionToLocalStorage(currentSolnId)
     alert('Saved to local storage. Return to the schedule page to load.')
 }
 
-
+/**
+ * Saves a given solution ID to a format for localStorage schedule
+ * @param {*} solution_id Solution to store
+ */
 function solutionToLocalStorage(solution_id) {
     let soln = solutions[solution_id];
     let outSchedule = {}
@@ -371,10 +355,12 @@ function solutionToLocalStorage(solution_id) {
                     outSchedule[room_id][day] = {}
                 }
 
+                let courseId = soln[room_id][timecode]["course_id"]
+                let section = sectionMap[soln[room_id][timecode]["course_id"]]
 
                 outSchedule[room_id][day][codex_val.time] = {
                     professor: `${soln[room_id][timecode]["teacher_id"]}`,
-                    class: `${soln[room_id][timecode]["course_id"]}:${sectionMap[soln[room_id][timecode]["course_id"]]}`
+                    class: `${courseId}:${section}`
                 }
             }
         }
