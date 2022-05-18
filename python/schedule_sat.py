@@ -45,13 +45,16 @@ for ro in rooms:
         
 
 # First, enforce that section count inputs don't exceed  the following
-# (can_teach teachers * time) or (room * time)
+# (can_teach teachers * time) or (available rooms * time)
+# Additionally, ignore classes that have a higher capacity than any available
+# rooms are disabled
 num_times = len(times)
 num_rooms = len(rooms)
 for cl in classes:
     # Count all teaching teachers
     num_teachers = 0
     max_teach_load = 0
+
     for tup in teacher_classes:
         if (tup[1] == cl['id']):
             num_teachers += 1
@@ -68,6 +71,16 @@ for cl in classes:
     if cl["sections"] > max_teach_load:
         print("Section count would dominate teach load")
         cl["sections"] = max_teach_load
+    
+
+    fitting_rooms_count = 0
+    # Check that the class capacity doesn't exceed maximum available capacity
+    for ro in rooms:
+        if(ro['capacity'] >= cl['capacity']):
+            fitting_rooms_count += 1
+    
+    if cl["sections"] > (fitting_rooms_count * times):
+        cl["sections"] = (fitting_rooms_count * times)
 
     # This section count would consume all possible times.
     # Don't allow this
@@ -111,6 +124,10 @@ for te in teachers:
     model.Add(sum(teach_classes) <= teach_load)
     
 print(teacher_classes)
+
+# Ignore ony classes where no proper room size exists
+for cl in classes:
+        
 
 # Enforce that a class for a room cannot exceed capacity
 for ro in rooms:

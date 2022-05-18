@@ -234,29 +234,20 @@ function makeInfoTable() {
 
         row.innerHTML += `<td> ${classSelection[i].class_num}</td>`;
         row.innerHTML += `<td> ${classSelection[i].class_name}</td>`;
-        row.innerHTML += `<td 
-                            style="${styleCap}"
-                            > ${classSelection[i].capacity}</td>`;
+        row.innerHTML += `<td style="${styleCap}"> ${classSelection[i].capacity}</td>`;
         row.innerHTML += `<td>
-                            <input 
-                              type="number" 
-                              name="sections" 
-                              id="section${classSelection[i].class_num}" 
-                              style="${styleSections}" 
+                            <input type="number" name="sections" id="section${classSelection[i].class_num}" style="${styleSections}" 
                               value="${classSelection[i].num_sections}"
                               min = 0
                               max = 25 
-                              onchange="
-                              updateInfo(${classSelection[i].class_id},
-                                        ${classSelection[i].class_num},
-                                        ${classSelection[i].dept_id},
-                                        '${classSelection[i].class_name}',
-                                        ${classSelection[i].capacity},
-                                        ${classSelection[i].credits},
-                                        ${classSelection[i].is_lab},
-                                        document.getElementById('
-                                          section${classSelection[i].class_num}
-                                        ').value);">
+                              onchange="updateInfo(${classSelection[i].class_id},
+                                                  ${classSelection[i].class_num},
+                                                  ${classSelection[i].dept_id},
+                                                  '${classSelection[i].class_name}',
+                                                  ${classSelection[i].capacity},
+                                                  ${classSelection[i].credits},
+                                                  ${classSelection[i].is_lab},
+                                                  document.getElementById('section${classSelection[i].class_num}').value);">
                             </input>
                           </td>`;
         // add row to table
