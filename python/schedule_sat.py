@@ -18,6 +18,11 @@ teachers = data['teachers']
 times = data['times']
 rooms = data['rooms']
 
+# Generate some reference dicts for faster access
+teacher_dict = {}
+for te in teachers:
+    teacher_dict[te['id']] = te
+
 model = cp_model.CpModel()
 
 instances = {}
@@ -26,7 +31,7 @@ for te in teachers:
         for ro in rooms:
             for ti in times:
                 if cl['id'] in te['classes']:
-                    instances[(te['id'], cl['id'], ro, ti)] = model.NewBoolVar(f'te{te["id"]}cl{cl["id"]}ro{ro}ti{ti}')
+                    instances[(te['id'], cl['id'], ro['id'], ti)] = model.NewBoolVar(f'te{te["id"]}cl{cl["id"]}ro{ro["id"]}ti{ti}')
 
 teacher_classes = []
 for cl in classes:
@@ -36,8 +41,38 @@ for cl in classes:
 
 for ro in rooms:
     for ti in times:
-        model.AddAtMostOne(instances[(te,cl,ro,ti)] for (te,cl) in teacher_classes)
+        model.AddAtMostOne(instances[(te,cl,ro['id'],ti)] for (te,cl) in teacher_classes)
         
+
+# First, enforce that section count inputs don't exceed  the following
+# (can_teach teachers * time) or (room * time)
+num_times = len(times)
+num_rooms = len(rooms)
+for cl in classes:
+    # Count all teaching teachers
+    num_teachers = 0
+    max_teach_load = 0
+    for tup in teacher_classes:
+        if (tup[1] == cl['id']):
+            num_teachers += 1
+            max_teach_load += teacher_dict[tup[0]]['teach_load']
+
+    
+    # Check that sections don't exceed all possible teaching times
+    print(num_teachers, cl["sections"])
+    if cl["sections"] > (num_times * num_teachers):
+        print("Limited teacher count")
+        cl["sections"] = (num_times * num_teachers)
+
+    # Reduce the section count to the maximum possible teach load
+    if cl["sections"] > max_teach_load:
+        print("Section count would dominate teach load")
+        cl["sections"] = max_teach_load
+
+    # This section count would consume all possible times.
+    # Don't allow this
+    if cl["sections"] > (num_times * num_rooms):
+        cl["sections"] = 0
 
 # Enforce that sections are at or below section count
 for cl in classes:
@@ -47,7 +82,8 @@ for cl in classes:
         for ti in times:
             for te in teachers:
                 if (te['id'], cl['id']) in teacher_classes:
-                    sections.append(instances[(te['id'],cl['id'],ro,ti)])
+                    sections.append(instances[(te['id'],cl['id'],ro['id'],ti)])
+    # The assigned sections of a class must equal the number of desired sections
     model.Add(section_count == sum(sections))
 
 # Enforce that a teacher can't teach in the same room at the same time
@@ -57,7 +93,9 @@ for ti in times:
         for cl in classes:
             for ro in rooms:
                 if (te['id'], cl['id']) in teacher_classes:
-                    current_classes.append(instances[(te['id'],cl['id'],ro,ti)])
+                    current_classes.append(instances[(te['id'],cl['id'],ro['id'],ti)])
+        # The sum of all classes at a particular time for a teacher must be
+        # Less than or equal to 1
         model.Add(sum(current_classes) <= 1)
 
 # Enforce that a teacher cannot exceed teach load
@@ -68,10 +106,25 @@ for te in teachers:
         for cl in classes:
             for ro in rooms:
                 if (te['id'], cl['id']) in teacher_classes:
-                    teach_classes.append(instances[(te['id'], cl['id'], ro, ti)])
+                    teach_classes.append(instances[(te['id'], cl['id'], ro['id'], ti)])
+    # The sum of the classes teachers can teach must not exceed teach laod
     model.Add(sum(teach_classes) <= teach_load)
     
 print(teacher_classes)
+
+# Enforce that a class for a room cannot exceed capacity
+for ro in rooms:
+    for cl in classes:
+        possible_assignments = []
+        for ti in times:
+            for te in teachers:
+                if (te['id'], cl['id']) in teacher_classes:
+                    possible_assignments.append(instances[(te['id'], cl['id'], ro['id'], ti)])
+        # If class capacity is greater than room capacity, the sum of all
+        # assignment of that class to that room must be 0
+        if(cl['capacity'] > ro['capacity']):
+            model.Add(sum(possible_assignments) == 0)
+
 
 solver = cp_model.CpSolver()
 solver.parameters.linearization_level = 0
@@ -98,7 +151,7 @@ class SchedulePartialSolutionPrinter(cp_model.CpSolverSolutionCallback):
                 for course in classes:
                     for teacher in teachers:
                         if (teacher['id'], course['id']) in teacher_classes:
-                            if self.Value(instances[(teacher["id"],course["id"],room,time)]):
+                            if self.Value(instances[(teacher["id"],course["id"],room['id'],time)]):
                                 # print(f"   Class: {course['name']} Teacher: {teacher['name']}")
                                 s_times[time] = {
                                     "teacher": teacher['name'],
@@ -106,7 +159,7 @@ class SchedulePartialSolutionPrinter(cp_model.CpSolverSolutionCallback):
                                     "course": course['name'],
                                     "course_id": course['id']
                                 }
-            s_rooms[room] = s_times.copy()
+            s_rooms[room['id']] = s_times.copy()
                                 
         self.solutions.append(s_rooms)
 
