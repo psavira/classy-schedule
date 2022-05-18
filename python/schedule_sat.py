@@ -79,8 +79,8 @@ for cl in classes:
         if(ro['capacity'] >= cl['capacity']):
             fitting_rooms_count += 1
     
-    if cl["sections"] > (fitting_rooms_count * times):
-        cl["sections"] = (fitting_rooms_count * times)
+    if cl["sections"] > (fitting_rooms_count * len(times)):
+        cl["sections"] = (fitting_rooms_count * len(times))
 
     # This section count would consume all possible times.
     # Don't allow this
@@ -124,10 +124,6 @@ for te in teachers:
     model.Add(sum(teach_classes) <= teach_load)
     
 print(teacher_classes)
-
-# Ignore ony classes where no proper room size exists
-for cl in classes:
-        
 
 # Enforce that a class for a room cannot exceed capacity
 for ro in rooms:
